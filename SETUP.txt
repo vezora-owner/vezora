@@ -1,0 +1,28 @@
+VEZORA — ACTUAL WORKING VERSION
+
+What this package does:
+- Real email/password signup + login through Supabase Auth
+- Real profiles / Vezora IDs
+- Real database-backed messages
+- Real-time chat via Supabase Realtime
+- People list from real registered users
+- Browser voice/video calling foundation using WebRTC + Supabase Realtime signaling
+
+ONE-TIME SETUP:
+1. Create a Supabase project.
+2. Open SQL Editor and run ALL of schema.sql.
+3. In Supabase: Project Settings -> API. Copy Project URL and the Publishable key.
+4. Open index.html in a text editor.
+5. Replace:
+   PASTE_SUPABASE_URL_HERE
+   PASTE_SUPABASE_PUBLISHABLE_KEY_HERE
+   with your own project's values.
+   IMPORTANT: never put a Supabase secret/service key in this file.
+6. Open index.html in Chrome to test.
+7. To put it on the internet, deploy the folder to Vercel. Vercel creates a live URL after deployment.
+
+Notes:
+- Email confirmation may be enabled in Supabase Auth. If so, users must confirm their email.
+- Camera/microphone require HTTPS when the site is hosted publicly.
+- Calling is a WebRTC foundation; production calling needs additional handling (TURN server, call state, permissions, reconnects, busy state, etc.).
+- Do not share your Supabase secret/service key with anyone.
