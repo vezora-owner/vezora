@@ -518,6 +518,28 @@ video{
 .hide{
   display:none!important;
 }
+  .profile-card{
+  text-align:center;
+  max-width:420px;
+}
+
+.profile-avatar{
+  width:110px;
+  height:110px;
+  border-radius:50%;
+  margin:0 auto 15px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#6555ff,#399cff);
+  font-size:45px;
+  overflow:hidden;
+}
+
+.profile-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 </style>
 </head>
 
@@ -846,18 +868,18 @@ async function renderApp(){
 
       </section>
       <section id="profile" class="view">
-  <h2>My Profile 👤</h2>
-  <div class="card">
-    <h3 id="profileName">Loading...</h3>
-    <p class="muted" id="profileUsername">@loading...</p>
-    <p id="profileBio">No bio added yet.</p>
-    <button class="btn" onclick="editProfile()">✏️ Edit Profile</button>
-  </div>
-</section>
+  <div class="card profile-card">
+  <div id="profileAvatar" class="profile-avatar">👤</div>
 
-    </main>
+  <input id="avatarFile" type="file" accept="image/*" hidden>
+  <button class="btn" onclick="$('#avatarFile').click()">📷 Change Photo</button>
 
-  </div>`;
+  <h3 id="profileName">Loading...</h3>
+  <p class="muted" id="profileUsername">@loading...</p>
+  <p id="profileBio">No bio added yet.</p>
+
+  <button class="btn" onclick="editProfile()">✏️ Edit Profile</button>
+</div>
   
 await loadProfile();
 await loadPeople();
@@ -929,7 +951,9 @@ async function loadProfile(){
     ).data;
   }
 
-  $("#myid").textContent="@"+data.username;
+  $("#myid").textContent="@"+data.username;if(data.avatar_url){
+  $("#profileAvatar").innerHTML=`<img src="${data.avatar_url}">`;
+}
 }
 
 async function loadPeople(){
@@ -1229,6 +1253,31 @@ async function editProfile(){
   $("#profileBio").textContent=bio.trim();
   alert("Profile updated ✅");
 }
+$("#avatarFile").onchange=async function(){
+  const file=this.files[0];
+  if(!file)return;
+
+  const ext=file.name.split(".").pop();
+  const path=me.id+"."+ext;
+
+  const {error}=await sb.storage
+    .from("avatars")
+    .upload(path,file,{upsert:true});
+
+  if(error){
+    alert("Upload failed: "+error.message);
+    return;
+  }
+
+  const {data}=sb.storage.from("avatars").getPublicUrl(path);
+  const url=data.publicUrl+"?t="+Date.now();
+
+  await sb.from("profiles")
+    .update({avatar_url:url})
+    .eq("id",me.id);
+
+  $("#profileAvatar").innerHTML=`<img src="${url}">`;
+};
 auth();
 </script>
 
