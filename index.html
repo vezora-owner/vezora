@@ -683,6 +683,7 @@ async function renderApp(){
         <button onclick="show('people',this)">
           👥 People
         </button>
+        <button onclick=show("profile",this)>👤 Profile</button>
 
       </div>
 
@@ -844,14 +845,28 @@ async function renderApp(){
         <div id="peopleGrid" class="suggest"></div>
 
       </section>
+      <section id="profile" class="view">
+  <h2>My Profile 👤</h2>
+  <div class="card">
+    <h3 id="profileName">Loading...</h3>
+    <p class="muted" id="profileUsername">@loading...</p>
+    <p id="profileBio">No bio added yet.</p>
+    <button class="btn" onclick="editProfile()">✏️ Edit Profile</button>
+  </div>
+</section>
 
     </main>
 
   </div>`;
   
-  await loadProfile();
-  await loadPeople();
-  await loadChats();
+await loadProfile();
+await loadPeople();
+await loadChats();
+
+const p=(await sb.from("profiles").select("*").eq("id",me.id).single()).data;
+$("#profileName").textContent=p?.full_name||"No name";
+$("#profileUsername").textContent="@"+(p?.username||"");
+$("#profileBio").textContent=p?.bio||"No bio added yet.";
 }
 
 function show(id,b){
@@ -868,6 +883,20 @@ function show(id,b){
 }
 
 async function loadProfile(){
+  async function editProfile(){
+  const name=prompt("Enter your name:",$("#profileName").textContent);
+  if(name===null)return;
+  const bio=prompt("Enter your bio:",$("#profileBio").textContent);
+  if(bio===null)return;
+
+  await sb.from("profiles").update({
+    full_name:name,
+    bio:bio
+  }).eq("id",me.id);
+
+  $("#profileName").textContent=name;
+  $("#profileBio").textContent=bio;
+}
 
   let {data}=await sb
     .from("profiles")
