@@ -951,8 +951,10 @@ async function loadProfile(){
     ).data;
   }
 
-  $("#myid").textContent="@"+data.username;if(data.avatar_url){
-  $("#profileAvatar").innerHTML=`<img src="${data.avatar_url}">`;
+ $("#profileAvatar").innerHTML = "";
+const img = document.createElement("img");
+img.src = url;
+$("#profileAvatar").appendChild(img);
 }
 }
 
