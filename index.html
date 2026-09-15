@@ -565,7 +565,20 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({
 function ready(){
   return SUPABASE_URL.startsWith("https://")&&!SUPABASE_KEY.includes("PASTE_");
 }
+function show(id, btn){
+  document.querySelectorAll(".view").forEach(v=>{
+    v.classList.remove("active");
+  });
 
+  const view = document.getElementById(id);
+  if(view) view.classList.add("active");
+
+  document.querySelectorAll(".nav button").forEach(b=>{
+    b.classList.remove("active");
+  });
+
+  if(btn) btn.classList.add("active");
+}
 function auth(){
 
   if(!ready()){
