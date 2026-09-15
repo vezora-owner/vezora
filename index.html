@@ -869,123 +869,23 @@ async function renderApp(){
       </section>
       <section id="profile" class="view">
   <div class="card profile-card">
-  <div id="profileAvatar" class="profile-avatar">👤</div>
+    <div id="profileAvatar" class="profile-avatar">👤</div>
 
-  <input id="avatarFile" type="file" accept="image/*" hidden>
-  <button class="btn" onclick="$('#avatarFile').click()">📷 Change Photo</button>
+    <input id="avatarFile" type="file" accept="image/*" hidden onchange="uploadAvatar(this.files[0])">
 
-  <h3 id="profileName">Loading...</h3>
-  <p class="muted" id="profileUsername">@loading...</p>
-  <p id="profileBio">No bio added yet.</p>
+    <button class="btn" onclick="document.getElementById('avatarFile').click()">
+      📷 Change Photo
+    </button>
 
-  <button class="btn" onclick="editProfile()">✏️ Edit Profile</button>
-</div>
-  
-await loadProfile();
-await loadPeople();
-await loadChats();
+    <h3 id="profileName">Loading...</h3>
+    <p class="muted" id="profileUsername">@loading...</p>
+    <p id="profileBio">No bio added yet.</p>
 
-const p=(await sb.from("profiles").select("*").eq("id",me.id).single()).data;
-$("#profileName").textContent=p?.full_name||"No name";
-$("#profileUsername").textContent="@"+(p?.username||"");
-$("#profileBio").textContent=p?.bio||"No bio added yet.";
-}
-
-function show(id,b){
-
-  document.querySelectorAll(".view")
-    .forEach(x=>x.classList.remove("active"));
-
-  $("#"+id).classList.add("active");
-
-  document.querySelectorAll(".nav button")
-    .forEach(x=>x.classList.remove("active"));
-
-  b.classList.add("active");
-}
-
-async function loadProfile(){
-  async function editProfile(){
-  const name=prompt("Enter your name:",$("#profileName").textContent);
-  if(name===null)return;
-
-  const bio=prompt("Enter your bio:",$("#profileBio").textContent);
-  if(bio===null)return;
-
-  const {error}=await sb.from("profiles").update({
-    full_name:name.trim(),
-    bio:bio.trim()
-  }).eq("id",me.id);
-
-  if(error){
-    alert("Update failed: "+error.message);
-    return;
-  }
-
-  $("#profileName").textContent=name.trim();
-  $("#profileBio").textContent=bio.trim();
-  alert("Profile updated ✅");
-}
-  let {data}=await sb
-    .from("profiles")
-    .select("*")
-    .eq("id",me.id)
-    .maybeSingle();
-
-  if(!data){
-
-    await sb
-      .from("profiles")
-      .insert({
-        id:me.id,
-        username:(me.email.split("@")[0]+"_"+me.id.slice(0,4)).toLowerCase(),
-        full_name:me.user_metadata?.full_name||me.email.split("@")[0]
-      });
-
-    data=(
-      await sb
-      .from("profiles")
-      .select("*")
-      .eq("id",me.id)
-      .single()
-    ).data;
-  }
-
- $("#profileAvatar").innerHTML = "";
-const img = document.createElement("img");
-img.src = url;
-$("#profileAvatar").appendChild(img);
-}
-}
-
-async function loadPeople(){
-  let {data,error}=await sb.from("profiles")
-    .select("id,username,full_name")
-    .neq("id",me.id)
-    .limit(12);
-
-  if(error){
-    console.error(error);
-    return;
-  }
-
-  const html=(data||[]).map(p=>{
-    const name=esc(p.full_name||p.username);
-    const username=esc(p.username);
-
-    return '<div class="card person">' +
-      '<div class="avatar"></div>' +
-      '<b>'+name+'</b>' +
-      '<small class="muted">@'+username+'</small><br>' +
-      '<button class="btn" onclick="selectPerson(\''+p.id+'\',\''+name+'\')">Chat</button>' +
-      '</div>';
-  }).join("");
-
-  $("#peopleGrid").innerHTML=html||"<p class='muted'>No other users yet.</p>";
-  $("#homePeople").innerHTML=html||"<p class='muted'>Create another account to see suggestions.</p>";
-}
-}
-
+    <button class="btn" onclick="editProfile()">
+      ✏️ Edit Profile
+    </button>
+  </div>
+</section>
 async function loadChats(){
 
   let {data}=await sb
@@ -1244,8 +1144,7 @@ async function editProfile(){
   $("#profileBio").textContent=bio.trim();
   alert("Profile updated ✅");
 }
-$("#avatarFile").onchange=async function(){
-  const file=this.files[0];
+async function uploadAvatar(file){
   if(!file)return;
 
   const ext=file.name.split(".").pop();
@@ -1260,15 +1159,19 @@ $("#avatarFile").onchange=async function(){
     return;
   }
 
-  const {data}=sb.storage.from("avatars").getPublicUrl(path);
+  const {data}=sb.storage
+    .from("avatars")
+    .getPublicUrl(path);
+
   const url=data.publicUrl+"?t="+Date.now();
 
   await sb.from("profiles")
     .update({avatar_url:url})
     .eq("id",me.id);
 
-  $("#profileAvatar").innerHTML=`<img src="${url}">`;
-};
+  $("#profileAvatar").innerHTML='<img src="'+url+'">';
+  alert("Profile photo updated ✅");
+}
 auth();
 </script>
 
