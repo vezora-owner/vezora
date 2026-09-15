@@ -959,42 +959,31 @@ $("#profileAvatar").appendChild(img);
 }
 
 async function loadPeople(){
-
-  let {data}=await sb
-    .from("profiles")
+  let {data,error}=await sb.from("profiles")
     .select("id,username,full_name")
     .neq("id",me.id)
     .limit(12);
 
-  const html=(data||[]).map(p=>`
+  if(error){
+    console.error(error);
+    return;
+  }
 
-    <div class="card person">
+  const html=(data||[]).map(p=>{
+    const name=esc(p.full_name||p.username);
+    const username=esc(p.username);
 
-      <div class="avatar"></div>
+    return '<div class="card person">' +
+      '<div class="avatar"></div>' +
+      '<b>'+name+'</b>' +
+      '<small class="muted">@'+username+'</small><br>' +
+      '<button class="btn" onclick="selectPerson(\''+p.id+'\',\''+name+'\')">Chat</button>' +
+      '</div>';
+  }).join("");
 
-      <b>
-        ${esc(p.full_name||p.username)}
-      </b>
-
-      <small class="muted">
-        @${esc(p.username)}
-      </small>
-
-      <button
-        class="btn"
-        onclick="selectPerson('${p.id}','${esc(p.full_name||p.username)}')">
-        Chat
-      </button>
-
-    </div>
-
-  `).join("");
-
-  $("#peopleGrid").innerHTML=
-    html||"<p class='muted'>No other users yet.</p>";
-
-  $("#homePeople").innerHTML=
-    html||"<p class='muted'>Create another account to see suggestions.</p>";
+  $("#peopleGrid").innerHTML=html||"<p class='muted'>No other users yet.</p>";
+  $("#homePeople").innerHTML=html||"<p class='muted'>Create another account to see suggestions.</p>";
+}
 }
 
 async function loadChats(){
