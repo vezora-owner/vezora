@@ -886,18 +886,24 @@ async function loadProfile(){
   async function editProfile(){
   const name=prompt("Enter your name:",$("#profileName").textContent);
   if(name===null)return;
+
   const bio=prompt("Enter your bio:",$("#profileBio").textContent);
   if(bio===null)return;
 
-  await sb.from("profiles").update({
-    full_name:name,
-    bio:bio
+  const {error}=await sb.from("profiles").update({
+    full_name:name.trim(),
+    bio:bio.trim()
   }).eq("id",me.id);
 
-  $("#profileName").textContent=name;
-  $("#profileBio").textContent=bio;
-}
+  if(error){
+    alert("Update failed: "+error.message);
+    return;
+  }
 
+  $("#profileName").textContent=name.trim();
+  $("#profileBio").textContent=bio.trim();
+  alert("Profile updated ✅");
+}
   let {data}=await sb
     .from("profiles")
     .select("*")
