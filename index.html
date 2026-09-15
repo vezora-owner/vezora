@@ -867,55 +867,51 @@ async function renderApp(){
         <div id="peopleGrid" class="suggest"></div>
 
       </section>
+            <!-- PROFILE -->
+
       <section id="profile" class="view">
-  <div class="card profile-card">
-    <div id="profileAvatar" class="profile-avatar">👤</div>
 
-    <input id="avatarFile" type="file" accept="image/*" hidden onchange="uploadAvatar(this.files[0])">
+        <div class="card profile-card">
 
-    <button class="btn" onclick="document.getElementById('avatarFile').click()">
-      📷 Change Photo
-    </button>
+          <div id="profileAvatar" class="profile-avatar">👤</div>
 
-    <h3 id="profileName">Loading...</h3>
-    <p class="muted" id="profileUsername">@loading...</p>
-    <p id="profileBio">No bio added yet.</p>
+          <input
+            id="avatarFile"
+            type="file"
+            accept="image/*"
+            hidden
+            onchange="uploadAvatar(this.files[0])"
+          >
 
-    <button class="btn" onclick="editProfile()">
-      ✏️ Edit Profile
-    </button>
+          <button
+            class="btn"
+            onclick="document.getElementById('avatarFile').click()">
+            📷 Change Photo
+          </button>
+
+          <h3 id="profileName">Loading...</h3>
+
+          <p class="muted" id="profileUsername">
+            @loading...
+          </p>
+
+          <p id="profileBio">
+            No bio added yet.
+          </p>
+
+          <button class="btn" onclick="editProfile()">
+            ✏️ Edit Profile
+          </button>
+
+        </div>
+
+      </section>
+
+    </main>
+
   </div>
-</section>
-async function loadChats(){
 
-  let {data}=await sb
-    .from("profiles")
-    .select("id,username,full_name")
-    .neq("id",me.id)
-    .limit(30);
-
-  $("#chatList").innerHTML=(data||[]).map(p=>`
-
-    <div
-      class="item"
-      onclick="selectPerson('${p.id}','${esc(p.full_name||p.username)}')">
-
-      <div class="avatar"></div>
-
-      <div>
-        ${esc(p.full_name||p.username)}
-
-        <small
-          class="muted"
-          style="display:block">
-          @${esc(p.username)}
-        </small>
-
-      </div>
-
-    </div>
-
-  `).join("");
+`;
 }
 
 async function selectPerson(id,name){
