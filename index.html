@@ -1208,7 +1208,27 @@ async function logout(){
 
   await sb.auth.signOut();
 }
+async function editProfile(){
+  const name=prompt("Enter your name:",$("#profileName").textContent);
+  if(name===null)return;
 
+  const bio=prompt("Enter your bio:",$("#profileBio").textContent);
+  if(bio===null)return;
+
+  const {error}=await sb.from("profiles").update({
+    full_name:name.trim(),
+    bio:bio.trim()
+  }).eq("id",me.id);
+
+  if(error){
+    alert("Update failed: "+error.message);
+    return;
+  }
+
+  $("#profileName").textContent=name.trim();
+  $("#profileBio").textContent=bio.trim();
+  alert("Profile updated ✅");
+}
 auth();
 </script>
 
