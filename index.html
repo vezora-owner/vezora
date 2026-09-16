@@ -947,7 +947,13 @@ loadPeople();
 loadProfile();
 loadChats();
 
-$("#myid").textContent = "@" + (me.user_metadata?.username || me.email?.split("@")[0] || "user");
+const {data: profile} = await sb
+  .from("profiles")
+  .select("username")
+  .eq("id", me.id)
+  .single();
+
+$("#myid").textContent = "@" + (profile?.username || "user");
 }
   async function loadChats(){
 
