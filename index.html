@@ -940,7 +940,39 @@ async function renderApp(){
 
 `;
 }
+async function loadPeople(){
 
+  const {data,error}=await sb
+    .from("profiles")
+    .select("id,username,full_name,avatar_url,bio")
+    .neq("id",me.id);
+
+  if(error){
+    console.error("People load error:",error);
+    return;
+  }
+
+  const html=(data||[]).map(p=>`
+    <div class="card person">
+      <div class="avatar">
+        ${p.avatar_url ? `<img src="${esc(p.avatar_url)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : ""}
+      </div>
+
+      <b>${esc(p.full_name||p.username||"Vezora User")}</b>
+
+      <small class="muted">
+        @${esc(p.username||"user")}
+      </small>
+
+      <button class="btn" onclick="selectPerson('${p.id}','${esc(p.full_name||p.username||"Vezora User")}')">
+        💬 Chat
+      </button>
+    </div>
+  `).join("");
+
+  $("#peopleGrid").innerHTML=html;
+  $("#homePeople").innerHTML=html;
+}
 async function selectPerson(id,name){
 
   activeUser={
