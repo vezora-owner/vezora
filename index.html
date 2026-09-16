@@ -7,7 +7,42 @@
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-<style>
+/* Modern Chat List */
+#chatList .item{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  margin:6px;
+  border-radius:16px;
+  cursor:pointer;
+  transition:.2s;
+}
+
+#chatList .item:hover{
+  background:rgba(90,90,255,.15);
+  transform:translateX(3px);
+}
+
+#chatList .item .avatar{
+  width:46px;
+  height:46px;
+  min-width:46px;
+  border-radius:50%;
+  overflow:hidden;
+  background:linear-gradient(135deg,#7564ff,#399cff);
+}
+
+#chatList .item b{
+  display:block;
+  font-size:15px;
+}
+
+#chatList .item small{
+  display:block;
+  margin-top:4px;
+  opacity:.65;
+}<style>
 *{box-sizing:border-box}
 
 :root{
