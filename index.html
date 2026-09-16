@@ -941,6 +941,7 @@ async function renderApp(){
 `;
 
 loadPeople();
+loadProfile();
 }
 async function loadPeople(){
 
@@ -974,6 +975,28 @@ async function loadPeople(){
 
   $("#peopleGrid").innerHTML=html;
   $("#homePeople").innerHTML=html;
+}
+  async function loadProfile(){
+
+  const {data,error}=await sb
+    .from("profiles")
+    .select("username,full_name,bio,avatar_url")
+    .eq("id",me.id)
+    .single();
+
+  if(error){
+    console.error("Profile load error:",error);
+    return;
+  }
+
+  $("#profileName").textContent=data.full_name || "Vezora User";
+  $("#profileUsername").textContent="@"+(data.username || "user");
+  $("#profileBio").textContent=data.bio || "No bio added yet.";
+
+  if(data.avatar_url){
+    $("#profileAvatar").innerHTML=
+      '<img src="'+esc(data.avatar_url)+'">';
+  }
 }
 async function selectPerson(id,name){
 
