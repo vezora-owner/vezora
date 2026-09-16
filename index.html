@@ -647,15 +647,62 @@ function auth(){
   }
 
   sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+function startPresence(){
 
+  if(!me) return;
+
+  if(presenceChannel)
+    sb.removeChannel(presenceChannel);
+
+  presenceChannel=sb
+    .channel("vezora-presence")
+    .on("presence",{event:"sync"},updateOnlineStatus)
+    .on("presence",{event:"join"},updateOnlineStatus)
+    .on("presence",{event:"leave"},updateOnlineStatus)
+    .subscribe(async status=>{
+
+      if(status==="SUBSCRIBED"){
+        await presenceChannel.track({
+          online:true
+        });
+      }
+
+    });
+}
+
+function updateOnlineStatus(){
+
+  if(!presenceChannel) return;
+
+  const state=presenceChannel.presenceState();
+
+  document.querySelectorAll("[data-user-id]").forEach(el=>{
+
+    const id=el.dataset.userId;
+    const dot=el.querySelector(".online-dot");
+
+    if(!dot) return;
+
+    dot.style.display=state[id] ? "inline-block" : "none";
+
+  });
+}
   sb.auth.onAuthStateChange((_e,s)=>{
     me=s?.user||null;
-    me?renderApp():renderAuth();
+    if(me){
+      renderApp();
+      startPresence(); }else{
+      renderAuth(); }
   });
 
   sb.auth.getSession().then(({data})=>{
     me=data.session?.user||null;
-    me?renderApp():renderAuth();
+    if(me){
+  renderApp();
+  startPresence();
+}else{
+  renderAuth();
+}
   });
 }
 
@@ -1046,6 +1093,7 @@ $("#myid").textContent = "@" + (profile?.username || "user");
 
     const item=document.createElement("div");
     item.className="item";
+    item.dataset.userId=p.id;
 
     item.innerHTML=`
       <div class="avatar">
