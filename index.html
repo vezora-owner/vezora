@@ -959,7 +959,7 @@ $("#myid").textContent = "@" + (profile?.username || "user");
 
   const {data,error}=await sb
     .from("messages")
-    .select("sender_id,receiver_id,content,created_at")
+    .select("sender_id,receiver_id,created_at")
     .or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
     .order("created_at",{ascending:false});
 
@@ -969,16 +969,14 @@ $("#myid").textContent = "@" + (profile?.username || "user");
   }
 
   const ids=[];
-    const lastMessages={};
+   
 
  (data||[]).forEach(m=>{
   const id=m.sender_id===me.id ? m.receiver_id : m.sender_id;
 
   if(!ids.includes(id)) ids.push(id);
 
-  if(!lastMessages[id]){
-    lastMessages[id]=m.content || "";
-  }
+ 
 });
   if(!ids.length){
     $("#chatList").innerHTML=
@@ -1014,7 +1012,7 @@ $("#myid").textContent = "@" + (profile?.username || "user");
       <div>
         <b>${esc(p.full_name||p.username||"Vezora User")}</b>
         <small class="muted">@${esc(p.username||"user")}</small>
-        <small class="muted">${esc(lastMessages[p.id] || "No messages yet")}</small>
+        
       </div>
     `;
 
