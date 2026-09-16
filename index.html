@@ -944,7 +944,7 @@ loadPeople();
 loadProfile();
 loadChats();
 
-$("#myid").textContent = me.id;
+$("#myid").textContent = "@" + (me.user_metadata?.username || me.email?.split("@")[0] || "user");
 }
   async function loadChats(){
 
