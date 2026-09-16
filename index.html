@@ -675,10 +675,11 @@ async function signup(){
     email:$("#email").value,
     password:$("#pass").value,
     options:{
-      data:{
-        full_name:$("#name").value
-      }
-    }
+  data:{
+    full_name:$("#name").value,
+    username:$("#username").value.trim()
+  }
+}
   });
 
   $("#err").textContent=
