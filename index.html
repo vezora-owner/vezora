@@ -942,6 +942,72 @@ async function renderApp(){
 
 loadPeople();
 loadProfile();
+loadChats();
+}
+  async function loadChats(){
+
+  const {data,error}=await sb
+    .from("messages")
+    .select("sender_id,receiver_id,created_at")
+    .or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
+    .order("created_at",{ascending:false});
+
+  if(error){
+    console.error("Chat list error:",error);
+    return;
+  }
+
+  const ids=[];
+
+  (data||[]).forEach(m=>{
+    const id=m.sender_id===me.id ? m.receiver_id : m.sender_id;
+    if(!ids.includes(id)) ids.push(id);
+  });
+
+  if(!ids.length){
+    $("#chatList").innerHTML=
+      `<p class="muted" style="padding:15px">No chats yet</p>`;
+    return;
+  }
+
+  const {data:people,error:profileError}=await sb
+    .from("profiles")
+    .select("id,username,full_name,avatar_url")
+    .in("id",ids);
+
+  if(profileError){
+    console.error(profileError);
+    return;
+  }
+
+  $("#chatList").innerHTML="";
+
+  (people||[]).forEach(p=>{
+
+    const item=document.createElement("div");
+    item.className="item";
+
+    item.innerHTML=`
+      <div class="avatar">
+        ${p.avatar_url
+          ? `<img src="${esc(p.avatar_url)}"
+             style="width:100%;height:100%;border-radius:50%;object-fit:cover">`
+          : ""}
+      </div>
+
+      <div>
+        <b>${esc(p.full_name||p.username||"Vezora User")}</b>
+        <small class="muted">@${esc(p.username||"user")}</small>
+      </div>
+    `;
+
+    item.onclick=()=>selectPerson(
+      p.id,
+      p.full_name||p.username||"Vezora User"
+    );
+
+    $("#chatList").appendChild(item);
+  });
 }
 async function loadPeople(){
 
