@@ -1380,21 +1380,71 @@ async function logout(){
   await sb.auth.signOut();
 }
 async function editProfile(){
-  const name=prompt("Enter your name:",$("#profileName").textContent);
+
+  const username=prompt(
+    "Enter your username:",
+    $("#profileUsername").textContent.replace("@","")
+  );
+
+  if(username===null)return;
+
+  const cleanUsername=username.trim().toLowerCase();
+
+  if(!/^[a-z0-9_]{3,20}$/.test(cleanUsername)){
+    alert("Username 3-20 characters ka ho. Sirf letters, numbers aur _ allowed hain.");
+    return;
+  }
+
+  const {data:existing}=await sb
+    .from("profiles")
+    .select("id")
+    .eq("username",cleanUsername)
+    .neq("id",me.id)
+    .maybeSingle();
+
+  if(existing){
+    alert("Ye username already taken hai ❌");
+    return;
+  }
+
+  const name=prompt(
+    "Enter your name:",
+    $("#profileName").textContent
+  );
+
   if(name===null)return;
 
-  const bio=prompt("Enter your bio:",$("#profileBio").textContent);
+  const bio=prompt(
+    "Enter your bio:",
+    $("#profileBio").textContent
+  );
+
   if(bio===null)return;
 
-  const {error}=await sb.from("profiles").update({
-    full_name:name.trim(),
-    bio:bio.trim()
-  }).eq("id",me.id);
+  const {error}=await sb
+    .from("profiles")
+    .update({
+      username:cleanUsername,
+      full_name:name.trim(),
+      bio:bio.trim()
+    })
+    .eq("id",me.id);
 
   if(error){
     alert("Update failed: "+error.message);
     return;
   }
+
+  $("#profileUsername").textContent="@"+cleanUsername;
+  $("#profileName").textContent=name.trim();
+  $("#profileBio").textContent=bio.trim();
+
+  if($("#myid")){
+    $("#myid").textContent="@"+cleanUsername;
+  }
+
+  alert("Profile updated ✅");
+}
 
   $("#profileName").textContent=name.trim();
   $("#profileBio").textContent=bio.trim();
