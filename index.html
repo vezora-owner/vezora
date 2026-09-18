@@ -449,21 +449,44 @@ video{
 @media(max-width:900px){
 
   .dash{
-    grid-template-columns:75px 1fr;
+    grid-template-columns:1fr;
   }
 
   aside{
-    padding:10px 7px;
+    position:fixed;
+    left:0;
+    right:0;
+    bottom:0;
+    z-index:20;
+    padding:8px;
+    background:rgba(5,6,17,.94);
+    backdrop-filter:blur(18px);
+    border-right:0;
+    border-top:1px solid var(--border);
+  }
+
+  .nav{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
   }
 
   .nav button{
     justify-content:center;
-    padding:13px 5px;
-    font-size:0;
+    flex-direction:column;
+    gap:3px;
+    margin:0;
+    padding:8px 4px;
+    font-size:11px;
+    text-align:center;
   }
 
   .nav button:first-letter{
-    font-size:19px;
+    font-size:18px;
+  }
+
+  .main{
+    padding-bottom:90px;
   }
 
   .cards{
@@ -478,7 +501,6 @@ video{
     grid-template-columns:1fr;
   }
 }
-
 @media(max-width:650px){
 
   .top{
