@@ -3281,13 +3281,7 @@ loadPeople();
 loadProfile();
 loadChats();
 
-const {data: profile} = await sb
-  .from("profiles")
-  .select("username")
-  .eq("id", me.id)
-  .single();
 
-$("#myid").textContent = "@" + (profile?.username || "user");
 }
   async function loadChats(){
 
@@ -3391,7 +3385,7 @@ async function loadPeople(){
   `).join("");
 
   $("#peopleGrid").innerHTML=html;
-  $("#homePeople").innerHTML=html;
+  
 }
   async function loadProfile(){
 
