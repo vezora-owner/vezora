@@ -2200,6 +2200,62 @@ video{
   color:white;
   border:1px solid rgba(255,255,255,.1);
 }
+  /* ===== EDIT PROFILE MODAL FIX ===== */
+
+.profile-modal{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  background:rgba(0,0,0,.72) !important;
+  backdrop-filter:blur(10px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99999 !important;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+.profile-modal.show{
+  display:flex !important;
+}
+
+.profile-modal-box{
+  width:100%;
+  max-width:430px;
+  background:#0b1230;
+  color:white;
+  border:1px solid rgba(130,120,255,.3);
+  border-radius:22px;
+  padding:25px;
+  box-sizing:border-box;
+  box-shadow:0 30px 80px rgba(0,0,0,.7);
+}
+
+.profile-modal-box label{
+  display:block;
+  margin-top:12px;
+}
+
+.profile-input{
+  width:100%;
+  box-sizing:border-box;
+  margin:7px 0;
+  padding:13px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background:#070d24;
+  color:white;
+  outline:none;
+}
+
+.profile-modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:18px;
+}
 </style>
 </head>
 
