@@ -1535,6 +1535,30 @@ video{
   color:#9da7c7;
   line-height:1.6;
 }
+  .vz-cta{
+  margin:40px 8% 80px;
+  padding:90px 30px;
+  text-align:center;
+  border-radius:30px;
+  background:linear-gradient(135deg,#101b42,#0a1230);
+  border:1px solid rgba(117,100,255,.25);
+  box-shadow:0 30px 80px rgba(0,0,0,.25);
+}
+
+.vz-cta h2{
+  font-size:48px;
+  line-height:1.1;
+  margin:15px 0;
+}
+
+.vz-cta h2 span{
+  color:#7564ff;
+}
+
+.vz-cta p{
+  color:#9da7c7;
+  margin-bottom:30px;
+}
 </style>
 </head>
 
@@ -1841,6 +1865,18 @@ function renderLanding(){
     </div>
 
   </div>
+
+</section><section class="vz-cta">
+
+  <div class="landing-tag">READY TO CONNECT?</div>
+
+  <h2>Your people.<br><span>Your Vezora.</span></h2>
+
+  <p>Join Vezora and start connecting today.</p>
+
+  <button class="landing-primary" onclick="renderAuth()">
+    Get Started →
+  </button>
 
 </section>`;
 }
