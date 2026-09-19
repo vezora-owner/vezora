@@ -2266,6 +2266,57 @@ async function saveProfile(){
 
   alert("Profile updated successfully! ✅");
 }
+  function editProfile(){
+
+  const name = $("#profileName").textContent;
+  const username = $("#profileUsername").textContent.replace("@","");
+  const bio = $("#profileBio").textContent;
+
+  $("#editName").value = name === "Vezora User" ? "" : name;
+  $("#editUsername").value = username === "user" ? "" : username;
+  $("#editBio").value = bio === "No bio added yet." ? "" : bio;
+
+  $("#profileModal").classList.add("show");
+}
+
+function closeProfileModal(){
+  $("#profileModal").classList.remove("show");
+}
+
+async function saveProfile(){
+
+  const name = $("#editName").value.trim();
+  const username = $("#editUsername").value.trim().toLowerCase();
+  const bio = $("#editBio").value.trim();
+
+  if(!name || !username){
+    alert("Name aur username required hai.");
+    return;
+  }
+
+  const {error} = await sb
+    .from("profiles")
+    .update({
+      full_name:name,
+      username:username,
+      bio:bio
+    })
+    .eq("id",me.id);
+
+  if(error){
+    console.error(error);
+    alert("Profile update nahi hua.");
+    return;
+  }
+
+  $("#profileName").textContent=name;
+  $("#profileUsername").textContent="@"+username;
+  $("#profileBio").textContent=bio || "No bio added yet.";
+
+  closeProfileModal();
+
+  alert("Profile updated successfully! ✅");
+}
 function auth(){
 
   if(!ready()){
