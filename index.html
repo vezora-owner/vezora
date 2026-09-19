@@ -1713,6 +1713,30 @@ video{
   opacity:.10;
   pointer-events:none;
 }
+  .vz-footer{
+  padding:50px 20px 30px;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,.07);
+  background:#04091b;
+}
+
+.vz-footer-logo{
+  font-size:28px;
+  font-weight:800;
+  background:linear-gradient(90deg,#7564ff,#399cff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.vz-footer p{
+  color:#9da7c7;
+  margin:10px 0 18px;
+}
+
+.vz-footer span{
+  color:#59627f;
+  font-size:13px;
+}
 </style>
 </head>
 
@@ -2032,7 +2056,11 @@ function renderLanding(){
     Get Started →
   </button>
 
-</section>`;
+</section><footer class="vz-footer">
+  <div class="vz-footer-logo">Vezora</div>
+  <p>Connect. Chat. Call. Repeat.</p>
+  <span>© 2026 Vezora. All rights reserved.</span>
+</footer>`;
 }
 function renderAuth(){
 
