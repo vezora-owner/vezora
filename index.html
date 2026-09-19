@@ -1487,6 +1487,54 @@ video{
   border-color:#7564ff;
   box-shadow:0 20px 50px rgba(100,80,255,.22);
 }
+  .vz-how{
+  padding:110px 8%;
+  text-align:center;
+}
+
+.vz-how h2{
+  font-size:42px;
+  margin:15px 0 55px;
+}
+
+.vz-how h2 span{
+  color:#7564ff;
+}
+
+.how-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:25px;
+}
+
+.how-card{
+  padding:35px 25px;
+  background:rgba(10,20,48,.65);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:22px;
+  transition:.35s;
+}
+
+.how-card:hover{
+  transform:translateY(-8px);
+  border-color:#7564ff;
+  box-shadow:0 20px 45px rgba(100,80,255,.18);
+}
+
+.how-card b{
+  font-size:14px;
+  color:#7564ff;
+}
+
+.how-card h3{
+  margin:15px 0 10px;
+  font-size:22px;
+}
+
+.how-card p{
+  color:#9da7c7;
+  line-height:1.6;
+}
 </style>
 </head>
 
@@ -1762,6 +1810,34 @@ function renderLanding(){
       <div class="feature-icon">👥</div>
       <h3>Discover People</h3>
       <p>Find people you know and start connecting on Vezora.</p>
+    </div>
+
+  </div>
+
+</section><section class="vz-how">
+
+  <div class="landing-tag">HOW IT WORKS</div>
+
+  <h2>Connect in <span>3 simple steps.</span></h2>
+
+  <div class="how-grid">
+
+    <div class="how-card">
+      <b>01</b>
+      <h3>Create your ID</h3>
+      <p>Make your Vezora profile in seconds.</p>
+    </div>
+
+    <div class="how-card">
+      <b>02</b>
+      <h3>Find your people</h3>
+      <p>Discover friends and people you know.</p>
+    </div>
+
+    <div class="how-card">
+      <b>03</b>
+      <h3>Start connecting</h3>
+      <p>Chat and call with your people instantly.</p>
     </div>
 
   </div>
