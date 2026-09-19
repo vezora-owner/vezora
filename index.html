@@ -1684,6 +1684,23 @@ video{
     transform:translateY(0);
   }
 }
+  .landing{
+  position:relative;
+  overflow:hidden;
+}
+
+.landing:before{
+  content:"";
+  position:absolute;
+  width:500px;
+  height:500px;
+  left:-220px;
+  top:120px;
+  background:#6555ff;
+  filter:blur(150px);
+  opacity:.12;
+  pointer-events:none;
+}
 </style>
 </head>
 
