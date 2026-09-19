@@ -2256,6 +2256,167 @@ video{
   gap:10px;
   margin-top:18px;
 }
+  /* ===== PREMIUM CHATS UI ===== */
+
+#chats > h2{
+  margin-bottom:6px;
+}
+
+.chat{
+  grid-template-columns:320px 1fr;
+  height:650px;
+  gap:16px;
+}
+
+/* Chat list */
+#chatList{
+  padding:10px;
+  background:
+    linear-gradient(145deg,rgba(118,92,255,.08),rgba(60,167,255,.03)),
+    rgba(10,14,32,.78);
+}
+
+#chatList:before{
+  content:"Messages";
+  display:block;
+  font-size:18px;
+  font-weight:800;
+  padding:10px 12px 14px;
+}
+
+#chatList .item{
+  position:relative;
+  padding:13px;
+  margin:5px 0;
+  border:1px solid transparent;
+  border-radius:15px;
+  transition:.25s ease;
+}
+
+#chatList .item:hover{
+  transform:none;
+  background:rgba(118,92,255,.10);
+  border-color:rgba(118,92,255,.18);
+}
+
+#chatList .item.active{
+  background:linear-gradient(
+    135deg,
+    rgba(118,92,255,.22),
+    rgba(60,167,255,.08)
+  );
+  border-color:rgba(118,92,255,.28);
+}
+
+#chatList .item .avatar{
+  width:48px;
+  height:48px;
+  min-width:48px;
+  border:2px solid rgba(118,92,255,.25);
+  box-shadow:0 0 18px rgba(118,92,255,.15);
+}
+
+#chatList .item b{
+  font-size:14px;
+}
+
+#chatList .item small{
+  color:#7783a5;
+}
+
+/* Chat window */
+.window{
+  background:
+    radial-gradient(circle at 80% 10%,rgba(118,92,255,.08),transparent 35%),
+    rgba(10,14,32,.78);
+}
+
+.head{
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  padding:15px 20px;
+  font-size:16px;
+  background:rgba(255,255,255,.025);
+}
+
+/* Messages area */
+.msgs{
+  padding:24px;
+  scroll-behavior:smooth;
+}
+
+.msg{
+  position:relative;
+  padding:12px 15px;
+  margin:10px 0;
+  border-radius:17px 17px 17px 5px;
+  background:rgba(25,31,58,.9);
+  border:1px solid rgba(255,255,255,.07);
+  box-shadow:0 5px 20px rgba(0,0,0,.12);
+  animation:chatMsg .2s ease;
+}
+
+.msg.me{
+  background:linear-gradient(135deg,#5b4be0,#397fe8);
+  border:0;
+  border-radius:17px 17px 5px 17px;
+  box-shadow:0 7px 22px rgba(77,70,220,.22);
+}
+
+@keyframes chatMsg{
+  from{
+    opacity:0;
+    transform:translateY(7px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+/* Message composer */
+.compose{
+  padding:14px;
+  gap:10px;
+  background:rgba(5,8,20,.65);
+}
+
+.compose input{
+  height:46px;
+  border-radius:15px;
+  padding:0 16px;
+  background:rgba(255,255,255,.055);
+}
+
+.compose .btn{
+  width:48px;
+  height:46px;
+  padding:0;
+  border-radius:15px;
+  font-size:18px;
+}
+
+/* Mobile */
+@media(max-width:650px){
+
+  .chat{
+    height:calc(100vh - 190px);
+    min-height:500px;
+  }
+
+  .window{
+    border-radius:18px;
+  }
+
+  .msgs{
+    padding:15px;
+  }
+
+  .compose{
+    padding:10px;
+  }
+}
 </style>
 </head>
 
