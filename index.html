@@ -2312,7 +2312,14 @@ function renderAuth(){
 
         <div class="auth-field">
           <label>Password</label>
-          <input id="pass" type="password" placeholder="Enter your password">
+          <div style="position:relative">
+  <input id="pass" type="password" placeholder="Enter your password" style="padding-right:55px">
+  <button type="button"
+    onclick="togglePassword()"
+    style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:0;color:#8f9abb;cursor:pointer;font-size:18px">
+    👁
+  </button>
+</div>
         </div>
 
         <button class="auth-main-btn" onclick="login()">
@@ -2390,6 +2397,10 @@ function renderSignup(){
 
     </div>
   `;
+}
+  function togglePassword(){
+  const p=document.getElementById("pass");
+  p.type=p.type==="password" ? "text" : "password";
 }
 async function signup(){
 
