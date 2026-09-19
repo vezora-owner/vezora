@@ -1773,6 +1773,20 @@ video{
 .landing-text h1 span{
   text-shadow:0 0 30px rgba(117,100,255,.25);
 }
+  .landing-scroll{
+  animation:scrollBounce 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollBounce{
+  0%,100%{
+    transform:translateY(0);
+    opacity:.6;
+  }
+  50%{
+    transform:translateY(8px);
+    opacity:1;
+  }
+}
 </style>
 </head>
 
