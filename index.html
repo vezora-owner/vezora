@@ -1561,7 +1561,7 @@ function updateOnlineStatus(){
   renderApp();
   startPresence();
 }else{
-  renderAuth();
+  renderLanding();
 }
   });
 }
@@ -1577,7 +1577,128 @@ function renderSetup(){
     </p>
   </div>`;
 }
+function renderLanding(){
 
+  app.innerHTML=`
+  <section class="landing">
+
+    <div class="landing-glow glow-left"></div>
+    <div class="landing-glow glow-right"></div>
+
+    <nav class="landing-nav">
+
+      <div class="logo">
+        <b>V</b>Vezora
+      </div>
+
+      <button class="landing-login" onclick="renderAuth()">
+        Login
+      </button>
+
+    </nav>
+
+    <div class="landing-content">
+
+      <div class="landing-text">
+
+        <div class="landing-tag">
+          THE NEW WAY TO CONNECT
+        </div>
+
+        <h1>
+          More than<br>
+          just a <span>chat app.</span><br>
+          It's Vezora.
+        </h1>
+
+        <p>
+          Chat with friends, make calls and discover people you know —
+          all in one beautiful place.
+        </p>
+
+        <div class="landing-buttons">
+
+          <button
+            class="landing-primary"
+            onclick="renderAuth()">
+            Get Started →
+          </button>
+
+          <button
+            class="landing-secondary"
+            onclick="renderAuth()">
+            Login
+          </button>
+
+        </div>
+
+      </div>
+
+      <div class="landing-phone">
+
+        <div class="phone-light"></div>
+
+        <div class="phone-box">
+
+          <div class="phone-camera"></div>
+
+          <div class="phone-title">
+            <b>Vezora</b>
+            <span>•••</span>
+          </div>
+
+          <div class="fake-user">
+            <div class="fake-avatar">R</div>
+
+            <div>
+              <b>Riya</b>
+              <small>● Online</small>
+            </div>
+          </div>
+
+          <div class="fake-msg">
+            Hey! Are you free today?
+          </div>
+
+          <div class="fake-msg mine">
+            Yeah 😄 Let's talk!
+          </div>
+
+          <div class="fake-msg">
+            Call in 5 minutes?
+          </div>
+
+          <div class="fake-call">
+
+            <span>☎</span>
+
+            <div>
+              <b>Voice Call</b>
+              <small>Riya is online</small>
+            </div>
+
+            <strong>→</strong>
+
+          </div>
+
+          <div class="fake-input">
+            Type a message...
+            <b>➤</b>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="landing-scroll">
+      <span></span>
+      SCROLL TO EXPLORE
+    </div>
+
+  </section>`;
+}
 function renderAuth(){
 
   app.innerHTML=`
