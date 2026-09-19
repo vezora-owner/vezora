@@ -1446,6 +1446,37 @@ video{
     display:none;
   }
 }
+  .feature-card{
+  position:relative;
+  overflow:hidden;
+}
+
+.feature-card:before{
+  content:"";
+  position:absolute;
+  width:120px;
+  height:120px;
+  right:-50px;
+  top:-50px;
+  border-radius:50%;
+  background:#6555ff;
+  filter:blur(55px);
+  opacity:.18;
+  transition:.4s;
+}
+
+.feature-card:hover:before{
+  transform:scale(1.8);
+  opacity:.35;
+}
+
+.feature-icon{
+  transition:.3s;
+}
+
+.feature-card:hover .feature-icon{
+  transform:scale(1.15) rotate(-5deg);
+}
 </style>
 </head>
 
@@ -1697,7 +1728,35 @@ function renderLanding(){
       SCROLL TO EXPLORE
     </div>
 
-  </section>`;
+  </section><section class="vz-features">
+
+  <div class="landing-tag">WHY VEZORA</div>
+
+  <h2>Everything you need.<br><span>Nothing complicated.</span></h2>
+
+  <div class="feature-grid">
+
+    <div class="feature-card">
+      <div class="feature-icon">💬</div>
+      <h3>Real-time Chat</h3>
+      <p>Talk with your friends instantly with a clean and simple chat experience.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">📞</div>
+      <h3>Voice & Video Calls</h3>
+      <p>Connect face-to-face with the people who matter to you.</p>
+    </div>
+
+    <div class="feature-card">
+      <div class="feature-icon">👥</div>
+      <h3>Discover People</h3>
+      <p>Find people you know and start connecting on Vezora.</p>
+    </div>
+
+  </div>
+
+</section>`;
 }
 function renderAuth(){
 
