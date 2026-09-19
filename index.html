@@ -1809,6 +1809,161 @@ video{
     transform:translateY(0);
   }
 }
+  /* ===== VEZORA AUTH UI ===== */
+
+.auth-page{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:40px 20px;
+  background:
+    radial-gradient(circle at 15% 50%,rgba(117,100,255,.16),transparent 35%),
+    radial-gradient(circle at 85% 50%,rgba(57,156,255,.12),transparent 35%),
+    #050b20;
+}
+
+.auth-box{
+  width:min(430px,100%);
+  padding:38px;
+  background:rgba(10,20,48,.78);
+  border:1px solid rgba(117,100,255,.25);
+  border-radius:28px;
+  backdrop-filter:blur(20px);
+  box-shadow:0 30px 80px rgba(0,0,0,.4);
+  animation:authIn .6s ease;
+}
+
+.auth-brand{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.auth-brand-logo{
+  font-size:34px;
+  font-weight:800;
+  background:linear-gradient(90deg,#7564ff,#399cff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.auth-brand p{
+  margin:6px 0 0;
+  color:#8994b5;
+  font-size:13px;
+}
+
+.auth-title{
+  font-size:28px;
+  margin:0 0 8px;
+  color:#eef2ff;
+}
+
+.auth-subtitle{
+  color:#8f9abb;
+  margin:0 0 25px;
+  font-size:14px;
+}
+
+.auth-field{
+  margin-bottom:16px;
+}
+
+.auth-field label{
+  display:block;
+  margin-bottom:7px;
+  font-size:13px;
+  color:#aab4d2;
+}
+
+.auth-field input{
+  width:100%;
+  box-sizing:border-box;
+  padding:14px 15px;
+  border-radius:13px;
+  border:1px solid rgba(255,255,255,.1);
+  background:rgba(4,9,27,.7);
+  color:#fff;
+  outline:none;
+  transition:.25s;
+}
+
+.auth-field input:focus{
+  border-color:#7564ff;
+  box-shadow:0 0 0 3px rgba(117,100,255,.12);
+}
+
+.auth-main-btn{
+  width:100%;
+  border:0;
+  padding:14px;
+  margin-top:8px;
+  border-radius:14px;
+  color:white;
+  font-weight:700;
+  font-size:15px;
+  cursor:pointer;
+  background:linear-gradient(90deg,#7564ff,#399cff);
+  transition:.3s;
+}
+
+.auth-main-btn:hover{
+  transform:translateY(-2px);
+  box-shadow:0 12px 35px rgba(117,100,255,.35);
+}
+
+.auth-switch{
+  text-align:center;
+  margin-top:22px;
+  color:#8f9abb;
+  font-size:14px;
+}
+
+.auth-switch button{
+  background:none;
+  border:0;
+  color:#62aaff;
+  cursor:pointer;
+  font-weight:700;
+}
+
+.auth-back{
+  display:block;
+  margin:22px auto 0;
+  background:none;
+  border:0;
+  color:#7f8baa;
+  cursor:pointer;
+}
+
+.auth-error{
+  color:#ff7d8d;
+  font-size:13px;
+  margin:10px 0;
+  text-align:center;
+}
+
+@keyframes authIn{
+  from{
+    opacity:0;
+    transform:translateY(20px) scale(.98);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+@media(max-width:600px){
+  .auth-page{
+    padding:20px 14px;
+  }
+
+  .auth-box{
+    padding:28px 20px;
+    border-radius:22px;
+  }
+}
 </style>
 </head>
 
@@ -2135,47 +2290,50 @@ function renderLanding(){
 </footer>`;
 }
 function renderAuth(){
-
   app.innerHTML=`
-  <div class="auth">
+    <div class="auth-page">
 
-    <div class="logo">
-      <b>V</b>Vezora
+      <div class="auth-box">
+
+        <div class="auth-brand">
+          <div class="auth-brand-logo">Vezora</div>
+          <p>Connect • Chat • Call • Be You</p>
+        </div>
+
+        <h1 class="auth-title">Welcome back 👋</h1>
+        <p class="auth-subtitle">
+          Sign in to your Vezora account
+        </p>
+
+        <div class="auth-field">
+          <label>Username or Email</label>
+          <input id="email" type="text" placeholder="Enter your username or email">
+        </div>
+
+        <div class="auth-field">
+          <label>Password</label>
+          <input id="pass" type="password" placeholder="Enter your password">
+        </div>
+
+        <button class="auth-main-btn" onclick="login()">
+          Login →
+        </button>
+
+        <div id="authmsg" class="auth-error"></div>
+
+        <div class="auth-switch">
+          Don't have an account?
+          <button onclick="renderSignup()">Create ID</button>
+        </div>
+
+        <button class="auth-back" onclick="renderLanding()">
+          ← Back to Vezora
+        </button>
+
+      </div>
+
     </div>
-
-    <h1 style="margin-top:25px">
-      Welcome back 👋
-    </h1>
-
-    <p class="muted">
-      Connect beyond boundaries.
-    </p>
-
-    <div class="field">
-      <input id="email" type="email" placeholder="Email">
-    </div>
-
-    <div class="field">
-      <input id="pass" type="password" placeholder="Password (6+ characters)">
-    </div>
-<div class="field">
-  <input id="username" placeholder="Username (e.g. ansh123)">
-</div>
-    <div class="field">
-      <input id="name" placeholder="Full name (for sign up)">
-    </div>
-
-    <button class="btn" onclick="signup()">
-      Create account
-    </button>
-
-    <button class="btn alt" onclick="login()">
-      Log in
-    </button>
-
-    <p id="err" class="muted"></p>
-
-  </div>`;
+  `;
 }
 
 async function signup(){
