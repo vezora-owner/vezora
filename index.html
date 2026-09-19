@@ -1122,6 +1122,330 @@ video{
     display:none;
   }
 }
+  /* ===== VEZORA LANDING PAGE ===== */
+
+.landing{
+  min-height:100vh;
+  position:relative;
+  overflow:hidden;
+  background:
+    radial-gradient(circle at 75% 40%,rgba(50,100,255,.20),transparent 30%),
+    radial-gradient(circle at 20% 80%,rgba(120,70,255,.18),transparent 30%),
+    #03050d;
+}
+
+.landing-nav{
+  height:82px;
+  padding:0 7%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:relative;
+  z-index:5;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+
+.landing-login{
+  padding:11px 24px;
+  border-radius:30px;
+  border:1px solid #5368b8;
+  background:#0b1127;
+  color:white;
+  cursor:pointer;
+}
+
+.landing-content{
+  min-height:calc(100vh - 82px);
+  padding:40px 8%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:50px;
+  position:relative;
+  z-index:2;
+}
+
+.landing-text{
+  max-width:650px;
+}
+
+.landing-tag{
+  color:#7185ff;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:4px;
+}
+
+.landing-text h1{
+  font-size:clamp(52px,7vw,92px);
+  line-height:.96;
+  letter-spacing:-5px;
+  margin:22px 0;
+}
+
+.landing-text h1 span{
+  background:linear-gradient(90deg,#705cff,#35baff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.landing-text p{
+  max-width:520px;
+  color:#8d96b2;
+  font-size:18px;
+  line-height:1.7;
+}
+
+.landing-buttons{
+  display:flex;
+  gap:15px;
+  margin-top:32px;
+}
+
+.landing-primary,
+.landing-secondary{
+  padding:15px 27px;
+  border-radius:30px;
+  font-weight:800;
+  cursor:pointer;
+}
+
+.landing-primary{
+  color:white;
+  border:0;
+  background:linear-gradient(100deg,#6652ff,#258eff);
+  box-shadow:0 0 35px rgba(65,104,255,.35);
+}
+
+.landing-secondary{
+  color:white;
+  background:#0a1022;
+  border:1px solid #29375f;
+}
+
+/* PHONE */
+
+.landing-phone{
+  position:relative;
+  width:390px;
+  height:600px;
+  display:grid;
+  place-items:center;
+  transform:rotate(5deg);
+  animation:phoneIn 1.2s ease both;
+}
+
+.phone-light{
+  position:absolute;
+  width:330px;
+  height:500px;
+  background:#416cff;
+  filter:blur(100px);
+  opacity:.25;
+}
+
+.phone-box{
+  width:290px;
+  height:550px;
+  padding:28px 20px;
+  position:relative;
+  z-index:2;
+  border-radius:42px;
+  border:1px solid #42568e;
+  background:linear-gradient(145deg,#111b3a,#060a18);
+  box-shadow:0 30px 100px #000;
+}
+
+.phone-camera{
+  width:90px;
+  height:5px;
+  margin:auto;
+  border-radius:10px;
+  background:#1e2945;
+}
+
+.phone-title{
+  display:flex;
+  justify-content:space-between;
+  margin-top:28px;
+}
+
+.fake-user{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin-top:28px;
+}
+
+.fake-avatar{
+  width:48px;
+  height:48px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:linear-gradient(135deg,#805cff,#28a9ff);
+  font-size:20px;
+  font-weight:bold;
+}
+
+.fake-user small{
+  display:block;
+  color:#55d99b;
+  margin-top:4px;
+}
+
+.fake-msg{
+  width:max-content;
+  max-width:75%;
+  margin-top:20px;
+  padding:12px 14px;
+  border-radius:17px;
+  background:#151f3c;
+  color:#d7def2;
+  font-size:12px;
+}
+
+.fake-msg.mine{
+  margin-left:auto;
+  background:linear-gradient(135deg,#5448d9,#267ee8);
+}
+
+.fake-call{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-top:25px;
+  padding:13px;
+  border-radius:18px;
+  background:#111a34;
+  border:1px solid #283b70;
+}
+
+.fake-call>span{
+  width:35px;
+  height:35px;
+  display:grid;
+  place-items:center;
+  border-radius:50%;
+  background:#3e55d8;
+}
+
+.fake-call small{
+  display:block;
+  color:#737f9e;
+  margin-top:3px;
+}
+
+.fake-call strong{
+  margin-left:auto;
+  color:#70a0ff;
+}
+
+.fake-input{
+  position:absolute;
+  left:20px;
+  right:20px;
+  bottom:25px;
+  height:45px;
+  padding:0 15px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  border-radius:18px;
+  background:#0c142b;
+  color:#66728f;
+  font-size:12px;
+}
+
+.fake-input b{
+  color:#6088ff;
+}
+
+.landing-glow{
+  position:absolute;
+  border-radius:50%;
+  filter:blur(100px);
+  pointer-events:none;
+}
+
+.glow-left{
+  width:280px;
+  height:280px;
+  left:-120px;
+  bottom:-80px;
+  background:#573bff;
+  opacity:.2;
+}
+
+.glow-right{
+  width:320px;
+  height:320px;
+  right:-130px;
+  top:30%;
+  background:#087eff;
+  opacity:.15;
+}
+
+.landing-scroll{
+  position:absolute;
+  bottom:25px;
+  left:8%;
+  color:#68738e;
+  font-size:10px;
+  letter-spacing:3px;
+  z-index:3;
+}
+
+.landing-scroll span{
+  display:inline-block;
+  width:35px;
+  height:1px;
+  margin-right:10px;
+  vertical-align:middle;
+  background:#536cff;
+}
+
+@keyframes phoneIn{
+  from{
+    opacity:0;
+    transform:translateX(100px) rotate(14deg) scale(.85);
+  }
+  to{
+    opacity:1;
+    transform:translateX(0) rotate(5deg) scale(1);
+  }
+}
+
+@media(max-width:850px){
+
+  .landing-content{
+    flex-direction:column;
+    text-align:center;
+    padding-top:60px;
+  }
+
+  .landing-text h1{
+    font-size:55px;
+    letter-spacing:-3px;
+  }
+
+  .landing-text p{
+    margin:auto;
+  }
+
+  .landing-buttons{
+    justify-content:center;
+  }
+
+  .landing-phone{
+    transform:scale(.72) rotate(5deg);
+    margin-top:-40px;
+  }
+
+  .landing-scroll{
+    display:none;
+  }
+}
 </style>
 </head>
 
@@ -1374,138 +1698,45 @@ async function renderApp(){
 
       <!-- HOME -->
 
-     <section id="home" class="view active vezora-home">
+     <!-- HOME -->
 
-  <div class="hero-glow glow1"></div>
-  <div class="hero-glow glow2"></div>
+<section id="home" class="view active">
 
-  <nav class="vz-nav">
-    <div class="vz-logo">
-      <span>V</span> Vezora
-    </div>
+  <h2>Welcome to Vezora 👋</h2>
 
-    <div class="vz-links">
-      <a href="#home">Home</a>
-      <a href="#features">Features</a>
-      <a href="#people">People</a>
-    </div>
+  <p class="muted">
+    Connect with your friends, chat and make calls.
+  </p>
 
-    <button class="vz-login" onclick="show('login')">Login</button>
-  </nav>
+  <div class="cards">
 
-  <main class="vz-hero">
-
-    <div class="vz-copy reveal">
-      <p class="vz-mini">THE NEW WAY TO CONNECT</p>
-
-      <h1>
-        More than<br>
-        just a <span>chat app.</span><br>
-        It's Vezora.
-      </h1>
-
-      <p class="vz-desc">
-        Chat with friends, make calls and discover people
-        you know — all in one beautiful place.
-      </p>
-
-      <div class="vz-buttons">
-        <button class="vz-primary" onclick="show('signup')">
-          Get Started →
-        </button>
-
-        <button class="vz-secondary" onclick="show('login')">
-          Login
-        </button>
+    <div class="card home-card">
+      <div class="home-icon">💬</div>
+      <div>
+        <b>Chat</b>
+        <p class="muted">Talk with your friends on Vezora.</p>
       </div>
     </div>
 
-    <div class="vz-device reveal-device">
-      <div class="phone-glow"></div>
-
-      <div class="phone">
-        <div class="phone-top"></div>
-
-        <div class="phone-head">
-          <b>Vezora</b>
-          <span>•••</span>
-        </div>
-
-        <div class="profile">
-          <div class="avatar">R</div>
-          <div>
-            <b>Riya</b>
-            <small>Online</small>
-          </div>
-        </div>
-
-        <div class="message left">
-          Hey! Are you free today?
-        </div>
-
-        <div class="message right">
-          Yeah 😄 Let's talk!
-        </div>
-
-        <div class="message left">
-          Call in 5 minutes?
-        </div>
-
-        <div class="call-card">
-          <div class="call-icon">☎</div>
-          <div>
-            <b>Voice Call</b>
-            <small>Riya is online</small>
-          </div>
-          <button>→</button>
-        </div>
-
-        <div class="typing">
-          <span>Type a message...</span>
-          <b>➤</b>
-        </div>
+    <div class="card home-card">
+      <div class="home-icon">📞</div>
+      <div>
+        <b>Calls</b>
+        <p class="muted">Make voice and video calls.</p>
       </div>
     </div>
 
-  </main>
+    <div class="card home-card">
+      <div class="home-icon">👥</div>
+      <div>
+        <b>People</b>
+        <p class="muted">Discover people you may know.</p>
+      </div>
+    </div>
 
-  <div class="vz-scroll">
-    <span></span>
-    SCROLL TO EXPLORE
   </div>
 
-  <section id="features" class="vz-features">
-
-    <p class="vz-mini">EVERYTHING YOU NEED</p>
-
-    <h2>
-      One place.<br>
-      <span>Everything connected.</span>
-    </h2>
-
-    <div class="feature-grid">
-
-      <div class="feature-card">
-        <div class="feature-icon">💬</div>
-        <h3>Chat</h3>
-        <p>Talk with the people who matter to you.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">☎</div>
-        <h3>Call</h3>
-        <p>Connect through voice and video calls.</p>
-      </div>
-
-      <div class="feature-card">
-        <div class="feature-icon">✦</div>
-        <h3>Discover</h3>
-        <p>Find people you already know on Vezora.</p>
-      </div>
-
-    </div>
-
-  </section>
+</section>
 
 </section>
 
