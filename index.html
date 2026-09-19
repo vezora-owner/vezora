@@ -1964,6 +1964,200 @@ video{
     border-radius:22px;
   }
 }
+  /* ===== PREMIUM PROFILE UI ===== */
+
+.profile-wrap{
+  max-width:900px;
+  margin:auto;
+}
+
+.profile-hero{
+  position:relative;
+  overflow:hidden;
+  padding:0;
+  border-radius:26px;
+  background:
+    linear-gradient(135deg,rgba(118,92,255,.18),rgba(60,167,255,.08)),
+    rgba(15,18,38,.82);
+  border:1px solid rgba(130,120,255,.22);
+  box-shadow:0 25px 70px rgba(0,0,0,.3);
+}
+
+.profile-cover{
+  height:150px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(118,92,255,.8),transparent 35%),
+    radial-gradient(circle at 85% 30%,rgba(60,167,255,.65),transparent 35%),
+    linear-gradient(135deg,#10183c,#080d22);
+}
+
+.profile-main{
+  padding:0 35px 35px;
+  text-align:center;
+}
+
+.profile-big-avatar{
+  width:125px;
+  height:125px;
+  margin:-62px auto 15px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  overflow:hidden;
+  background:linear-gradient(135deg,#765cff,#3ca7ff);
+  border:5px solid #0b1025;
+  box-shadow:0 0 40px rgba(118,92,255,.35);
+  font-size:48px;
+}
+
+.profile-big-avatar img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
+
+.profile-name{
+  font-size:27px;
+  margin:5px 0;
+}
+
+.profile-username{
+  color:#7885a8;
+  margin:0 0 15px;
+}
+
+.profile-bio{
+  max-width:500px;
+  margin:0 auto 22px;
+  color:#aab3ce;
+  line-height:1.6;
+}
+
+.profile-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.profile-stats{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  margin-top:25px;
+  border-top:1px solid rgba(255,255,255,.08);
+  padding-top:22px;
+}
+
+.profile-stat b{
+  display:block;
+  font-size:20px;
+}
+
+.profile-stat span{
+  color:#77829f;
+  font-size:12px;
+}
+
+.profile-action{
+  padding:11px 18px;
+  border-radius:12px;
+}
+
+@media(max-width:600px){
+  .profile-cover{
+    height:120px;
+  }
+
+  .profile-main{
+    padding:0 18px 25px;
+  }
+
+  .profile-big-avatar{
+    width:105px;
+    height:105px;
+    margin-top:-52px;
+  }
+
+  .profile-name{
+    font-size:23px;
+  }
+}
+  <section id="profile" class="view">
+
+  <div class="profile-wrap">
+
+    <div class="profile-hero">
+
+      <div class="profile-cover"></div>
+
+      <div class="profile-main">
+
+        <div id="profileAvatar" class="profile-big-avatar">
+          👤
+        </div>
+
+        <input
+          id="avatarFile"
+          type="file"
+          accept="image/*"
+          hidden
+          onchange="uploadAvatar(this.files[0])"
+        >
+
+        <h2 id="profileName" class="profile-name">
+          Loading...
+        </h2>
+
+        <p id="profileUsername" class="profile-username">
+          @loading...
+        </p>
+
+        <p id="profileBio" class="profile-bio">
+          No bio added yet.
+        </p>
+
+        <div class="profile-actions">
+
+          <button
+            class="btn profile-action"
+            onclick="editProfile()">
+            ✏️ Edit Profile
+          </button>
+
+          <button
+            class="btn alt profile-action"
+            onclick="document.getElementById('avatarFile').click()">
+            📷 Change Photo
+          </button>
+
+        </div>
+
+        <div class="profile-stats">
+
+          <div class="profile-stat">
+            <b>V</b>
+            <span>Vezora ID</span>
+          </div>
+
+          <div class="profile-stat">
+            <b>💬</b>
+            <span>Chats</span>
+          </div>
+
+          <div class="profile-stat">
+            <b>📞</b>
+            <span>Calls</span>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 </style>
 </head>
 
@@ -2016,6 +2210,61 @@ function show(id, btn){
   });
 
   if(btn) btn.classList.add("active");
+}
+  function editProfile(){
+
+  const name = $("#profileName").textContent;
+  const username = $("#profileUsername").textContent.replace("@","");
+  const bio = $("#profileBio").textContent;
+
+  $("#editName").value = name === "Vezora User" ? "" : name;
+  $("#editUsername").value = username === "user" ? "" : username;
+  $("#editBio").value = bio === "No bio added yet." ? "" : bio;
+
+  $("#profileModal").classList.add("show");
+}
+
+
+function closeProfileModal(){
+
+  $("#profileModal").classList.remove("show");
+
+}
+
+
+async function saveProfile(){
+
+  const name = $("#editName").value.trim();
+  const username = $("#editUsername").value.trim().toLowerCase();
+  const bio = $("#editBio").value.trim();
+
+  if(!name || !username){
+    alert("Name aur username required hai.");
+    return;
+  }
+
+  const {error} = await sb
+    .from("profiles")
+    .update({
+      full_name:name,
+      username:username,
+      bio:bio
+    })
+    .eq("id",me.id);
+
+  if(error){
+    console.error(error);
+    alert("Profile update nahi hua.");
+    return;
+  }
+
+  $("#profileName").textContent = name;
+  $("#profileUsername").textContent = "@"+username;
+  $("#profileBio").textContent = bio || "No bio added yet.";
+
+  closeProfileModal();
+
+  alert("Profile updated successfully! ✅");
 }
 function auth(){
 
@@ -2637,41 +2886,80 @@ async function renderApp(){
 
       <section id="profile" class="view">
 
-        <div class="card profile-card">
+  <div class="profile-wrap">
 
-          <div id="profileAvatar" class="profile-avatar">👤</div>
+    <div class="profile-hero">
 
-          <input
-            id="avatarFile"
-            type="file"
-            accept="image/*"
-            hidden
-            onchange="uploadAvatar(this.files[0])"
-          >
+      <div class="profile-cover"></div>
+
+      <div class="profile-main">
+
+        <div id="profileAvatar" class="profile-big-avatar">
+          👤
+        </div>
+
+        <input
+          id="avatarFile"
+          type="file"
+          accept="image/*"
+          hidden
+          onchange="uploadAvatar(this.files[0])"
+        >
+
+        <h2 id="profileName" class="profile-name">
+          Loading...
+        </h2>
+
+        <p id="profileUsername" class="profile-username">
+          @loading...
+        </p>
+
+        <p id="profileBio" class="profile-bio">
+          No bio added yet.
+        </p>
+
+        <div class="profile-actions">
 
           <button
-            class="btn"
+            class="btn profile-action"
+            onclick="editProfile()">
+            ✏️ Edit Profile
+          </button>
+
+          <button
+            class="btn alt profile-action"
             onclick="document.getElementById('avatarFile').click()">
             📷 Change Photo
           </button>
 
-          <h3 id="profileName">Loading...</h3>
+        </div>
 
-          <p class="muted" id="profileUsername">
-            @loading...
-          </p>
+        <div class="profile-stats">
 
-          <p id="profileBio">
-            No bio added yet.
-          </p>
+          <div class="profile-stat">
+            <b>V</b>
+            <span>Vezora ID</span>
+          </div>
 
-          <button class="btn" onclick="editProfile()">
-            ✏️ Edit Profile
-          </button>
+          <div class="profile-stat">
+            <b>💬</b>
+            <span>Chats</span>
+          </div>
+
+          <div class="profile-stat">
+            <b>📞</b>
+            <span>Calls</span>
+          </div>
 
         </div>
 
-      </section>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
 
     </main>
 
@@ -3022,72 +3310,7 @@ async function logout(){
 
   await sb.auth.signOut();
 }
-async function editProfile(){
 
-  const username=prompt(
-    "Enter your username:",
-    $("#profileUsername").textContent.replace("@","")
-  );
-
-  if(username===null)return;
-
-  const cleanUsername=username.trim().toLowerCase();
-
-  if(!/^[a-z0-9_]{3,20}$/.test(cleanUsername)){
-    alert("Username 3-20 characters ka ho. Sirf letters, numbers aur _ allowed hain.");
-    return;
-  }
-
-  const {data:existing}=await sb
-    .from("profiles")
-    .select("id")
-    .eq("username",cleanUsername)
-    .neq("id",me.id)
-    .maybeSingle();
-
-  if(existing){
-    alert("Ye username already taken hai ❌");
-    return;
-  }
-
-  const name=prompt(
-    "Enter your name:",
-    $("#profileName").textContent
-  );
-
-  if(name===null)return;
-
-  const bio=prompt(
-    "Enter your bio:",
-    $("#profileBio").textContent
-  );
-
-  if(bio===null)return;
-
-  const {error}=await sb
-    .from("profiles")
-    .update({
-      username:cleanUsername,
-      full_name:name.trim(),
-      bio:bio.trim()
-    })
-    .eq("id",me.id);
-
-  if(error){
-    alert("Update failed: "+error.message);
-    return;
-  }
-
-  $("#profileUsername").textContent="@"+cleanUsername;
-  $("#profileName").textContent=name.trim();
-  $("#profileBio").textContent=bio.trim();
-
-  if($("#myid")){
-    $("#myid").textContent="@"+cleanUsername;
-  }
-
-  alert("Profile updated ✅");
-}
 
   
 async function uploadAvatar(file){
@@ -3120,6 +3343,35 @@ async function uploadAvatar(file){
 }
 auth();
 </script>
+<div id="profileModal" class="profile-modal">
 
+  <div class="profile-modal-box">
+
+    <h2>✏️ Edit Profile</h2>
+
+    <label>Full Name</label>
+    <input id="editName" class="profile-input" type="text">
+
+    <label>Username</label>
+    <input id="editUsername" class="profile-input" type="text">
+
+    <label>Bio</label>
+    <textarea id="editBio" class="profile-input" rows="4"></textarea>
+
+    <div class="profile-modal-actions">
+
+      <button class="btn" onclick="saveProfile()">
+        💾 Save
+      </button>
+
+      <button class="btn alt" onclick="closeProfileModal()">
+        Cancel
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 </body>
 </html>
