@@ -2158,6 +2158,48 @@ video{
   </div>
 
 </section>
+  /* PROFILE MODAL FIX */
+
+.profile-modal{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw;
+  height:100vh;
+  background:rgba(0,0,0,.65);
+  backdrop-filter:blur(10px);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:99999 !important;
+  padding:20px;
+  box-sizing:border-box;
+}
+
+.profile-modal.show{
+  display:flex !important;
+}
+
+.profile-modal-box{
+  width:100%;
+  max-width:430px;
+  background:#0b1230;
+  border:1px solid rgba(130,120,255,.3);
+  border-radius:22px;
+  padding:25px;
+  box-sizing:border-box;
+  box-shadow:0 30px 80px rgba(0,0,0,.6);
+}
+
+.profile-input{
+  width:100%;
+  box-sizing:border-box;
+  margin:8px 0 14px;
+  padding:13px;
+  border-radius:12px;
+  background:#070d24;
+  color:white;
+  border:1px solid rgba(255,255,255,.1);
+}
 </style>
 </head>
 
