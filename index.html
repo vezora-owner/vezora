@@ -3445,8 +3445,8 @@ async function loadPeople(){
       <b>${esc(p.full_name||p.username||"Vezora User")}</b>
 
       <small class="muted">
-        @${esc(p.username||"user")}
-      </small>
+  ${lastMessages[p.id] ? "💬 Last message" : "No messages yet"}
+</small>
 
       <button class="btn" onclick="selectPerson('${p.id}','${esc(p.full_name||p.username||"Vezora User")}')">
         💬 Chat
