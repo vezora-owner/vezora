@@ -2520,6 +2520,35 @@ video{
     transform:translateX(-220px) scale(.92);
   }
 }
+  .ansh-signature{
+  display:flex;
+  justify-content:flex-end;
+  padding:20px 8% 45px;
+  background:#04091b;
+}
+
+.ansh-signature span{
+  font-family:"Brush Script MT","Segoe Script",cursive;
+  font-size:52px;
+  font-style:italic;
+  font-weight:500;
+  color:#fff;
+  transform:rotate(-7deg);
+  text-shadow:
+    0 0 12px rgba(117,100,255,.65),
+    0 0 30px rgba(57,156,255,.25);
+  opacity:.9;
+}
+
+@media(max-width:600px){
+  .ansh-signature{
+    padding-right:25px;
+  }
+
+  .ansh-signature span{
+    font-size:40px;
+  }
+}
 </style>
 </head>
 
@@ -2949,6 +2978,9 @@ function renderLanding(){
   <div class="vz-footer-logo">Vezora</div>
   <p>Connect. Chat. Call. Repeat.</p>
   <span>© 2026 Vezora. All rights reserved.</span>
+<div class="ansh-signature">
+  <span>Ansh</span>
+</div>
 </footer>`;
 }
 function renderAuth(){
