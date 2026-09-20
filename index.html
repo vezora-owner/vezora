@@ -3353,7 +3353,7 @@ loadChats();
 
   const {data,error}=await sb
     .from("messages")
-    .select("sender_id,receiver_id,text,created_at")
+    .select("sender_id,receiver_id,created_at")
     .or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
     .order("created_at",{ascending:false});
 
@@ -3365,14 +3365,10 @@ loadChats();
   const ids=[];
    
 
- const lastMessages={};
-
-(data||[]).forEach(m=>{
+ (data||[]).forEach(m=>{
   const id=m.sender_id===me.id ? m.receiver_id : m.sender_id;
 
   if(!ids.includes(id)) ids.push(id);
-
-  lastMessages[id]=m;
 });
   if(!ids.length){
     $("#chatList").innerHTML=
@@ -3409,8 +3405,8 @@ loadChats();
       <div>
         <b>${esc(p.full_name||p.username||"Vezora User")}</b>
         <span class="online-dot"></span>
-        <small class="muted">
-  ${lastMessages[p.id] ? "💬 Last message" : "No messages yet"}
+       <small class="muted">
+  @${esc(p.username||"user")}
 </small>
         
       </div>
