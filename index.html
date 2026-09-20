@@ -2574,6 +2574,49 @@ video{
   justify-content:space-between;
   margin-bottom:12px;
 }
+  function openCreateGroup(){
+
+  const name = prompt("Group ka naam enter karo:");
+
+  if(!name || !name.trim()) return;
+
+  createGroup(name.trim());
+}
+
+async function createGroup(name){
+
+  const {data:group,error} = await sb
+    .from("chat_groups")
+    .insert({
+      name:name,
+      created_by:me.id
+    })
+    .select()
+    .single();
+
+  if(error){
+    console.error(error);
+    alert("Group create nahi hua: "+error.message);
+    return;
+  }
+
+  const {error:memberError} = await sb
+    .from("chat_group_members")
+    .insert({
+      group_id:group.id,
+      user_id:me.id
+    });
+
+  if(memberError){
+    console.error(memberError);
+    alert("Group member add nahi hua.");
+    return;
+  }
+
+  alert("Group created! 🎉");
+
+  console.log("Group:",group);
+}
 </style>
 </head>
 
@@ -3541,7 +3584,8 @@ async function loadPeople(){
       <b>${esc(p.full_name||p.username||"Vezora User")}</b>
 
       <small class="muted">
-  ${lastMessages[p.id] ? "💬 Last message" : "No messages yet"}
+  <small class="muted">
+  @${esc(p.username||"user")}
 </small>
 
       <button class="btn" onclick="selectPerson('${p.id}','${esc(p.full_name||p.username||"Vezora User")}')">
