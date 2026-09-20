@@ -3353,7 +3353,7 @@ loadChats();
 
   const {data,error}=await sb
     .from("messages")
-    .select("sender_id,receiver_id,created_at")
+    .select("sender_id,receiver_id,text,created_at")
     .or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
     .order("created_at",{ascending:false});
 
