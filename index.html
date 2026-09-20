@@ -3481,7 +3481,11 @@ async function selectPerson(id,name){
     id,
     name
   };
+document.querySelectorAll("#chatList .item")
+  .forEach(el => el.classList.remove("active"));
 
+document.querySelector(`#chatList .item[data-user-id="${id}"]`)
+  ?.classList.add("active");
   $("#chatHead").innerHTML = `
   <div class="chat-head-user">
     <div class="chat-head-avatar">👤</div>
