@@ -400,10 +400,36 @@ aside{
 
 .compose{
   display:flex;
-  gap:9px;
+  align-items:center;
+  gap:10px;
   padding:12px;
-  border-top:1px solid var(--border);
-  background:rgba(255,255,255,.02);
+  background:rgba(5,8,20,.75);
+  border-top:1px solid rgba(255,255,255,.07);
+}
+
+.compose input{
+  flex:1;
+  height:46px;
+  box-sizing:border-box;
+  padding:0 16px;
+  border-radius:15px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.055);
+  color:#fff;
+  outline:none;
+}
+
+.compose input:focus{
+  border-color:rgba(118,92,255,.55);
+  box-shadow:0 0 18px rgba(118,92,255,.12);
+}
+
+.compose .btn{
+  width:48px;
+  height:46px;
+  padding:0;
+  border-radius:15px;
+  font-size:18px;
 }
 
 .compose input{
