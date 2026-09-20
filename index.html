@@ -2568,6 +2568,12 @@ video{
   position:relative;
   z-index:2;
 }
+  .chat-title-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:12px;
+}
 </style>
 </head>
 
@@ -3239,7 +3245,12 @@ async function renderApp(){
 
       <section id="chats" class="view">
 
-        <h2>Chats 💬</h2>
+        <div class="chat-title-row">
+  <h2>Chats 💬</h2>
+  <button class="btn" onclick="openCreateGroup()">
+    ➕ Group
+  </button>
+</div>
 
         <div class="chat">
 
