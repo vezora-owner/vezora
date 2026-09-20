@@ -2549,6 +2549,32 @@ video{
     font-size:40px;
   }
 }
+  /* ===== ANSH SIGNATURE ===== */
+
+.vezora-brand{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:flex-end;
+  position:relative;
+}
+
+.ansh-signature-img{
+  width:105px;
+  height:auto;
+  display:block;
+  margin-right:-12px;
+  margin-bottom:-13px;
+  transform:rotate(-6deg);
+  filter:
+    brightness(0) invert(1)
+    drop-shadow(0 0 6px rgba(117,100,255,.65));
+  opacity:.92;
+}
+
+.vz-footer-logo{
+  position:relative;
+  z-index:2;
+}
 </style>
 </head>
 
@@ -2975,7 +3001,10 @@ function renderLanding(){
   </button>
 
 </section><footer class="vz-footer">
+  <div class="vezora-brand">
+  <img src="ansh-signature.png" class="ansh-signature-img" alt="Ansh">
   <div class="vz-footer-logo">Vezora</div>
+</div>
   <p>Connect. Chat. Call. Repeat.</p>
   <span>© 2026 Vezora. All rights reserved.</span>
 <div class="ansh-signature">
