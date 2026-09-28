@@ -2618,117 +2618,172 @@ async function createGroup(name){
   console.log("Group:",group);
 }
 </style>
-/* Vezora – black theme. Paste at the very END of your stylesheet (or in a <style> tag after your existing CSS). */
-
-:root {
-  --bg: #000000;
-  --surface: #0d0d0d;
-  --surface-2: #171717;
-  --border: #2a2a2a;
-  --text: #f5f5f5;
-  --text-dim: #8c8c8c;
-  --accent: #ffffff;        /* one accent only: white */
-  --accent-text: #000000;
-  --radius: 10px;
+<style>
+/* ===== VEZORA BLACK THEME =====
+   Paste this as a NEW <style> block right after your existing </style>.
+   Pure black, greyscale, one accent (white). No glows, gradients or glass blur. */
+ 
+:root{
+  --bg:#000;
+  --panel:#0a0a0a;
+  --panel2:#111;
+  --border:rgba(255,255,255,.12);
+  --text:#fafafa;
+  --muted:#8a8a8a;
+  --purple:#fff;
+  --blue:#fff;
 }
-
-html, body {
-  background: var(--bg) !important;
-  background-image: none !important;   /* kills blue/purple gradient backgrounds */
-  color: var(--text) !important;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
+ 
+body{background:#000;color:var(--text)}
+body:before{display:none}
+ 
+/* ---------- glow / blur decoration off ---------- */
+.landing:before,.landing:after,
+.landing-glow,.phone-light,.phone-glow,.hero-glow,
+.auth:before,.feature-card:before{display:none}
+*{text-shadow:none !important}
+ 
+/* ---------- logo ---------- */
+.logo b{background:#fff;color:#000;box-shadow:none}
+.vz-logo span{background:#fff;color:#000;box-shadow:none}
+.landing-nav .logo,.landing-nav .logo:hover{text-shadow:none}
+ 
+/* ---------- buttons ---------- */
+.btn{background:#fff;color:#000;box-shadow:none;border:1px solid #fff}
+.btn:hover{background:#e6e6e6;transform:none;box-shadow:none}
+.btn.alt{background:transparent;color:#fff;border:1px solid var(--border)}
+.btn.alt:hover{background:rgba(255,255,255,.08);border-color:#fff}
+.btn.green{background:#22c55e;color:#000;border-color:#22c55e}
+.btn.danger{background:#ef4444;color:#fff;border-color:#ef4444}
+ 
+/* ---------- top bar / nav ---------- */
+.top{background:rgba(0,0,0,.9);backdrop-filter:none}
+aside{background:#000}
+.nav button{color:#8a8a8a}
+.nav button:hover{color:#fff;background:rgba(255,255,255,.06)}
+.nav button.active{color:#fff;background:#151515;border-color:#2e2e2e;box-shadow:none}
+ 
+/* ---------- cards ---------- */
+.card{background:var(--panel);backdrop-filter:none}
+.card:hover{transform:none;border-color:#3a3a3a;box-shadow:none}
+.home-card{background:var(--panel)}
+.home-icon{background:#151515;border:1px solid #2a2a2a;box-shadow:none}
+ 
+/* ---------- avatars ---------- */
+.avatar,
+#chatList .item .avatar,
+.fake-avatar,
+.chat-head-avatar{
+  background:#1a1a1a;
+  border:1px solid #2e2e2e;
+  box-shadow:none;
 }
-
-/* Headings & text */
-h1, h2, h3, h4 {
-  color: var(--text) !important;
-  background: none !important;
-  -webkit-text-fill-color: currentColor !important;  /* removes gradient text */
-  letter-spacing: -0.02em;
-  font-weight: 600;
+.call .avatar{box-shadow:none}
+.profile-big-avatar{background:#1a1a1a;border:5px solid #000;box-shadow:none}
+ 
+/* ---------- chat ---------- */
+.list,.window,.call{background:var(--panel);backdrop-filter:none}
+#chatList{background:var(--panel)}
+.window{background:var(--panel)}
+.item:hover,.item.active{background:rgba(255,255,255,.06)}
+#chatList .item:hover{background:rgba(255,255,255,.06);border-color:transparent}
+#chatList .item.active{background:#151515;border-color:#2e2e2e}
+#chatList .item small,.chat-head-user small{color:#8a8a8a}
+.head{background:transparent}
+.msg{background:#141414;border:1px solid #262626;box-shadow:none}
+.msg.me{background:#fff;color:#000;border:0;box-shadow:none}
+.compose{background:#000;border-top:1px solid var(--border)}
+.compose input{background:#0a0a0a;border:1px solid var(--border);color:#fff}
+.compose input:focus{border-color:#fff;box-shadow:none}
+#msgs:empty::before{color:#666}
+video{background:#000}
+ 
+/* ---------- forms (old .auth + new .auth-page) ---------- */
+.auth{background:#0a0a0a;backdrop-filter:none;box-shadow:none}
+.field input{background:#0a0a0a}
+.field input:focus{border-color:#fff;box-shadow:none}
+ 
+.auth-page{background:#000}
+.auth-box{background:#0a0a0a;border:1px solid #262626;backdrop-filter:none;box-shadow:none}
+.auth-brand-logo,.vz-footer-logo{
+  background:none;
+  -webkit-background-clip:border-box;
+  background-clip:border-box;
+  color:#fff;
 }
-p, label, span, li { color: inherit; }
-small, .muted, [class*="sub"], [class*="hint"] { color: var(--text-dim) !important; }
-
-/* Links */
-a { color: var(--text) !important; text-decoration-color: var(--border); }
-a:hover { text-decoration-color: var(--text); }
-
-/* Panels: cards, modals, sidebars, headers, chat containers */
-header, nav, aside, footer,
-[class*="card"], [class*="modal"], [class*="panel"], [class*="sidebar"],
-[class*="container"], [class*="box"], [class*="popup"], [class*="dialog"] {
-  background: var(--surface) !important;
-  background-image: none !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: none !important;
-  color: var(--text) !important;
+.auth-title{color:#fff}
+.auth-brand p,.auth-subtitle,.auth-switch,.auth-field label,.auth-back{color:#8a8a8a}
+.auth-field input{background:#000;border:1px solid #2a2a2a;color:#fff}
+.auth-field input:focus{border-color:#fff;box-shadow:none}
+.auth-main-btn{background:#fff;color:#000}
+.auth-main-btn:hover{transform:none;box-shadow:none;background:#e6e6e6}
+.auth-switch button{color:#fff;text-decoration:underline}
+ 
+/* ---------- landing ---------- */
+.landing{background:#000}
+.landing-nav{background:rgba(0,0,0,.85);backdrop-filter:none;border-bottom:1px solid var(--border)}
+.landing-login{background:transparent;border:1px solid #333;backdrop-filter:none}
+.landing-login:hover{background:rgba(255,255,255,.08);border-color:#fff;transform:none}
+.landing-tag{color:#8a8a8a}
+.landing-text h1 span{
+  background:none;
+  -webkit-background-clip:border-box;
+  background-clip:border-box;
+  color:#6f6f6f;
 }
-
-/* Inputs */
-input, textarea, select {
-  background: var(--surface-2) !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-input::placeholder, textarea::placeholder { color: var(--text-dim) !important; }
-input:focus, textarea:focus, select:focus { border-color: var(--text) !important; }
-
-/* Buttons: primary = solid white, secondary = outlined */
-button, [class*="btn"] {
-  background: var(--accent) !important;
-  background-image: none !important;
-  color: var(--accent-text) !important;
-  border: 1px solid var(--accent) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: none !important;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity .15s ease;
-}
-button:hover, [class*="btn"]:hover { opacity: .85; }
-button[class*="cancel"], button[class*="secondary"], [class*="btn-cancel"], [class*="btn-secondary"] {
-  background: transparent !important;
-  color: var(--text) !important;
-  border-color: var(--border) !important;
-}
-
-/* Chat bubbles: yours = white, theirs = dark grey */
-[class*="message"], [class*="bubble"], [class*="msg"] {
-  background: var(--surface-2) !important;
-  background-image: none !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: none !important;
-}
-[class*="sent"], [class*="own"], [class*="mine"], [class*="outgoing"] {
-  background: var(--accent) !important;
-  color: var(--accent-text) !important;
-  border-color: var(--accent) !important;
-}
-
-/* Avatars / profile pictures */
-img[class*="avatar"], [class*="avatar"], [class*="profile-pic"] {
-  border: 1px solid var(--border) !important;
-  background: var(--surface-2) !important;
-}
-
-/* Status / online dots: keep to greyscale */
-[class*="online"], [class*="badge"], [class*="status"] {
-  background: var(--text) !important;
-  color: var(--accent-text) !important;
-}
-
-/* Scrollbars */
-* { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg); }
-::selection { background: var(--text); color: var(--bg); }
-
-/* Keyboard focus */
-:focus-visible { outline: 2px solid var(--text) !important; outline-offset: 2px; }
+.landing-text p{color:#8a8a8a}
+.landing-primary{background:#fff;color:#000;box-shadow:none}
+.landing-primary:hover{transform:none;box-shadow:none;background:#e6e6e6}
+.landing-secondary{background:transparent;border:1px solid #333;color:#fff}
+.landing-secondary:hover{background:rgba(255,255,255,.08);border-color:#fff;transform:none}
+.landing-scroll{color:#666}
+.landing-scroll span{background:#666}
+ 
+/* phone mockup */
+.phone-box{background:#0a0a0a;border:1px solid #2e2e2e;box-shadow:0 30px 80px #000}
+.phone-camera{background:#222}
+.fake-msg{background:#161616;color:#e5e5e5}
+.fake-msg.mine{background:#fff;color:#000}
+.fake-call{background:#111;border:1px solid #2a2a2a}
+.fake-call>span{background:#262626}
+.fake-call small{color:#777}
+.fake-call strong{color:#fff}
+.fake-input{background:#111;color:#777}
+.fake-input b{color:#fff}
+ 
+/* ---------- features / how it works / CTA ---------- */
+.vz-features{background:#000}
+.vz-features h2 span,.vz-how h2 span,.vz-cta h2 span{color:#6f6f6f}
+.feature-card{background:#0a0a0a;border:1px solid #1f1f1f;backdrop-filter:none}
+.feature-card:hover{border-color:#555;box-shadow:none}
+.feature-card p,.how-card p,.vz-cta p,.vz-footer p{color:#8a8a8a}
+.how-card{background:#0a0a0a;border:1px solid #1f1f1f}
+.how-card:hover{border-color:#555;box-shadow:none}
+.how-card b{color:#8a8a8a}
+.vz-cta{background:#0a0a0a;border:1px solid #1f1f1f;box-shadow:none}
+.vz-footer{background:#000;border-top:1px solid #1a1a1a}
+.vz-footer span{color:#555}
+.ansh-signature{background:#000}
+.ansh-signature-img{filter:brightness(0) invert(1)}
+ 
+/* ---------- profile ---------- */
+.profile-hero{background:var(--panel);border:1px solid #262626;box-shadow:none}
+.profile-cover{background:#151515}
+.profile-username,.profile-stat span{color:#8a8a8a}
+.profile-bio{color:#b5b5b5}
+.profile-stats{border-top:1px solid #1f1f1f}
+ 
+/* edit-profile modal */
+.profile-modal{background:rgba(0,0,0,.85) !important}
+.profile-modal-box{background:#0a0a0a;border:1px solid #2a2a2a;box-shadow:none}
+.profile-input{background:#000;border:1px solid #2a2a2a}
+.profile-input:focus{border-color:#fff}
+ 
+/* ---------- misc ---------- */
+::selection{background:#fff;color:#000}
+* {scrollbar-width:thin;scrollbar-color:#2a2a2a #000}
+:focus-visible{outline:2px solid #fff;outline-offset:2px}
+</style>
 </head>
 
 <body>
