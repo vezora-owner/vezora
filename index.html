@@ -2621,8 +2621,8 @@ async function createGroup(name){
 <style>
 /* ===== VEZORA BLACK THEME =====
    Paste this as a NEW <style> block right after your existing </style>.
-   Pure black, greyscale, one accent (white). No glows, gradients or glass blur. */
- 
+   <style>
+/* VEZORA BLACK THEME */
 :root{
   --bg:#000;
   --panel:#0a0a0a;
@@ -2633,43 +2633,43 @@ async function createGroup(name){
   --purple:#fff;
   --blue:#fff;
 }
- 
+
 body{background:#000;color:var(--text)}
 body:before{display:none}
- 
-/* ---------- glow / blur decoration off ---------- */
+
+/* glow / blur decoration off */
 .landing:before,.landing:after,
 .landing-glow,.phone-light,.phone-glow,.hero-glow,
 .auth:before,.feature-card:before{display:none}
 *{text-shadow:none !important}
- 
-/* ---------- logo ---------- */
+
+/* logo */
 .logo b{background:#fff;color:#000;box-shadow:none}
 .vz-logo span{background:#fff;color:#000;box-shadow:none}
 .landing-nav .logo,.landing-nav .logo:hover{text-shadow:none}
- 
-/* ---------- buttons ---------- */
+
+/* buttons */
 .btn{background:#fff;color:#000;box-shadow:none;border:1px solid #fff}
 .btn:hover{background:#e6e6e6;transform:none;box-shadow:none}
 .btn.alt{background:transparent;color:#fff;border:1px solid var(--border)}
 .btn.alt:hover{background:rgba(255,255,255,.08);border-color:#fff}
 .btn.green{background:#22c55e;color:#000;border-color:#22c55e}
 .btn.danger{background:#ef4444;color:#fff;border-color:#ef4444}
- 
-/* ---------- top bar / nav ---------- */
+
+/* top bar / nav */
 .top{background:rgba(0,0,0,.9);backdrop-filter:none}
 aside{background:#000}
 .nav button{color:#8a8a8a}
 .nav button:hover{color:#fff;background:rgba(255,255,255,.06)}
 .nav button.active{color:#fff;background:#151515;border-color:#2e2e2e;box-shadow:none}
- 
-/* ---------- cards ---------- */
+
+/* cards */
 .card{background:var(--panel);backdrop-filter:none}
 .card:hover{transform:none;border-color:#3a3a3a;box-shadow:none}
 .home-card{background:var(--panel)}
 .home-icon{background:#151515;border:1px solid #2a2a2a;box-shadow:none}
- 
-/* ---------- avatars ---------- */
+
+/* avatars */
 .avatar,
 #chatList .item .avatar,
 .fake-avatar,
@@ -2680,8 +2680,8 @@ aside{background:#000}
 }
 .call .avatar{box-shadow:none}
 .profile-big-avatar{background:#1a1a1a;border:5px solid #000;box-shadow:none}
- 
-/* ---------- chat ---------- */
+
+/* chat */
 .list,.window,.call{background:var(--panel);backdrop-filter:none}
 #chatList{background:var(--panel)}
 .window{background:var(--panel)}
@@ -2697,12 +2697,12 @@ aside{background:#000}
 .compose input:focus{border-color:#fff;box-shadow:none}
 #msgs:empty::before{color:#666}
 video{background:#000}
- 
-/* ---------- forms (old .auth + new .auth-page) ---------- */
+
+/* forms */
 .auth{background:#0a0a0a;backdrop-filter:none;box-shadow:none}
 .field input{background:#0a0a0a}
 .field input:focus{border-color:#fff;box-shadow:none}
- 
+
 .auth-page{background:#000}
 .auth-box{background:#0a0a0a;border:1px solid #262626;backdrop-filter:none;box-shadow:none}
 .auth-brand-logo,.vz-footer-logo{
@@ -2718,8 +2718,8 @@ video{background:#000}
 .auth-main-btn{background:#fff;color:#000}
 .auth-main-btn:hover{transform:none;box-shadow:none;background:#e6e6e6}
 .auth-switch button{color:#fff;text-decoration:underline}
- 
-/* ---------- landing ---------- */
+
+/* landing */
 .landing{background:#000}
 .landing-nav{background:rgba(0,0,0,.85);backdrop-filter:none;border-bottom:1px solid var(--border)}
 .landing-login{background:transparent;border:1px solid #333;backdrop-filter:none}
@@ -2738,7 +2738,7 @@ video{background:#000}
 .landing-secondary:hover{background:rgba(255,255,255,.08);border-color:#fff;transform:none}
 .landing-scroll{color:#666}
 .landing-scroll span{background:#666}
- 
+
 /* phone mockup */
 .phone-box{background:#0a0a0a;border:1px solid #2e2e2e;box-shadow:0 30px 80px #000}
 .phone-camera{background:#222}
@@ -2750,8 +2750,8 @@ video{background:#000}
 .fake-call strong{color:#fff}
 .fake-input{background:#111;color:#777}
 .fake-input b{color:#fff}
- 
-/* ---------- features / how it works / CTA ---------- */
+
+/* features / how it works / CTA */
 .vz-features{background:#000}
 .vz-features h2 span,.vz-how h2 span,.vz-cta h2 span{color:#6f6f6f}
 .feature-card{background:#0a0a0a;border:1px solid #1f1f1f;backdrop-filter:none}
@@ -2765,23 +2765,23 @@ video{background:#000}
 .vz-footer span{color:#555}
 .ansh-signature{background:#000}
 .ansh-signature-img{filter:brightness(0) invert(1)}
- 
-/* ---------- profile ---------- */
+
+/* profile */
 .profile-hero{background:var(--panel);border:1px solid #262626;box-shadow:none}
 .profile-cover{background:#151515}
 .profile-username,.profile-stat span{color:#8a8a8a}
 .profile-bio{color:#b5b5b5}
 .profile-stats{border-top:1px solid #1f1f1f}
- 
+
 /* edit-profile modal */
 .profile-modal{background:rgba(0,0,0,.85) !important}
 .profile-modal-box{background:#0a0a0a;border:1px solid #2a2a2a;box-shadow:none}
 .profile-input{background:#000;border:1px solid #2a2a2a}
 .profile-input:focus{border-color:#fff}
- 
-/* ---------- misc ---------- */
+
+/* misc */
 ::selection{background:#fff;color:#000}
-* {scrollbar-width:thin;scrollbar-color:#2a2a2a #000}
+*{scrollbar-width:thin;scrollbar-color:#2a2a2a #000}
 :focus-visible{outline:2px solid #fff;outline-offset:2px}
 </style>
 </head>
