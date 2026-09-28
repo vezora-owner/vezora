@@ -2618,9 +2618,6 @@ async function createGroup(name){
   console.log("Group:",group);
 }
 </style>
-<style>
-/* ===== VEZORA BLACK THEME =====
-   Paste this as a NEW <style> block right after your existing </style>.
    <style>
 /* VEZORA BLACK THEME */
 :root{
@@ -2783,6 +2780,111 @@ video{background:#000}
 ::selection{background:#fff;color:#000}
 *{scrollbar-width:thin;scrollbar-color:#2a2a2a #000}
 :focus-visible{outline:2px solid #fff;outline-offset:2px}
+</style>
+<style>
+/* ===== VEZORA MOTION ===== */
+
+/* 1. Landing hero: text sequence on page load */
+.landing-text > *{
+  animation:vzHeroIn .9s cubic-bezier(.16,1,.3,1) both;
+}
+.landing-text > *:nth-child(1){animation-delay:.05s}
+.landing-text > *:nth-child(2){animation-delay:.18s}
+.landing-text > *:nth-child(3){animation-delay:.34s}
+.landing-text > *:nth-child(4){animation-delay:.5s}
+
+@keyframes vzHeroIn{
+  from{opacity:0;transform:translateY(22px);filter:blur(8px)}
+  to{opacity:1;transform:none;filter:blur(0)}
+}
+
+/* 2. Landing background: slow drifting dot grid (no glow) */
+.landing:before{
+  display:block;
+  content:"";
+  position:absolute;
+  inset:0;
+  left:0;top:0;
+  width:auto;height:auto;
+  z-index:0;
+  filter:none;
+  opacity:1;
+  background:none;
+  background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.5px);
+  background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(ellipse at 70% 45%,#000 0%,transparent 70%);
+  mask-image:radial-gradient(ellipse at 70% 45%,#000 0%,transparent 70%);
+  animation:vzDrift 8s linear infinite;
+  pointer-events:none;
+}
+@keyframes vzDrift{
+  from{background-position:0 0}
+  to{background-position:28px 28px}
+}
+
+/* 3. Phone mockup: the chat plays itself on a loop */
+.phone-box > .fake-msg:nth-child(4){animation:vzM1 10s ease infinite}
+.phone-box > .fake-msg:nth-child(5){animation:vzM2 10s ease infinite}
+.phone-box > .fake-msg:nth-child(6){animation:vzM3 10s ease infinite}
+.phone-box > .fake-call{animation:vzM4 10s ease infinite}
+
+@keyframes vzM1{
+  0%,4%{opacity:0;transform:translateY(10px)}
+  8%,92%{opacity:1;transform:none}
+  97%,100%{opacity:0;transform:none}
+}
+@keyframes vzM2{
+  0%,20%{opacity:0;transform:translateY(10px)}
+  24%,92%{opacity:1;transform:none}
+  97%,100%{opacity:0;transform:none}
+}
+@keyframes vzM3{
+  0%,36%{opacity:0;transform:translateY(10px)}
+  40%,92%{opacity:1;transform:none}
+  97%,100%{opacity:0;transform:none}
+}
+@keyframes vzM4{
+  0%,52%{opacity:0;transform:translateY(10px)}
+  56%,92%{opacity:1;transform:none}
+  97%,100%{opacity:0;transform:none}
+}
+
+/* 4. Inside the app: motion that responds to what you do */
+.view.active{animation:vzViewIn .35s ease both}
+@keyframes vzViewIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:none}
+}
+
+.msg.me{animation:vzMsgMe .25s ease both}
+@keyframes vzMsgMe{
+  from{opacity:0;transform:translateX(14px)}
+  to{opacity:1;transform:none}
+}
+
+.btn:active,
+.landing-primary:active,
+.landing-secondary:active,
+.auth-main-btn:active{
+  transform:scale(.97);
+}
+
+/* 5. Online dot: soft pulse ring */
+.online-dot{
+  animation:vzPing 2s ease-out infinite;
+}
+@keyframes vzPing{
+  0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}
+  100%{box-shadow:0 0 0 8px rgba(34,197,94,0)}
+}
+
+/* Respect people who turn animations off in their device settings */
+@media (prefers-reduced-motion:reduce){
+  *,*:before,*:after{
+    animation:none !important;
+    transition:none !important;
+  }
+}
 </style>
 </head>
 
