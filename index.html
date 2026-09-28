@@ -2782,108 +2782,70 @@ video{background:#000}
 :focus-visible{outline:2px solid #fff;outline-offset:2px}
 </style>
 <style>
-/* ===== VEZORA MOTION ===== */
+/* ===== VEZORA MOTION (smooth version) ===== */
 
-/* 1. Landing hero: text sequence on page load */
+/* Water-light canvas layer (created by the script below) */
+#vzWater{
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  pointer-events:none;
+  z-index:200;
+}
+
+/* Landing hero: text comes in one after another (opacity + move only) */
 .landing-text > *{
-  animation:vzHeroIn .9s cubic-bezier(.16,1,.3,1) both;
+  animation:vzHeroIn .8s cubic-bezier(.16,1,.3,1) both;
 }
 .landing-text > *:nth-child(1){animation-delay:.05s}
-.landing-text > *:nth-child(2){animation-delay:.18s}
-.landing-text > *:nth-child(3){animation-delay:.34s}
-.landing-text > *:nth-child(4){animation-delay:.5s}
-
+.landing-text > *:nth-child(2){animation-delay:.15s}
+.landing-text > *:nth-child(3){animation-delay:.28s}
+.landing-text > *:nth-child(4){animation-delay:.4s}
 @keyframes vzHeroIn{
-  from{opacity:0;transform:translateY(22px);filter:blur(8px)}
-  to{opacity:1;transform:none;filter:blur(0)}
+  from{opacity:0;transform:translateY(20px)}
+  to{opacity:1;transform:none}
 }
 
-/* 2. Landing background: slow drifting dot grid (no glow) */
-.landing:before{
-  display:block;
-  content:"";
-  position:absolute;
-  inset:0;
-  left:0;top:0;
-  width:auto;height:auto;
-  z-index:0;
-  filter:none;
-  opacity:1;
-  background:none;
-  background-image:radial-gradient(rgba(255,255,255,.16) 1px,transparent 1.5px);
-  background-size:28px 28px;
-  -webkit-mask-image:radial-gradient(ellipse at 70% 45%,#000 0%,transparent 70%);
-  mask-image:radial-gradient(ellipse at 70% 45%,#000 0%,transparent 70%);
-  animation:vzDrift 8s linear infinite;
-  pointer-events:none;
+/* Feature and step cards: a gentle fade-up as you scroll
+   (replaces the heavy sideways fly-in) */
+.feature-card,.how-card{
+  animation:vzReveal linear both;
+  animation-timeline:view();
+  animation-range:entry 0% entry 55%;
 }
-@keyframes vzDrift{
-  from{background-position:0 0}
-  to{background-position:28px 28px}
+@keyframes vzReveal{
+  from{opacity:0;transform:translateY(36px)}
+  to{opacity:1;transform:none}
 }
 
-/* 3. Phone mockup: the chat plays itself on a loop */
+/* Phone mockup: the chat plays itself on a loop */
 .phone-box > .fake-msg:nth-child(4){animation:vzM1 10s ease infinite}
 .phone-box > .fake-msg:nth-child(5){animation:vzM2 10s ease infinite}
 .phone-box > .fake-msg:nth-child(6){animation:vzM3 10s ease infinite}
 .phone-box > .fake-call{animation:vzM4 10s ease infinite}
+@keyframes vzM1{0%,4%{opacity:0;transform:translateY(10px)}8%,92%{opacity:1;transform:none}97%,100%{opacity:0}}
+@keyframes vzM2{0%,20%{opacity:0;transform:translateY(10px)}24%,92%{opacity:1;transform:none}97%,100%{opacity:0}}
+@keyframes vzM3{0%,36%{opacity:0;transform:translateY(10px)}40%,92%{opacity:1;transform:none}97%,100%{opacity:0}}
+@keyframes vzM4{0%,52%{opacity:0;transform:translateY(10px)}56%,92%{opacity:1;transform:none}97%,100%{opacity:0}}
 
-@keyframes vzM1{
-  0%,4%{opacity:0;transform:translateY(10px)}
-  8%,92%{opacity:1;transform:none}
-  97%,100%{opacity:0;transform:none}
-}
-@keyframes vzM2{
-  0%,20%{opacity:0;transform:translateY(10px)}
-  24%,92%{opacity:1;transform:none}
-  97%,100%{opacity:0;transform:none}
-}
-@keyframes vzM3{
-  0%,36%{opacity:0;transform:translateY(10px)}
-  40%,92%{opacity:1;transform:none}
-  97%,100%{opacity:0;transform:none}
-}
-@keyframes vzM4{
-  0%,52%{opacity:0;transform:translateY(10px)}
-  56%,92%{opacity:1;transform:none}
-  97%,100%{opacity:0;transform:none}
-}
-
-/* 4. Inside the app: motion that responds to what you do */
-.view.active{animation:vzViewIn .35s ease both}
+/* Inside the app */
+.view.active{animation:vzViewIn .3s ease both}
 @keyframes vzViewIn{
-  from{opacity:0;transform:translateY(8px)}
+  from{opacity:0;transform:translateY(6px)}
   to{opacity:1;transform:none}
 }
-
-.msg.me{animation:vzMsgMe .25s ease both}
+.msg.me{animation:vzMsgMe .22s ease both}
 @keyframes vzMsgMe{
-  from{opacity:0;transform:translateX(14px)}
+  from{opacity:0;transform:translateX(12px)}
   to{opacity:1;transform:none}
 }
-
-.btn:active,
-.landing-primary:active,
-.landing-secondary:active,
-.auth-main-btn:active{
+.btn:active,.landing-primary:active,.landing-secondary:active,.auth-main-btn:active{
   transform:scale(.97);
 }
 
-/* 5. Online dot: soft pulse ring */
-.online-dot{
-  animation:vzPing 2s ease-out infinite;
-}
-@keyframes vzPing{
-  0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)}
-  100%{box-shadow:0 0 0 8px rgba(34,197,94,0)}
-}
-
-/* Respect people who turn animations off in their device settings */
 @media (prefers-reduced-motion:reduce){
-  *,*:before,*:after{
-    animation:none !important;
-    transition:none !important;
-  }
+  *,*:before,*:after{animation:none !important;transition:none !important}
+  #vzWater{display:none}
 }
 </style>
 </head>
@@ -4167,5 +4129,136 @@ auth();
   </div>
 
 </div>
+  <script>
+/* VEZORA WATER LIGHT: light follows the cursor with ripples */
+(function(){
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  if (!matchMedia("(pointer: fine)").matches) return;   // mouse only, skips phones
+
+  const cv = document.createElement("canvas");
+  cv.id = "vzWater";
+  document.body.appendChild(cv);
+  const ctx = cv.getContext("2d");
+  let W = 0, H = 0;
+
+  function resize(){
+    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = document.documentElement.clientWidth;
+    H = window.innerHeight;
+    cv.width = W * dpr;
+    cv.height = H * dpr;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize();
+  addEventListener("resize", resize);
+
+  const mouse = { x: W / 2, y: H / 2 };
+
+  // Three followers. A bigger "lag" means it trails further behind, like a wake.
+  // r = size of the light, a = brightness (raise a for a stronger glow)
+  const trail = [
+    { x: mouse.x, y: mouse.y, lag: 70,  r: 170, a: .13 },
+    { x: mouse.x, y: mouse.y, lag: 170, r: 230, a: .08 },
+    { x: mouse.x, y: mouse.y, lag: 340, r: 300, a: .05 }
+  ];
+
+  const ripples = [];
+  let lastSpawn = { x: -999, y: -999, t: 0 };
+  let level = 0, target = 0, running = false, prev = 0;
+
+  function spawn(x, y, max, amp, now){
+    ripples.push({ x, y, t: now, max, amp });
+    if (ripples.length > 16) ripples.shift();
+  }
+
+  addEventListener("pointermove", e => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    target = 1;
+    const now = performance.now();
+    const d = Math.hypot(mouse.x - lastSpawn.x, mouse.y - lastSpawn.y);
+    if (d > 36 && now - lastSpawn.t > 70){
+      spawn(mouse.x, mouse.y, 150, .2, now);
+      lastSpawn = { x: mouse.x, y: mouse.y, t: now };
+    }
+    kick();
+  }, { passive: true });
+
+  addEventListener("pointerdown", e => {
+    spawn(e.clientX, e.clientY, 260, .4, performance.now());
+    kick();
+  }, { passive: true });
+
+  document.documentElement.addEventListener("mouseleave", () => { target = 0; });
+  document.documentElement.addEventListener("mouseenter", () => { target = 1; kick(); });
+
+  function glow(x, y, r, alpha){
+    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+    g.addColorStop(0,  "rgba(255,255,255," + alpha + ")");
+    g.addColorStop(.5, "rgba(255,255,255," + (alpha * .35) + ")");
+    g.addColorStop(1,  "rgba(255,255,255,0)");
+    ctx.fillStyle = g;
+    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+  }
+
+  function tick(now){
+    const dt = Math.min(now - prev, 50);
+    prev = now;
+
+    level += (target - level) * (1 - Math.exp(-dt / 220));
+    for (const t of trail){
+      const f = 1 - Math.exp(-dt / t.lag);
+      t.x += (mouse.x - t.x) * f;
+      t.y += (mouse.y - t.y) * f;
+    }
+
+    ctx.clearRect(0, 0, W, H);
+    ctx.globalCompositeOperation = "lighter";   // overlapping light adds up
+
+    // main light + wake
+    for (const t of trail) glow(t.x, t.y, t.r, t.a * level);
+
+    // shimmer: small patches drifting around the light
+    const s = now / 1000;
+    for (let i = 0; i < 6; i++){
+      const ang  = s * (.6 + i * .23) + i * 1.7;
+      const dist = 34 + 26 * Math.sin(s * (.9 + i * .17) + i);
+      const bx = trail[0].x + Math.cos(ang) * dist;
+      const by = trail[0].y + Math.sin(ang * 1.13) * dist * .8;
+      const br = 26 + 12 * Math.sin(s * 1.3 + i * 2);
+      glow(bx, by, br, .07 * level);
+    }
+
+    // ripples
+    ctx.lineWidth = 1.3;
+    for (let i = ripples.length - 1; i >= 0; i--){
+      const r = ripples[i];
+      const p = (now - r.t) / 1400;
+      if (p >= 1){ ripples.splice(i, 1); continue; }
+      const e = 1 - Math.pow(1 - p, 3);          // fast start, slow finish
+      const rad = r.max * e;
+      const a = r.amp * Math.pow(1 - p, 2);
+      ctx.strokeStyle = "rgba(255,255,255," + a + ")";
+      ctx.beginPath(); ctx.arc(r.x, r.y, rad, 0, 6.2832); ctx.stroke();
+      ctx.strokeStyle = "rgba(255,255,255," + (a * .5) + ")";
+      ctx.beginPath(); ctx.arc(r.x, r.y, rad * .72, 0, 6.2832); ctx.stroke();
+    }
+
+    if (level > .004 || target > 0 || ripples.length){
+      requestAnimationFrame(tick);
+    } else {
+      running = false;
+      ctx.clearRect(0, 0, W, H);
+    }
+  }
+
+  function kick(){
+    if (running) return;
+    running = true;
+    prev = performance.now();
+    requestAnimationFrame(tick);
+  }
+})();
+</script>
 </body>
 </html>
