@@ -77,117 +77,7 @@ button{
   background:linear-gradient(135deg,var(--purple),var(--blue));
   box-shadow:0 0 25px rgba(111,91,255,.4);
 }
-/* Vezora – black theme. Paste at the very END of your stylesheet (or in a <style> tag after your existing CSS). */
 
-:root {
-  --bg: #000000;
-  --surface: #0d0d0d;
-  --surface-2: #171717;
-  --border: #2a2a2a;
-  --text: #f5f5f5;
-  --text-dim: #8c8c8c;
-  --accent: #ffffff;        /* one accent only: white */
-  --accent-text: #000000;
-  --radius: 10px;
-}
-
-html, body {
-  background: var(--bg) !important;
-  background-image: none !important;   /* kills blue/purple gradient backgrounds */
-  color: var(--text) !important;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* Headings & text */
-h1, h2, h3, h4 {
-  color: var(--text) !important;
-  background: none !important;
-  -webkit-text-fill-color: currentColor !important;  /* removes gradient text */
-  letter-spacing: -0.02em;
-  font-weight: 600;
-}
-p, label, span, li { color: inherit; }
-small, .muted, [class*="sub"], [class*="hint"] { color: var(--text-dim) !important; }
-
-/* Links */
-a { color: var(--text) !important; text-decoration-color: var(--border); }
-a:hover { text-decoration-color: var(--text); }
-
-/* Panels: cards, modals, sidebars, headers, chat containers */
-header, nav, aside, footer,
-[class*="card"], [class*="modal"], [class*="panel"], [class*="sidebar"],
-[class*="container"], [class*="box"], [class*="popup"], [class*="dialog"] {
-  background: var(--surface) !important;
-  background-image: none !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: none !important;
-  color: var(--text) !important;
-}
-
-/* Inputs */
-input, textarea, select {
-  background: var(--surface-2) !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border) !important;
-  border-radius: var(--radius) !important;
-  outline: none !important;
-  box-shadow: none !important;
-}
-input::placeholder, textarea::placeholder { color: var(--text-dim) !important; }
-input:focus, textarea:focus, select:focus { border-color: var(--text) !important; }
-
-/* Buttons: primary = solid white, secondary = outlined */
-button, [class*="btn"] {
-  background: var(--accent) !important;
-  background-image: none !important;
-  color: var(--accent-text) !important;
-  border: 1px solid var(--accent) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: none !important;
-  font-weight: 600;
-  cursor: pointer;
-  transition: opacity .15s ease;
-}
-button:hover, [class*="btn"]:hover { opacity: .85; }
-button[class*="cancel"], button[class*="secondary"], [class*="btn-cancel"], [class*="btn-secondary"] {
-  background: transparent !important;
-  color: var(--text) !important;
-  border-color: var(--border) !important;
-}
-
-/* Chat bubbles: yours = white, theirs = dark grey */
-[class*="message"], [class*="bubble"], [class*="msg"] {
-  background: var(--surface-2) !important;
-  background-image: none !important;
-  color: var(--text) !important;
-  border: 1px solid var(--border) !important;
-  box-shadow: none !important;
-}
-[class*="sent"], [class*="own"], [class*="mine"], [class*="outgoing"] {
-  background: var(--accent) !important;
-  color: var(--accent-text) !important;
-  border-color: var(--accent) !important;
-}
-
-/* Avatars / profile pictures */
-img[class*="avatar"], [class*="avatar"], [class*="profile-pic"] {
-  border: 1px solid var(--border) !important;
-  background: var(--surface-2) !important;
-}
-
-/* Status / online dots: keep to greyscale */
-[class*="online"], [class*="badge"], [class*="status"] {
-  background: var(--text) !important;
-  color: var(--accent-text) !important;
-}
-
-/* Scrollbars */
-* { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg); }
-::selection { background: var(--text); color: var(--bg); }
-
-/* Keyboard focus */
-:focus-visible { outline: 2px solid var(--text) !important; outline-offset: 2px; }
 /* ---------- BUTTONS ---------- */
 
 .btn{
@@ -2728,6 +2618,117 @@ async function createGroup(name){
   console.log("Group:",group);
 }
 </style>
+/* Vezora – black theme. Paste at the very END of your stylesheet (or in a <style> tag after your existing CSS). */
+
+:root {
+  --bg: #000000;
+  --surface: #0d0d0d;
+  --surface-2: #171717;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-dim: #8c8c8c;
+  --accent: #ffffff;        /* one accent only: white */
+  --accent-text: #000000;
+  --radius: 10px;
+}
+
+html, body {
+  background: var(--bg) !important;
+  background-image: none !important;   /* kills blue/purple gradient backgrounds */
+  color: var(--text) !important;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Headings & text */
+h1, h2, h3, h4 {
+  color: var(--text) !important;
+  background: none !important;
+  -webkit-text-fill-color: currentColor !important;  /* removes gradient text */
+  letter-spacing: -0.02em;
+  font-weight: 600;
+}
+p, label, span, li { color: inherit; }
+small, .muted, [class*="sub"], [class*="hint"] { color: var(--text-dim) !important; }
+
+/* Links */
+a { color: var(--text) !important; text-decoration-color: var(--border); }
+a:hover { text-decoration-color: var(--text); }
+
+/* Panels: cards, modals, sidebars, headers, chat containers */
+header, nav, aside, footer,
+[class*="card"], [class*="modal"], [class*="panel"], [class*="sidebar"],
+[class*="container"], [class*="box"], [class*="popup"], [class*="dialog"] {
+  background: var(--surface) !important;
+  background-image: none !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+  color: var(--text) !important;
+}
+
+/* Inputs */
+input, textarea, select {
+  background: var(--surface-2) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  border-radius: var(--radius) !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+input::placeholder, textarea::placeholder { color: var(--text-dim) !important; }
+input:focus, textarea:focus, select:focus { border-color: var(--text) !important; }
+
+/* Buttons: primary = solid white, secondary = outlined */
+button, [class*="btn"] {
+  background: var(--accent) !important;
+  background-image: none !important;
+  color: var(--accent-text) !important;
+  border: 1px solid var(--accent) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: none !important;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity .15s ease;
+}
+button:hover, [class*="btn"]:hover { opacity: .85; }
+button[class*="cancel"], button[class*="secondary"], [class*="btn-cancel"], [class*="btn-secondary"] {
+  background: transparent !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+/* Chat bubbles: yours = white, theirs = dark grey */
+[class*="message"], [class*="bubble"], [class*="msg"] {
+  background: var(--surface-2) !important;
+  background-image: none !important;
+  color: var(--text) !important;
+  border: 1px solid var(--border) !important;
+  box-shadow: none !important;
+}
+[class*="sent"], [class*="own"], [class*="mine"], [class*="outgoing"] {
+  background: var(--accent) !important;
+  color: var(--accent-text) !important;
+  border-color: var(--accent) !important;
+}
+
+/* Avatars / profile pictures */
+img[class*="avatar"], [class*="avatar"], [class*="profile-pic"] {
+  border: 1px solid var(--border) !important;
+  background: var(--surface-2) !important;
+}
+
+/* Status / online dots: keep to greyscale */
+[class*="online"], [class*="badge"], [class*="status"] {
+  background: var(--text) !important;
+  color: var(--accent-text) !important;
+}
+
+/* Scrollbars */
+* { scrollbar-width: thin; scrollbar-color: var(--border) var(--bg); }
+::selection { background: var(--text); color: var(--bg); }
+
+/* Keyboard focus */
+:focus-visible { outline: 2px solid var(--text) !important; outline-offset: 2px; }
 </head>
 
 <body>
