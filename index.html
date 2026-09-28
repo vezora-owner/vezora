@@ -2944,6 +2944,125 @@ video{background:#000}
   .vzp-device{transform:scale(.62);margin:-106px 0}
 }
 </style>
+  <style>
+/* ===== VEZORA PREMIUM: intro + 3D scroll ===== */
+
+/* wavy intro */
+#vzIntro{
+  position:fixed;inset:0;z-index:2000000000;background:#000;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  will-change:transform;
+}
+.vzi-word{
+  display:flex;font-size:clamp(54px,14vw,190px);font-weight:800;
+  letter-spacing:-.04em;line-height:1;color:#fff;
+}
+.vzi-l{display:inline-block;opacity:0;will-change:transform,opacity}
+.vzi-sub{margin-top:26px;font-size:14px;letter-spacing:.06em;color:#8a8a8a;opacity:0}
+
+/* hero waits for the intro, then fades in */
+body .landing-text > *{
+  animation:none;
+  transition:opacity 1s ease,transform 1s cubic-bezier(.16,1,.3,1);
+}
+body .landing-text > *:nth-child(2){transition-delay:.1s}
+body .landing-text > *:nth-child(3){transition-delay:.2s}
+body .landing-text > *:nth-child(4){transition-delay:.3s}
+body.vz-intro .landing-text > *{opacity:0;transform:translate3d(0,28px,0)}
+.landing-nav,.landing-phone{transition:opacity 1.1s ease .2s}
+body.vz-intro .landing-nav,body.vz-intro .landing-phone{opacity:0}
+
+/* 3D scroll stage */
+.vz3{height:520vh;position:relative;background:#000}
+.vz3-stage{
+  position:sticky;top:0;height:100vh;height:100svh;
+  overflow:hidden;perspective:1400px;background:#000;
+}
+
+.vz3-floor{
+  position:absolute;left:-30%;width:160%;bottom:-8%;height:62%;
+  transform:perspective(700px) rotateX(64deg);transform-origin:50% 100%;
+  overflow:hidden;
+  -webkit-mask-image:linear-gradient(to top,#000 20%,transparent 100%);
+  mask-image:linear-gradient(to top,#000 20%,transparent 100%);
+}
+.vz3-grid{
+  position:absolute;left:0;right:0;top:-60px;bottom:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.14) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.14) 1px,transparent 1px);
+  background-size:60px 60px;
+  will-change:transform;
+}
+
+.vz3-ring{
+  position:absolute;left:50%;top:50%;border-radius:50%;
+  border:1px solid rgba(255,255,255,.14);pointer-events:none;will-change:transform;
+}
+.vz3-ring.r1{width:520px;height:520px}
+.vz3-ring.r2{width:760px;height:760px;border-style:dashed;border-color:rgba(255,255,255,.1)}
+.vz3-ring.r3{width:1020px;height:1020px}
+.vz3-ring:after{
+  content:"";position:absolute;top:-3px;left:50%;width:6px;height:6px;
+  margin-left:-3px;border-radius:50%;background:#fff;
+}
+.vz3-ring.r2:after{display:none}
+
+.vz3-word{
+  position:absolute;left:50%;top:50%;
+  font-size:clamp(120px,24vw,360px);font-weight:900;letter-spacing:-.05em;line-height:1;
+  white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.16);
+  pointer-events:none;will-change:transform,opacity;opacity:0;
+}
+
+.vz3-panel{
+  position:absolute;left:50%;top:50%;
+  width:min(520px,84vw);padding:40px;
+  border-radius:26px;background:#0a0a0a;border:1px solid #262626;
+  will-change:transform,opacity;backface-visibility:hidden;opacity:0;
+}
+.vz3-panel h3{
+  margin:0 0 14px;font-size:clamp(30px,4vw,52px);
+  line-height:1.05;letter-spacing:-1.5px;color:#fff;
+}
+.vz3-panel p{margin:0 0 28px;color:#8a8a8a;font-size:16px;line-height:1.65}
+
+.vz3-bar{position:absolute;left:8%;right:8%;bottom:34px;height:2px;background:#1c1c1c}
+.vz3-bar i{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+
+/* small illustrations inside the cards */
+.art-chat i{display:block;height:34px;width:62%;margin-top:10px;border-radius:14px 14px 14px 4px;background:#161616}
+.art-chat i.me{width:44%;margin-left:auto;background:#fff;border-radius:14px 14px 4px 14px}
+
+.art-call{display:flex;align-items:center;gap:14px}
+.art-call .pulse{position:relative;width:60px;height:60px;border-radius:50%;background:#1a1a1a;border:1px solid #2e2e2e}
+.art-call .pulse:after{
+  content:"";position:absolute;inset:-1px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.5);animation:vz3Ping 2.2s ease-out infinite;
+}
+@keyframes vz3Ping{from{transform:scale(1);opacity:.8}to{transform:scale(1.9);opacity:0}}
+.art-call .pill{width:44px;height:44px;border-radius:50%;background:#1a1a1a;border:1px solid #2e2e2e}
+.art-call .pill.end{background:#ef4444;border-color:#ef4444}
+
+.art-people{display:flex}
+.art-people i{width:46px;height:46px;margin-left:-12px;border-radius:50%;background:#1a1a1a;border:2px solid #0a0a0a}
+.art-people i:first-child{margin-left:0}
+.art-people i:nth-child(2){background:#262626}
+.art-people i:nth-child(3){background:#333}
+.art-people i:nth-child(4){background:#fff}
+
+.art-prof{display:flex;align-items:center;gap:14px}
+.art-prof b{width:58px;height:58px;border-radius:50%;background:#1a1a1a;border:1px solid #2e2e2e}
+.art-prof i{display:block;height:10px;width:150px;border-radius:6px;background:#262626}
+.art-prof i.s{width:90px;margin-top:8px;background:#1a1a1a}
+
+@media(max-width:700px){
+  .vz3-ring.r1{width:300px;height:300px}
+  .vz3-ring.r2{width:440px;height:440px}
+  .vz3-ring.r3{width:600px;height:600px}
+  .vz3-panel{padding:28px}
+}
+</style>
 </head>
 
 <body>
@@ -3358,6 +3477,45 @@ function renderLanding(){
       </div>
     </div>
 
+  </div>
+</section><section class="vz3" id="vz3">
+  <div class="vz3-stage">
+
+    <div class="vz3-floor"><div class="vz3-grid"></div></div>
+    <div class="vz3-ring r1"></div>
+    <div class="vz3-ring r2"></div>
+    <div class="vz3-ring r3"></div>
+
+    <div class="vz3-word">Chat</div>
+    <div class="vz3-word">Calls</div>
+    <div class="vz3-word">People</div>
+    <div class="vz3-word">Profile</div>
+
+    <article class="vz3-panel">
+      <h3>Say it now.</h3>
+      <p>Real-time messages between you and anyone on Vezora.</p>
+      <div class="art-chat"><i></i><i class="me"></i><i></i></div>
+    </article>
+
+    <article class="vz3-panel">
+      <h3>Or just call.</h3>
+      <p>Start a video call straight from any conversation.</p>
+      <div class="art-call"><span class="pulse"></span><span class="pill"></span><span class="pill end"></span></div>
+    </article>
+
+    <article class="vz3-panel">
+      <h3>Find your people.</h3>
+      <p>Search Vezora and start a chat in one tap.</p>
+      <div class="art-people"><i></i><i></i><i></i><i></i></div>
+    </article>
+
+    <article class="vz3-panel">
+      <h3>Look like you.</h3>
+      <p>Your photo, your bio, your own username.</p>
+      <div class="art-prof"><b></b><div><i></i><i class="s"></i></div></div>
+    </article>
+
+    <div class="vz3-bar"><i></i></div>
   </div>
 </section><section class="vz-features">
 
@@ -4463,6 +4621,153 @@ auth();
   addEventListener("scroll", onScroll, { passive: true });
   addEventListener("resize", onScroll);
   update();
+})();
+</script>
+  <script>
+/* VEZORA PREMIUM MOTION: wavy intro + 3D sideways scroll */
+(function(){
+  const SHOW_INTRO_EVERY_TIME = true;   // set to false to play the intro once per visit
+
+  const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
+  const easeOut = t => 1 - Math.pow(1 - t, 3);
+  const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
+  const body = document.body;
+
+  /* ===== 1. WAVY INTRO ===== */
+  let seen = false;
+  try { seen = sessionStorage.getItem("vzIntroSeen") === "1"; } catch(e){}
+
+  if (!SHOW_INTRO_EVERY_TIME && seen){
+    body.classList.add("vz-ready");
+  } else {
+    runIntro();
+  }
+
+  function runIntro(){
+    const ov = document.createElement("div");
+    ov.id = "vzIntro";
+    ov.innerHTML =
+      '<div class="vzi-word">' +
+      "VEZORA".split("").map(c => '<span class="vzi-l">' + c + "</span>").join("") +
+      '</div><div class="vzi-sub">Connect. Chat. Call.</div>';
+    body.appendChild(ov);
+    body.classList.add("vz-intro");
+    document.documentElement.style.overflow = "hidden";
+
+    const letters = Array.from(ov.querySelectorAll(".vzi-l"));
+    const sub = ov.querySelector(".vzi-sub");
+    const t0 = performance.now();
+    const LIFT = 2.7, DUR = .95;
+    let started = false, finished = false;
+
+    function finish(){
+      if (finished) return;
+      finished = true;
+      ov.remove();
+      body.classList.remove("vz-intro");
+      body.classList.add("vz-ready");
+      document.documentElement.style.overflow = "";
+      try { sessionStorage.setItem("vzIntroSeen", "1"); } catch(e){}
+    }
+    setTimeout(finish, 7000);   // safety: never leave the page locked
+
+    function frame(now){
+      if (finished) return;
+      const t = (now - t0) / 1000;
+
+      letters.forEach((el, i) => {
+        const r = easeOut(clamp((t - .15 - i * .09) / .8, 0, 1));
+        const amp = 15 * clamp((t - .5) / .9, 0, 1);
+        const ph = t * 2.6 - i * .75;
+        const y = (1 - r) * 70 + Math.sin(ph) * amp;
+        const rot = Math.cos(ph) * amp * .22;
+        el.style.opacity = r;
+        el.style.transform = "translate3d(0," + y.toFixed(2) + "px,0) rotate(" + rot.toFixed(2) + "deg)";
+      });
+      sub.style.opacity = (clamp((t - 1.3) / .7, 0, 1) * .8).toFixed(3);
+
+      if (t > LIFT){
+        if (!started){
+          started = true;
+          body.classList.remove("vz-intro");
+          body.classList.add("vz-ready");
+          document.documentElement.style.overflow = "";
+        }
+        const k = easeInOut(clamp((t - LIFT) / DUR, 0, 1));
+        ov.style.transform = "translate3d(0," + (-k * 100) + "%,0)";
+        if (k >= 1){ finish(); return; }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+
+  /* ===== 2. 3D SIDEWAYS SCROLL ===== */
+  let last = performance.now();
+
+  function loop(now){
+    requestAnimationFrame(loop);
+    const dt = Math.min(now - last, 50);
+    last = now;
+
+    const root = document.getElementById("vz3");
+    if (!root) return;                       // landing page not on screen
+
+    if (!root._s){
+      root._s = {
+        panels: Array.from(root.querySelectorAll(".vz3-panel")),
+        words:  Array.from(root.querySelectorAll(".vz3-word")),
+        rings:  Array.from(root.querySelectorAll(".vz3-ring")),
+        grid:   root.querySelector(".vz3-grid"),
+        bar:    root.querySelector(".vz3-bar i"),
+        cur: -1
+      };
+    }
+    const s = root._s;
+    const rect = root.getBoundingClientRect();
+    const vh = window.innerHeight, W = window.innerWidth;
+    const target = clamp(-rect.top / (rect.height - vh), 0, 1);
+
+    if (rect.bottom < -50 || rect.top > vh + 50){ s.cur = target; return; }
+
+    if (s.cur < 0) s.cur = target;
+    s.cur += (target - s.cur) * (1 - Math.exp(-dt / 140));   // the glide
+    if (Math.abs(target - s.cur) < .0003) s.cur = target;
+
+    const p = s.cur;
+    const N = s.panels.length;
+    const f = -.6 + p * (N + .2);            // which card is at the centre
+    const spread = W < 700 ? .95 : .62;      // how far apart the cards sit
+
+    s.panels.forEach((el, i) => {
+      const d = i - f, a = Math.abs(d);
+      const x = d * W * spread;
+      const z = -a * 260;
+      const ry = -d * 36;
+      el.style.opacity = clamp(1.15 - a * .9, 0, 1).toFixed(3);
+      el.style.transform =
+        "translate(-50%,-50%) translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + ry.toFixed(2) + "deg)";
+    });
+
+    s.words.forEach((el, i) => {
+      const d = i - f, a = Math.abs(d);
+      el.style.opacity = clamp(1.05 - a * 1.1, 0, 1).toFixed(3);
+      el.style.transform =
+        "translate(-50%,-50%) translate3d(" + (d * W * .34).toFixed(1) + "px,0,-450px)";
+    });
+
+    s.rings.forEach((el, i) => {
+      const dir = i % 2 ? -1 : 1;
+      el.style.transform =
+        "translate(-50%,-50%) translate3d(0,0,-380px) rotateX(" + (72 - p * 22 + i * 4).toFixed(2) +
+        "deg) rotateY(" + (p * 50 * dir).toFixed(2) +
+        "deg) rotateZ(" + (p * (300 + i * 140) * dir).toFixed(2) + "deg)";
+    });
+
+    if (s.grid) s.grid.style.transform = "translate3d(0," + ((p * 2400) % 60).toFixed(2) + "px,0)";
+    if (s.bar)  s.bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+  }
+  requestAnimationFrame(loop);
 })();
 </script>
 </body>
