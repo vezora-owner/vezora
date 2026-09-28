@@ -2847,6 +2847,103 @@ video{background:#000}
   *,*:before,*:after{animation:none !important;transition:none !important}
 }
 </style>
+  <style>
+/* ===== VEZORA PINNED SCROLL ===== */
+.vzp{--p:0;position:relative;height:340vh;background:#000}
+.vzp-stage{
+  position:sticky;top:0;
+  height:100vh;height:100svh;
+  display:grid;grid-template-columns:1.05fr .95fr;
+  align-items:center;gap:40px;padding:0 8%;
+  overflow:hidden;
+}
+
+/* left: progress line + changing text */
+.vzp-copy{display:flex;gap:28px;align-items:stretch}
+.vzp-track{width:2px;background:#1f1f1f;border-radius:2px;position:relative;overflow:hidden}
+.vzp-fill{
+  position:absolute;inset:0;background:#fff;
+  transform-origin:top;transform:scaleY(var(--p));
+  will-change:transform;
+}
+.vzp-steps{position:relative;flex:1;min-height:300px}
+.vzp-step{
+  position:absolute;left:0;right:0;top:50%;
+  transform:translateY(calc(-50% + 28px));
+  opacity:0;pointer-events:none;
+  transition:opacity .5s ease,transform .7s cubic-bezier(.16,1,.3,1);
+}
+.vzp-step.is-active{opacity:1;transform:translateY(-50%)}
+.vzp-step.is-past{opacity:0;transform:translateY(calc(-50% - 28px))}
+.vzp-step h2{font-size:clamp(34px,4.6vw,64px);line-height:1.02;letter-spacing:-2px;margin:0 0 18px;color:#fff}
+.vzp-step p{color:#8a8a8a;font-size:18px;line-height:1.65;max-width:440px;margin:0}
+
+/* right: phone, rotates a little as you scroll */
+.vzp-device{display:grid;place-items:center}
+.vzp-phone{
+  position:relative;width:290px;height:560px;
+  border-radius:42px;border:1px solid #2e2e2e;background:#0a0a0a;
+  overflow:hidden;
+  transform:rotate(calc(6deg - var(--p) * 12deg));
+  will-change:transform;
+}
+.vzp-notch{position:absolute;top:14px;left:50%;width:90px;height:5px;margin-left:-45px;border-radius:10px;background:#222;z-index:3}
+
+.vzp-screen{
+  position:absolute;inset:0;padding:44px 18px 18px;
+  opacity:0;transform:scale(.97);pointer-events:none;
+  transition:opacity .45s ease,transform .6s cubic-bezier(.16,1,.3,1);
+}
+.vzp-screen.is-active{opacity:1;transform:none}
+
+.vzp-av{
+  width:44px;height:44px;border-radius:50%;
+  display:grid;place-items:center;font-weight:700;
+  background:#1a1a1a;border:1px solid #2e2e2e;color:#fff;
+}
+.vzp-av.big{width:96px;height:96px;font-size:34px}
+
+/* chat screen */
+.vzp-head{display:flex;align-items:center;gap:12px;padding-bottom:16px;border-bottom:1px solid #1f1f1f}
+.vzp-head small{display:block;margin-top:3px;color:#22c55e;font-size:12px}
+.vzp-b{
+  width:max-content;max-width:78%;margin-top:14px;padding:11px 14px;
+  border-radius:16px 16px 16px 4px;background:#161616;color:#e5e5e5;font-size:13px;
+}
+.vzp-b.me{margin-left:auto;background:#fff;color:#000;border-radius:16px 16px 4px 16px}
+.vzp-screen.is-active .vzp-b{animation:vzpPop .5s cubic-bezier(.16,1,.3,1) both}
+.vzp-screen.is-active .vzp-b:nth-of-type(1){animation-delay:.10s}
+.vzp-screen.is-active .vzp-b:nth-of-type(2){animation-delay:.30s}
+.vzp-screen.is-active .vzp-b:nth-of-type(3){animation-delay:.50s}
+.vzp-screen.is-active .vzp-b:nth-of-type(4){animation-delay:.70s}
+@keyframes vzpPop{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* call screen */
+.vzp-call{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;text-align:center}
+.vzp-call b{font-size:20px;margin-top:10px}
+.vzp-call small{color:#8a8a8a}
+.vzp-btns{display:flex;gap:16px;margin-top:34px}
+.vzp-btns span{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#1a1a1a;border:1px solid #2e2e2e}
+.vzp-btns span.end{background:#ef4444;border-color:#ef4444}
+
+/* profile screen */
+.vzp-cover{position:absolute;top:0;left:0;right:0;height:130px;background:#151515}
+.vzp-prof{position:relative;margin-top:88px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:6px}
+.vzp-prof .vzp-av{border:4px solid #0a0a0a}
+.vzp-prof b{font-size:20px;margin-top:8px}
+.vzp-prof small{color:#8a8a8a}
+.vzp-prof p{color:#b5b5b5;font-size:13px;margin:10px 0 18px}
+.vzp-edit{padding:10px 20px;border-radius:12px;background:#fff;color:#000;font-weight:700;font-size:13px}
+
+/* phones and small screens */
+@media(max-width:850px){
+  .vzp{height:360vh}
+  .vzp-stage{grid-template-columns:1fr;align-content:center;gap:14px;padding:0 6%}
+  .vzp-steps{min-height:170px}
+  .vzp-step p{font-size:15px}
+  .vzp-device{transform:scale(.62);margin:-106px 0}
+}
+</style>
 </head>
 
 <body>
@@ -3203,7 +3300,66 @@ function renderLanding(){
       SCROLL TO EXPLORE
     </div>
 
-  </section><section class="vz-features">
+  </section><section class="vzp" id="vzp">
+  <div class="vzp-stage">
+
+    <div class="vzp-copy">
+      <div class="vzp-track"><div class="vzp-fill"></div></div>
+      <div class="vzp-steps">
+        <div class="vzp-step is-active">
+          <h2>Chat with anyone.</h2>
+          <p>Find someone on Vezora and start talking. Messages arrive as they're sent.</p>
+        </div>
+        <div class="vzp-step">
+          <h2>Call when typing isn't enough.</h2>
+          <p>Start a video call straight from the conversation.</p>
+        </div>
+        <div class="vzp-step">
+          <h2>Make your profile yours.</h2>
+          <p>Add a photo, a bio and your own username.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="vzp-device">
+      <div class="vzp-phone">
+        <div class="vzp-notch"></div>
+
+        <div class="vzp-screen is-active">
+          <div class="vzp-head">
+            <div class="vzp-av">R</div>
+            <div><b>Riya</b><small>Online</small></div>
+          </div>
+          <div class="vzp-b">Hey! Are you free today?</div>
+          <div class="vzp-b me">Yeah, let's talk!</div>
+          <div class="vzp-b">Call in 5 minutes?</div>
+          <div class="vzp-b me">Sounds good</div>
+        </div>
+
+        <div class="vzp-screen">
+          <div class="vzp-call">
+            <div class="vzp-av big">R</div>
+            <b>Riya</b>
+            <small>Video call · 00:12</small>
+            <div class="vzp-btns"><span>🎤</span><span class="end">✕</span><span>📷</span></div>
+          </div>
+        </div>
+
+        <div class="vzp-screen">
+          <div class="vzp-cover"></div>
+          <div class="vzp-prof">
+            <div class="vzp-av big">Y</div>
+            <b>Your name</b>
+            <small>@yourname</small>
+            <p>Your bio goes here.</p>
+            <span class="vzp-edit">Edit profile</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section><section class="vz-features">
 
   <div class="landing-tag">WHY VEZORA</div>
 
@@ -4271,6 +4427,42 @@ auth();
   }
 
   console.log("Vezora water light: ON");
+})();
+</script>
+  <script>
+/* VEZORA PINNED SCROLL */
+(function(){
+  let ticking = false, last = -1;
+
+  function update(){
+    ticking = false;
+    const root = document.getElementById("vzp");
+    if (!root) return;                       // landing page not on screen
+
+    const r = root.getBoundingClientRect();
+    const total = r.height - window.innerHeight;
+    const p = Math.min(1, Math.max(0, -r.top / total));
+    root.style.setProperty("--p", p.toFixed(4));
+
+    const steps   = root.querySelectorAll(".vzp-step");
+    const screens = root.querySelectorAll(".vzp-screen");
+    const idx = Math.min(steps.length - 1, Math.floor(p * steps.length));
+    if (idx === last) return;
+    last = idx;
+
+    steps.forEach((el, i) => {
+      el.classList.toggle("is-active", i === idx);
+      el.classList.toggle("is-past", i < idx);
+    });
+    screens.forEach((el, i) => el.classList.toggle("is-active", i === idx));
+  }
+
+  function onScroll(){
+    if (!ticking){ ticking = true; requestAnimationFrame(update); }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  addEventListener("resize", onScroll);
+  update();
 })();
 </script>
 </body>
