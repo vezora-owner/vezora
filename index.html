@@ -3063,6 +3063,172 @@ body.vz-intro .landing-nav,body.vz-intro .landing-phone{opacity:0}
   .vz3-panel{padding:28px}
 }
 </style>
+  <style>
+/* ===== VEZORA UPGRADE ===== */
+
+/* ---------- intro: 3D letter flip, progress line, curved lift ---------- */
+.vzi-word{perspective:900px}
+.vzi-l{transform-origin:50% 100%}
+#vzIntro{border-radius:0 0 50% 50% / 0 0 9vw 9vw}
+.vzi-meta{
+  position:absolute;left:8%;right:8%;bottom:9vh;
+  display:flex;align-items:center;gap:20px;color:#8a8a8a;font-size:13px;
+}
+.vzi-line{flex:1;height:1px;background:#1f1f1f;position:relative;overflow:hidden}
+.vzi-line i{position:absolute;inset:0;background:#fff;transform-origin:left;transform:scaleX(0)}
+.vzi-count{font-variant-numeric:tabular-nums;color:#fff;min-width:4ch;text-align:right}
+
+/* ---------- 3D scroll: sheen, depth particles, step counter ---------- */
+.vz3-panel{overflow:hidden}
+.vz3-panel:before{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(115deg,transparent 35%,rgba(255,255,255,.07) 48%,transparent 61%);
+  background-size:300% 100%;background-position:var(--sh,50%) 0;
+}
+.vz3-panel > *{position:relative}
+.vz3-dot{
+  position:absolute;left:50%;top:50%;width:3px;height:3px;border-radius:50%;
+  background:#fff;pointer-events:none;will-change:transform;
+}
+.vz3-count{
+  position:absolute;left:8%;bottom:56px;display:flex;align-items:baseline;
+  gap:8px;color:#8a8a8a;font-size:13px;
+}
+.vz3-count b{color:#fff;font-size:30px;font-weight:700;letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.vz3-count em{font-style:normal;margin-left:12px}
+
+/* ---------- lower landing page ---------- */
+.vzl{background:#000;padding:0 8%;position:relative}
+
+.vzl-marquee{overflow:hidden;padding:56px 0;margin:0 -8%;border-top:1px solid #141414;border-bottom:1px solid #141414}
+.vzl-track{display:flex;width:max-content;animation:vzlMarq 36s linear infinite;will-change:transform}
+.vzl-track span{
+  font-size:clamp(48px,9vw,120px);font-weight:900;letter-spacing:-.04em;line-height:1;
+  padding-right:.6em;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.28);
+}
+.vzl-track span.f{color:#fff;-webkit-text-stroke:0}
+@keyframes vzlMarq{to{transform:translate3d(-50%,0,0)}}
+
+.vzl-statement{
+  margin:0;padding:22vh 0 16vh;max-width:16em;
+  font-size:clamp(34px,6.2vw,92px);font-weight:800;line-height:1.06;letter-spacing:-.035em;color:#fff;
+}
+.vzl-statement .w{display:inline-block;margin-right:.24em;opacity:.16}
+
+.vzl-bento{
+  display:grid;grid-template-columns:repeat(6,1fr);
+  grid-auto-rows:minmax(200px,auto);gap:16px;padding-bottom:16vh;
+}
+.vzl-tile{
+  position:relative;overflow:hidden;padding:30px;border-radius:24px;
+  background:#0a0a0a;border:1px solid #1f1f1f;
+  opacity:0;transform:translate3d(0,50px,0);
+  transition:opacity .9s ease,transform 1s cubic-bezier(.16,1,.3,1),border-color .3s;
+}
+.vzl-tile.in{opacity:1;transform:none}
+.vzl-tile:hover{border-color:#3a3a3a}
+.vzl-tile:after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  opacity:0;transition:opacity .3s;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.08),transparent 65%);
+}
+.vzl-tile:hover:after{opacity:1}
+.vzl-tile h3{margin:0 0 10px;font-size:26px;letter-spacing:-.8px;color:#fff}
+.vzl-tile p{margin:0;color:#8a8a8a;font-size:15px;line-height:1.6;max-width:34ch}
+.vzl-tile .art-call,.vzl-tile .art-people{margin-top:24px}
+
+.t-chat{grid-column:span 4;grid-row:span 2}
+.t-call{grid-column:span 2}
+.t-people{grid-column:span 2}
+.t-prof{grid-column:span 6;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+
+.vzl-mini{margin-top:28px;max-width:440px}
+.vzl-mini i{
+  display:block;width:max-content;max-width:82%;margin-top:10px;padding:11px 15px;
+  border-radius:16px 16px 16px 4px;background:#161616;color:#e5e5e5;
+  font-size:13px;font-style:normal;
+}
+.vzl-mini i.me{margin-left:auto;background:#fff;color:#000;border-radius:16px 16px 4px 16px}
+.vzl-tile.in .vzl-mini i{animation:vzlB 9s ease infinite backwards}
+.vzl-mini i:nth-child(2){animation-delay:.9s !important}
+.vzl-mini i:nth-child(3){animation-delay:1.8s !important}
+.vzl-mini i:nth-child(4){animation-delay:2.7s !important}
+@keyframes vzlB{
+  0%,3%{opacity:0;transform:translateY(10px)}
+  8%,90%{opacity:1;transform:none}
+  96%,100%{opacity:0;transform:none}
+}
+
+.vzl-cta{padding:14vh 0 16vh;text-align:center}
+.vzl-cta h2{
+  margin:0 0 36px;font-size:clamp(44px,8vw,120px);line-height:.98;
+  letter-spacing:-.045em;color:#fff;
+}
+.vzl-cta h2 span{color:#6f6f6f}
+.vzl-magnet{
+  display:inline-block;padding:18px 36px;border:0;border-radius:16px;
+  background:#fff;color:#000;font-weight:800;font-size:16px;cursor:pointer;
+  transition:transform .25s cubic-bezier(.16,1,.3,1);will-change:transform;
+}
+
+@media(max-width:800px){
+  .vzl-bento{grid-template-columns:1fr}
+  .t-chat,.t-call,.t-people,.t-prof{grid-column:auto;grid-row:auto}
+}
+
+/* ---------- inside the app ---------- */
+.nav button{position:relative;transition:color .25s,background .25s,border-color .25s}
+.nav button.active:before{
+  content:"";position:absolute;left:-13px;top:22%;bottom:22%;
+  width:3px;border-radius:3px;background:#fff;
+}
+@media(max-width:900px){.nav button.active:before{display:none}}
+
+/* cards: cursor spotlight + 3D tilt (driven by the script) */
+.card{
+  position:relative;overflow:hidden;will-change:transform;
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .3s ease-out,border-color .3s;
+}
+.card:hover{
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  border-color:#3a3a3a;
+}
+.card:after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  opacity:0;transition:opacity .3s;
+  background:radial-gradient(240px circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.08),transparent 65%);
+}
+.card:hover:after{opacity:1}
+
+/* staggered entrance whenever you switch tabs */
+.view.active .cards .card,
+.view.active .suggest .card,
+#chatList .item{animation:vzUp .6s cubic-bezier(.16,1,.3,1) backwards}
+.view.active .cards .card:nth-child(2),.view.active .suggest .card:nth-child(2){animation-delay:.07s}
+.view.active .cards .card:nth-child(3),.view.active .suggest .card:nth-child(3){animation-delay:.14s}
+.view.active .suggest .card:nth-child(4){animation-delay:.21s}
+.view.active .suggest .card:nth-child(5){animation-delay:.28s}
+.view.active .suggest .card:nth-child(6){animation-delay:.35s}
+.view.active .suggest .card:nth-child(7){animation-delay:.42s}
+.view.active .suggest .card:nth-child(8){animation-delay:.49s}
+@keyframes vzUp{
+  from{opacity:0;transform:translate3d(0,22px,0)}
+  to{opacity:1;transform:none}
+}
+
+/* chat: incoming slides from the left, your messages from the right */
+.msg{animation:vzMsgOther .25s ease backwards}
+.msg.me{animation:vzMsgMe .25s ease backwards}
+@keyframes vzMsgOther{
+  from{opacity:0;transform:translateX(-12px)}
+  to{opacity:1;transform:none}
+}
+.compose input{transition:border-color .2s,background .2s}
+.compose input:focus{background:#101010}
+.compose .btn{transition:transform .2s,background .2s}
+.compose .btn:hover{transform:translateX(2px)}
+</style>
 </head>
 
 <body>
@@ -3517,73 +3683,58 @@ function renderLanding(){
 
     <div class="vz3-bar"><i></i></div>
   </div>
-</section><section class="vz-features">
+</section><section class="vzl" id="vzl">
 
-  <div class="landing-tag">WHY VEZORA</div>
+  <div class="vzl-marquee" aria-hidden="true">
+    <div class="vzl-track">
+      <span class="f">Chat</span><span>Call</span><span>Connect</span>
+      <span class="f">Chat</span><span>Call</span><span>Connect</span>
+      <span class="f">Chat</span><span>Call</span><span>Connect</span>
+      <span class="f">Chat</span><span>Call</span><span>Connect</span>
+    </div>
+  </div>
 
-  <h2>Everything you need.<br><span>Nothing complicated.</span></h2>
+  <p class="vzl-statement">Everything you need to stay close to your people. Nothing you don't.</p>
 
-  <div class="feature-grid">
+  <div class="vzl-bento">
 
-    <div class="feature-card">
-      <div class="feature-icon">💬</div>
-      <h3>Real-time Chat</h3>
-      <p>Talk with your friends instantly with a clean and simple chat experience.</p>
+    <div class="vzl-tile t-chat">
+      <h3>Chat that feels instant.</h3>
+      <p>Message anyone on Vezora and see replies the moment they land.</p>
+      <div class="vzl-mini">
+        <i>Hey! Are you free today?</i>
+        <i class="me">Yeah, let's talk!</i>
+        <i>Call in 5 minutes?</i>
+        <i class="me">Sounds good</i>
+      </div>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">📞</div>
-      <h3>Voice & Video Calls</h3>
-      <p>Connect face-to-face with the people who matter to you.</p>
+    <div class="vzl-tile t-call">
+      <h3>Face to face.</h3>
+      <p>Start a video call from any chat.</p>
+      <div class="art-call"><span class="pulse"></span><span class="pill"></span><span class="pill end"></span></div>
     </div>
 
-    <div class="feature-card">
-      <div class="feature-icon">👥</div>
-      <h3>Discover People</h3>
-      <p>Find people you know and start connecting on Vezora.</p>
+    <div class="vzl-tile t-people">
+      <h3>Find your people.</h3>
+      <p>Discover who's on Vezora and say hi.</p>
+      <div class="art-people"><i></i><i></i><i></i><i></i></div>
+    </div>
+
+    <div class="vzl-tile t-prof">
+      <div>
+        <h3>Make it yours.</h3>
+        <p>Add a photo, write a bio and pick your username.</p>
+      </div>
+      <div class="art-prof"><b></b><div><i></i><i class="s"></i></div></div>
     </div>
 
   </div>
 
-</section><section class="vz-how">
-
-  <div class="landing-tag">HOW IT WORKS</div>
-
-  <h2>Connect in <span>3 simple steps.</span></h2>
-
-  <div class="how-grid">
-
-    <div class="how-card">
-      <b>01</b>
-      <h3>Create your ID</h3>
-      <p>Make your Vezora profile in seconds.</p>
-    </div>
-
-    <div class="how-card">
-      <b>02</b>
-      <h3>Find your people</h3>
-      <p>Discover friends and people you know.</p>
-    </div>
-
-    <div class="how-card">
-      <b>03</b>
-      <h3>Start connecting</h3>
-      <p>Chat and call with your people instantly.</p>
-    </div>
-
+  <div class="vzl-cta">
+    <h2>Your people.<br><span>Your Vezora.</span></h2>
+    <button class="vzl-magnet" onclick="renderAuth()">Get started</button>
   </div>
-
-</section><section class="vz-cta">
-
-  <div class="landing-tag">READY TO CONNECT?</div>
-
-  <h2>Your people.<br><span>Your Vezora.</span></h2>
-
-  <p>Join Vezora and start connecting today.</p>
-
-  <button class="landing-primary" onclick="renderAuth()">
-    Get Started →
-  </button>
 
 </section><footer class="vz-footer">
   <div class="vezora-brand">
@@ -4623,41 +4774,43 @@ auth();
   update();
 })();
 </script>
-  <script>
-/* VEZORA PREMIUM MOTION: wavy intro + 3D sideways scroll */
+ <script>
+/* VEZORA PREMIUM MOTION v2 */
 (function(){
-  const SHOW_INTRO_EVERY_TIME = true;   // set to false to play the intro once per visit
+  const SHOW_INTRO_EVERY_TIME = true;   // false = intro plays once per visit
 
   const clamp = (v,a,b) => Math.min(b, Math.max(a, v));
   const easeOut = t => 1 - Math.pow(1 - t, 3);
   const easeInOut = t => t < .5 ? 4*t*t*t : 1 - Math.pow(-2*t + 2, 3) / 2;
   const body = document.body;
 
-  /* ===== 1. WAVY INTRO ===== */
+  /* ================= 1. INTRO ================= */
   let seen = false;
   try { seen = sessionStorage.getItem("vzIntroSeen") === "1"; } catch(e){}
-
-  if (!SHOW_INTRO_EVERY_TIME && seen){
-    body.classList.add("vz-ready");
-  } else {
-    runIntro();
-  }
+  if (!SHOW_INTRO_EVERY_TIME && seen){ body.classList.add("vz-ready"); }
+  else { runIntro(); }
 
   function runIntro(){
     const ov = document.createElement("div");
     ov.id = "vzIntro";
     ov.innerHTML =
       '<div class="vzi-word">' +
-      "VEZORA".split("").map(c => '<span class="vzi-l">' + c + "</span>").join("") +
-      '</div><div class="vzi-sub">Connect. Chat. Call.</div>';
+        "VEZORA".split("").map(c => '<span class="vzi-l">' + c + "</span>").join("") +
+      '</div>' +
+      '<div class="vzi-sub">Connect. Chat. Call.</div>' +
+      '<div class="vzi-meta"><div class="vzi-line"><i></i></div><div class="vzi-count">0%</div></div>';
     body.appendChild(ov);
     body.classList.add("vz-intro");
     document.documentElement.style.overflow = "hidden";
 
+    const word = ov.querySelector(".vzi-word");
     const letters = Array.from(ov.querySelectorAll(".vzi-l"));
     const sub = ov.querySelector(".vzi-sub");
+    const meta = ov.querySelector(".vzi-meta");
+    const bar = ov.querySelector(".vzi-line i");
+    const count = ov.querySelector(".vzi-count");
     const t0 = performance.now();
-    const LIFT = 2.7, DUR = .95;
+    const LOAD = 2.4, LIFT = 2.75, DUR = 1.05;
     let started = false, finished = false;
 
     function finish(){
@@ -4669,23 +4822,32 @@ auth();
       document.documentElement.style.overflow = "";
       try { sessionStorage.setItem("vzIntroSeen", "1"); } catch(e){}
     }
-    setTimeout(finish, 7000);   // safety: never leave the page locked
+    setTimeout(finish, 7500);   // safety: never leave the page locked
 
     function frame(now){
       if (finished) return;
       const t = (now - t0) / 1000;
 
+      // letters: rise, flip up from below, then ripple as a wave
       letters.forEach((el, i) => {
-        const r = easeOut(clamp((t - .15 - i * .09) / .8, 0, 1));
+        const r = easeOut(clamp((t - .15 - i * .09) / .85, 0, 1));
         const amp = 15 * clamp((t - .5) / .9, 0, 1);
         const ph = t * 2.6 - i * .75;
-        const y = (1 - r) * 70 + Math.sin(ph) * amp;
-        const rot = Math.cos(ph) * amp * .22;
-        el.style.opacity = r;
-        el.style.transform = "translate3d(0," + y.toFixed(2) + "px,0) rotate(" + rot.toFixed(2) + "deg)";
+        const y = (1 - r) * 80 + Math.sin(ph) * amp;
+        const rot = Math.cos(ph) * amp * .2;
+        el.style.opacity = r.toFixed(3);
+        el.style.transform =
+          "translate3d(0," + y.toFixed(2) + "px,0) rotateX(" + ((1 - r) * -75).toFixed(1) +
+          "deg) rotate(" + rot.toFixed(2) + "deg)";
       });
       sub.style.opacity = (clamp((t - 1.3) / .7, 0, 1) * .8).toFixed(3);
 
+      // progress line + counter
+      const pr = easeInOut(clamp(t / LOAD, 0, 1));
+      bar.style.transform = "scaleX(" + pr.toFixed(4) + ")";
+      count.textContent = Math.round(pr * 100) + "%";
+
+      // lift: the word pushes toward you while the curtain slides up
       if (t > LIFT){
         if (!started){
           started = true;
@@ -4695,6 +4857,9 @@ auth();
         }
         const k = easeInOut(clamp((t - LIFT) / DUR, 0, 1));
         ov.style.transform = "translate3d(0," + (-k * 100) + "%,0)";
+        word.style.transform = "scale(" + (1 + k * .18).toFixed(3) + ")";
+        word.style.opacity = (1 - k).toFixed(3);
+        meta.style.opacity = clamp(1 - k * 2.5, 0, 1).toFixed(3);
         if (k >= 1){ finish(); return; }
       }
       requestAnimationFrame(frame);
@@ -4702,32 +4867,126 @@ auth();
     requestAnimationFrame(frame);
   }
 
-  /* ===== 2. 3D SIDEWAYS SCROLL ===== */
-  let last = performance.now();
+  /* ================= 2. POINTER: mouse depth, card tilt, spotlight, magnet ================= */
+  let mx = 0, my = 0, mxS = 0, myS = 0;
 
-  function loop(now){
-    requestAnimationFrame(loop);
-    const dt = Math.min(now - last, 50);
-    last = now;
+  document.addEventListener("pointermove", e => {
+    mx = (e.clientX / window.innerWidth - .5) * 2;
+    my = (e.clientY / window.innerHeight - .5) * 2;
 
-    const root = document.getElementById("vz3");
-    if (!root) return;                       // landing page not on screen
-
-    if (!root._s){
-      root._s = {
-        panels: Array.from(root.querySelectorAll(".vz3-panel")),
-        words:  Array.from(root.querySelectorAll(".vz3-word")),
-        rings:  Array.from(root.querySelectorAll(".vz3-ring")),
-        grid:   root.querySelector(".vz3-grid"),
-        bar:    root.querySelector(".vz3-bar i"),
-        cur: -1
-      };
+    const c = e.target.closest ? e.target.closest(".card,.vzl-tile") : null;
+    if (c){
+      const r = c.getBoundingClientRect();
+      const x = e.clientX - r.left, y = e.clientY - r.top;
+      c.style.setProperty("--mx", x + "px");
+      c.style.setProperty("--my", y + "px");
+      if (c.classList.contains("card")){
+        c.style.setProperty("--ry", ((x / r.width - .5) * 10).toFixed(2) + "deg");
+        c.style.setProperty("--rx", ((.5 - y / r.height) * 8).toFixed(2) + "deg");
+      }
     }
-    const s = root._s;
-    const rect = root.getBoundingClientRect();
-    const vh = window.innerHeight, W = window.innerWidth;
-    const target = clamp(-rect.top / (rect.height - vh), 0, 1);
 
+    document.querySelectorAll(".vzl-magnet").forEach(b => {
+      const r = b.getBoundingClientRect();
+      const dx = e.clientX - (r.left + r.width / 2);
+      const dy = e.clientY - (r.top + r.height / 2);
+      b.style.transform = Math.hypot(dx, dy) < 150
+        ? "translate3d(" + (dx * .28).toFixed(1) + "px," + (dy * .28).toFixed(1) + "px,0)"
+        : "";
+    });
+  }, { passive: true });
+
+  document.addEventListener("pointerout", e => {
+    const c = e.target.closest ? e.target.closest(".card") : null;
+    if (c && !c.contains(e.relatedTarget)){
+      c.style.setProperty("--rx", "0deg");
+      c.style.setProperty("--ry", "0deg");
+    }
+  });
+
+  /* ================= 3. LOWER PAGE: tiles reveal ================= */
+  const io = ("IntersectionObserver" in window) ? new IntersectionObserver(entries => {
+    let n = 0;
+    entries.forEach(en => {
+      if (!en.isIntersecting) return;
+      const el = en.target;
+      el.style.transitionDelay = (n++ * 90) + "ms";
+      el.classList.add("in");
+      io.unobserve(el);
+      setTimeout(() => { el.style.transitionDelay = ""; }, 1400);
+    });
+  }, { threshold: .15 }) : null;
+
+  function observeTiles(){
+    document.querySelectorAll(".vzl-tile:not([data-o])").forEach(el => {
+      el.dataset.o = "1";
+      if (io) io.observe(el); else el.classList.add("in");
+    });
+  }
+
+  /* word-by-word statement that lights up as you scroll */
+  function statement(vh){
+    const st = document.querySelector(".vzl-statement");
+    if (!st) return;
+    if (!st._w){
+      const words = st.textContent.trim().split(/\s+/);
+      st.innerHTML = words.map(w => '<span class="w">' + w + "</span>").join(" ");
+      st._w = Array.from(st.querySelectorAll(".w"));
+    }
+    const r = st.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > vh) return;
+    const prog = clamp((vh * .9 - r.top) / (r.height + vh * .35), 0, 1);
+    const n = st._w.length;
+    st._w.forEach((w, i) => {
+      const v = clamp(prog * (n + 2) - i, 0, 1);
+      w.style.opacity = (.16 + .84 * v).toFixed(3);
+    });
+  }
+
+  /* ================= 4. 3D SIDEWAYS SCROLL ================= */
+  function init3d(root){
+    const stage = root.querySelector(".vz3-stage");
+    const panels = Array.from(root.querySelectorAll(".vz3-panel"));
+    const titles = panels.map(p => (p.querySelector("h3") || {}).textContent || "");
+
+    // depth particles
+    const dots = [];
+    for (let i = 0; i < 46; i++){
+      const el = document.createElement("i");
+      el.className = "vz3-dot";
+      const z = -950 + Math.random() * 1150;
+      const par = (z + 1000) / 1200;
+      el.style.opacity = (.12 + par * .55).toFixed(2);
+      stage.insertBefore(el, stage.firstChild);
+      dots.push({ el, x: (Math.random() - .5) * 1.5, y: (Math.random() - .5) * 1.3, z, par });
+    }
+
+    // step counter
+    const cnt = document.createElement("div");
+    cnt.className = "vz3-count";
+    cnt.innerHTML = "<b>1</b><span>/ " + panels.length + "</span><em></em>";
+    stage.appendChild(cnt);
+
+    return {
+      panels, titles, dots,
+      words: Array.from(root.querySelectorAll(".vz3-word")),
+      rings: Array.from(root.querySelectorAll(".vz3-ring")),
+      grid: root.querySelector(".vz3-grid"),
+      bar: root.querySelector(".vz3-bar i"),
+      num: cnt.querySelector("b"),
+      ttl: cnt.querySelector("em"),
+      cur: -1, idx: -1
+    };
+  }
+
+  function scene3d(dt, vh, W){
+    const root = document.getElementById("vz3");
+    if (!root) return;
+    if (!root._s) root._s = init3d(root);
+    const s = root._s;
+
+    const rect = root.getBoundingClientRect();
+    const target = clamp(-rect.top / (rect.height - vh), 0, 1);
     if (rect.bottom < -50 || rect.top > vh + 50){ s.cur = target; return; }
 
     if (s.cur < 0) s.cur = target;
@@ -4736,36 +4995,70 @@ auth();
 
     const p = s.cur;
     const N = s.panels.length;
-    const f = -.6 + p * (N + .2);            // which card is at the centre
-    const spread = W < 700 ? .95 : .62;      // how far apart the cards sit
+    const f = -.6 + p * (N + .2);
+    const spread = W < 700 ? .95 : .62;
 
     s.panels.forEach((el, i) => {
       const d = i - f, a = Math.abs(d);
-      const x = d * W * spread;
+      const x = d * W * spread - mxS * 14;
       const z = -a * 260;
-      const ry = -d * 36;
+      const ry = -d * 36 + mxS * 6;
+      const sc = 1 + (1 - Math.min(a, 1)) * .04;
       el.style.opacity = clamp(1.15 - a * .9, 0, 1).toFixed(3);
+      el.style.setProperty("--sh", (50 - d * 70).toFixed(1) + "%");
       el.style.transform =
-        "translate(-50%,-50%) translate3d(" + x.toFixed(1) + "px,0," + z.toFixed(1) + "px) rotateY(" + ry.toFixed(2) + "deg)";
+        "translate(-50%,-50%) translate3d(" + x.toFixed(1) + "px," + (myS * -8).toFixed(1) + "px," + z.toFixed(1) +
+        "px) rotateY(" + ry.toFixed(2) + "deg) rotateX(" + (-myS * 4).toFixed(2) + "deg) scale(" + sc.toFixed(3) + ")";
     });
 
     s.words.forEach((el, i) => {
       const d = i - f, a = Math.abs(d);
       el.style.opacity = clamp(1.05 - a * 1.1, 0, 1).toFixed(3);
-      el.style.transform =
-        "translate(-50%,-50%) translate3d(" + (d * W * .34).toFixed(1) + "px,0,-450px)";
+      el.style.transform = "translate(-50%,-50%) translate3d(" + (d * W * .34 - mxS * 30).toFixed(1) + "px,0,-450px)";
     });
 
     s.rings.forEach((el, i) => {
       const dir = i % 2 ? -1 : 1;
       el.style.transform =
-        "translate(-50%,-50%) translate3d(0,0,-380px) rotateX(" + (72 - p * 22 + i * 4).toFixed(2) +
-        "deg) rotateY(" + (p * 50 * dir).toFixed(2) +
+        "translate(-50%,-50%) translate3d(0,0,-380px) rotateX(" + (72 - p * 22 + i * 4 - myS * 4).toFixed(2) +
+        "deg) rotateY(" + (p * 50 * dir + mxS * 5).toFixed(2) +
         "deg) rotateZ(" + (p * (300 + i * 140) * dir).toFixed(2) + "deg)";
     });
 
+    // particles drift up with scroll and shift with the mouse, deeper = slower
+    const range = vh * 1.3;
+    s.dots.forEach(d => {
+      let y = d.y * vh - p * 620 * d.par - myS * 40 * d.par;
+      y = ((y + range / 2) % range + range) % range - range / 2;
+      const x = d.x * W - mxS * 70 * d.par;
+      d.el.style.transform = "translate3d(" + x.toFixed(1) + "px," + y.toFixed(1) + "px," + d.z.toFixed(0) + "px)";
+    });
+
     if (s.grid) s.grid.style.transform = "translate3d(0," + ((p * 2400) % 60).toFixed(2) + "px,0)";
-    if (s.bar)  s.bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+    if (s.bar) s.bar.style.transform = "scaleX(" + p.toFixed(4) + ")";
+
+    const idx = clamp(Math.round(f), 0, N - 1);
+    if (idx !== s.idx){
+      s.idx = idx;
+      s.num.textContent = idx + 1;
+      s.ttl.textContent = s.titles[idx];
+    }
+  }
+
+  /* ================= MAIN LOOP ================= */
+  let last = performance.now();
+  function loop(now){
+    requestAnimationFrame(loop);
+    const dt = Math.min(now - last, 50);
+    last = now;
+    const vh = window.innerHeight, W = window.innerWidth;
+
+    mxS += (mx - mxS) * (1 - Math.exp(-dt / 220));
+    myS += (my - myS) * (1 - Math.exp(-dt / 220));
+
+    observeTiles();
+    statement(vh);
+    scene3d(dt, vh, W);
   }
   requestAnimationFrame(loop);
 })();
