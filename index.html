@@ -4928,10 +4928,10 @@ auth();
   const mouse = { x: W / 2, y: H / 2 };
 
   // r = size of the light, a = brightness
-  const trail = [
-    { x: mouse.x, y: mouse.y, lag: 70,  r: 190, a: .24 },
-    { x: mouse.x, y: mouse.y, lag: 170, r: 260, a: .15 },
-    { x: mouse.x, y: mouse.y, lag: 340, r: 340, a: .09 }
+    const trail = [
+    { x: mouse.x, y: mouse.y, lag: 70,  r: 170, a: .11 },
+    { x: mouse.x, y: mouse.y, lag: 170, r: 230, a: .07 },
+    { x: mouse.x, y: mouse.y, lag: 340, r: 290, a: .04 }
   ];
 
   const ripples = [];
@@ -4950,7 +4950,7 @@ auth();
     const now = performance.now();
     const d = Math.hypot(mouse.x - lastSpawn.x, mouse.y - lastSpawn.y);
     if (d > 36 && now - lastSpawn.t > 70){
-      spawn(mouse.x, mouse.y, 160, .35, now);
+            spawn(mouse.x, mouse.y, 150, .18, now);
       lastSpawn = { x: mouse.x, y: mouse.y, t: now };
     }
     kick();
@@ -4997,7 +4997,7 @@ auth();
       const bx = trail[0].x + Math.cos(ang) * dist;
       const by = trail[0].y + Math.sin(ang * 1.13) * dist * .8;
       const br = 30 + 14 * Math.sin(s * 1.3 + i * 2);
-      glow(bx, by, br, .14 * level);
+      glow(bx, by, br, .07 * level);
     }
 
     // ripples
