@@ -3419,6 +3419,66 @@ body.vz-intro .landing-nav,body.vz-intro .landing-phone{opacity:0}
 .msg .msg-time{font-size:10px;color:rgba(255,255,255,.35);align-self:flex-end}
 .msg.me .msg-time{color:rgba(0,0,0,.4)}
 </style>
+  <style>
+/* ===== VEZORA HOME / PEOPLE / CALLS / PROFILE UPGRADE ===== */
+
+/* ---------- Home ---------- */
+.home-head{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:8px}
+.home-head h2{margin-bottom:4px}
+.home-avatar{
+  width:52px;height:52px;border-radius:50%;flex:none;
+  display:grid;place-items:center;font-size:22px;
+  background:#151515;border:1px solid #2a2a2a;overflow:hidden;
+}
+.home-avatar img{width:100%;height:100%;object-fit:cover}
+
+.home-card{position:relative;cursor:pointer;padding-right:46px}
+.home-arrow{
+  position:absolute;right:18px;top:50%;transform:translateY(-50%) translateX(0);
+  color:#666;font-size:18px;transition:transform .2s,color .2s;
+}
+.home-card:hover .home-arrow{transform:translateY(-50%) translateX(4px);color:#fff}
+
+/* ---------- People ---------- */
+.suggest .person{position:relative;padding-bottom:16px}
+.suggest .avatar{
+  width:60px;height:60px;display:grid;place-items:center;
+  font-size:22px;font-weight:700;color:#fff;
+  background:#1a1a1a;border:1px solid #2e2e2e;
+}
+.suggest .person small{color:#8a8a8a}
+.suggest .person p{color:#7a7a7a;font-size:12px;margin:2px 0 12px;line-height:1.4;min-height:17px}
+.suggest .btn{width:100%}
+
+/* ---------- Calls ---------- */
+.call{position:relative;overflow:hidden}
+.call .avatar{
+  display:grid;place-items:center;font-size:40px;font-weight:700;color:#fff;
+  background:#151515;border:1px solid #2a2a2a;
+}
+.call .avatar.ringing{animation:vzRing 1.6s ease-in-out infinite}
+@keyframes vzRing{
+  0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.25)}
+  50%{box-shadow:0 0 0 14px rgba(255,255,255,0)}
+}
+#callStatus{color:#8a8a8a;font-size:13px;margin:4px 0 18px;min-height:18px}
+.call-actions{display:flex;justify-content:center;gap:14px;margin-top:6px}
+.call-actions .btn{
+  width:56px;height:56px;padding:0;border-radius:50%;
+  display:grid;place-items:center;font-size:20px;
+}
+
+/* ---------- Profile ---------- */
+.profile-link{
+  display:flex;align-items:center;gap:10px;margin:18px auto 0;max-width:340px;
+  padding:10px 14px;border-radius:12px;background:#0d0d0d;border:1px solid #262626;
+}
+.profile-link span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#8a8a8a;font-size:13px}
+.profile-link button{
+  flex:none;border:0;background:#fff;color:#000;font-weight:700;
+  font-size:12px;padding:7px 12px;border-radius:8px;cursor:pointer;
+}
+</style>
 </head>
 
 <body>
@@ -4176,41 +4236,44 @@ async function renderApp(){
 
 <section id="home" class="view active">
 
-  <h2>Welcome to Vezora 👋</h2>
-
-  <p class="muted">
-    Connect with your friends, chat and make calls.
-  </p>
+  <div class="home-head">
+    <div>
+      <h2>Welcome back, <span id="homeName">there</span> 👋</h2>
+      <p class="muted">Here's what's happening on Vezora.</p>
+    </div>
+    <div class="home-avatar" id="homeAvatar">👤</div>
+  </div>
 
   <div class="cards">
 
-    <div class="card home-card">
+    <div class="card home-card" onclick="show('chats',document.querySelectorAll('.nav button')[1])">
       <div class="home-icon">💬</div>
       <div>
         <b>Chat</b>
         <p class="muted">Talk with your friends on Vezora.</p>
       </div>
+      <span class="home-arrow">→</span>
     </div>
 
-    <div class="card home-card">
+    <div class="card home-card" onclick="show('calls',document.querySelectorAll('.nav button')[2])">
       <div class="home-icon">📞</div>
       <div>
         <b>Calls</b>
         <p class="muted">Make voice and video calls.</p>
       </div>
+      <span class="home-arrow">→</span>
     </div>
 
-    <div class="card home-card">
+    <div class="card home-card" onclick="show('people',document.querySelectorAll('.nav button')[3])">
       <div class="home-icon">👥</div>
       <div>
         <b>People</b>
         <p class="muted">Discover people you may know.</p>
       </div>
+      <span class="home-arrow">→</span>
     </div>
 
   </div>
-
-</section>
 
 </section>
 
@@ -4267,75 +4330,78 @@ async function renderApp(){
 
       <section id="calls" class="view">
 
-        <h2>Calls 📞</h2>
+  <h2>Calls 📞</h2>
 
-        <div class="callgrid">
+  <div class="callgrid">
 
-          <div class="call">
+    <div class="call">
 
-            <p class="muted">
-              Peer-to-peer calling
-            </p>
+      <p class="muted">
+        Peer-to-peer calling
+      </p>
 
-            <div class="avatar"></div>
+      <div class="avatar" id="callAvatar"></div>
 
-            <h3 id="callName">
-              No person selected
-            </h3>
+      <h3 id="callName">
+        No person selected
+      </h3>
 
-            <button class="btn green" onclick="startCall()">
-              Start video call
-            </button>
+      <p id="callStatus"></p>
 
-            <button class="btn danger" onclick="endCall()">
-              End
-            </button>
+      <div class="call-actions">
+        <button class="btn green" onclick="startCall()" title="Start call">📹</button>
+        <button class="btn danger" onclick="endCall()" title="End call">✕</button>
+      </div>
 
-            <video
-              id="local"
-              autoplay
-              muted
-              playsinline
-              style="width:100%;margin-top:18px;border-radius:12px">
-            </video>
+      <video
+        id="local"
+        autoplay
+        muted
+        playsinline
+        style="width:100%;margin-top:18px;border-radius:12px">
+      </video>
 
-            <video
-              id="remote"
-              autoplay
-              playsinline
-              style="width:100%;margin-top:10px;border-radius:12px">
-            </video>
+      <video
+        id="remote"
+        autoplay
+        playsinline
+        style="width:100%;margin-top:10px;border-radius:12px">
+      </video>
 
-          </div>
+    </div>
 
-          <div class="call">
+    <div class="call">
 
-            <h3>Connect with someone ✨</h3>
+      <h3>Connect with someone ✨</h3>
 
-            <p class="muted">
-              Choose a person from People or Chats first.
-            </p>
+      <p class="muted">
+        Choose a person from People or Chats first.
+      </p>
 
-          </div>
+    </div>
 
-        </div>
+  </div>
 
-      </section>
+</section>
 
 
       <!-- PEOPLE -->
 
       <section id="people" class="view">
 
-        <h2>People You May Know 👥</h2>
+  <h2>People You May Know 👥</h2>
 
-        <p class="muted">
-          Discover people on Vezora.
-        </p>
+  <p class="muted">
+    Discover people on Vezora.
+  </p>
 
-        <div id="peopleGrid" class="suggest"></div>
+  <div class="vzc-search" style="padding:0 0 16px;border:0">
+    <input id="peopleSearch" placeholder="Search people" oninput="filterPeople(this.value)">
+  </div>
 
-      </section>
+  <div id="peopleGrid" class="suggest"></div>
+
+</section>
             <!-- PROFILE -->
 
       <section id="profile" class="view">
@@ -4372,7 +4438,7 @@ async function renderApp(){
           No bio added yet.
         </p>
 
-        <div class="profile-actions">
+                <div class="profile-actions">
 
           <button
             class="btn profile-action"
@@ -4388,7 +4454,10 @@ async function renderApp(){
 
         </div>
 
-        <div class="profile-stats">
+        <div class="profile-link">
+          <span id="profileLink">vezora-nu.vercel.app</span>
+          <button onclick="copyProfileLink()">Copy link</button>
+        </div>
 
           <div class="profile-stat">
             <b>V</b>
@@ -4553,6 +4622,10 @@ function addMsg(t,own,time){
   $("#msgs").appendChild(d);
   $("#msgs").scrollTo({top:$("#msgs").scrollHeight,behavior:"smooth"});
 }
+function initials(name){
+  return (name||"?").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
+}
+
 async function loadPeople(){
 
   const {data,error}=await sb
@@ -4565,27 +4638,34 @@ async function loadPeople(){
     return;
   }
 
-  const html=(data||[]).map(p=>`
-    <div class="card person">
+  const html=(data||[]).map(p=>{
+    const name=p.full_name||p.username||"Vezora User";
+    return `
+    <div class="card person" data-name="${esc(name.toLowerCase())}">
       <div class="avatar">
-        ${p.avatar_url ? `<img src="${esc(p.avatar_url)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : ""}
+        ${p.avatar_url
+          ? `<img src="${esc(p.avatar_url)}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">`
+          : initials(name)}
       </div>
 
-      <b>${esc(p.full_name||p.username||"Vezora User")}</b>
+      <b>${esc(name)}</b>
+      <small class="muted">@${esc(p.username||"user")}</small>
+      <p>${esc(p.bio||"No bio yet.")}</p>
 
-      <small class="muted">
-  <small class="muted">
-  @${esc(p.username||"user")}
-</small>
-
-      <button class="btn" onclick="selectPerson('${p.id}','${esc(p.full_name||p.username||"Vezora User")}')">
-        💬 Chat
+      <button class="btn" onclick="selectPerson('${p.id}','${esc(name)}')">
+        💬 Message
       </button>
     </div>
-  `).join("");
+  `}).join("");
 
-  $("#peopleGrid").innerHTML=html;
-  
+  $("#peopleGrid").innerHTML=html || `<p class="muted">No one here yet.</p>`;
+}
+
+function filterPeople(q){
+  q=q.trim().toLowerCase();
+  document.querySelectorAll("#peopleGrid .person").forEach(el=>{
+    el.style.display = el.dataset.name.includes(q) ? "" : "none";
+  });
 }
   async function loadProfile(){
 
@@ -4600,14 +4680,29 @@ async function loadPeople(){
     return;
   }
 
-  $("#profileName").textContent=data.full_name || "Vezora User";
+  const name=data.full_name || "Vezora User";
+
+  $("#profileName").textContent=name;
   $("#profileUsername").textContent="@"+(data.username || "user");
   $("#profileBio").textContent=data.bio || "No bio added yet.";
+  $("#homeName").textContent=(data.full_name||data.username||"there").split(" ")[0];
 
   if(data.avatar_url){
-    $("#profileAvatar").innerHTML=
-      '<img src="'+esc(data.avatar_url)+'">';
+    $("#profileAvatar").innerHTML='<img src="'+esc(data.avatar_url)+'">';
+    $("#homeAvatar").innerHTML='<img src="'+esc(data.avatar_url)+'">';
+  }else{
+    $("#homeAvatar").textContent=initials(name);
   }
+}
+
+function copyProfileLink(){
+  const link="vezora-nu.vercel.app";
+  navigator.clipboard?.writeText("https://"+link).then(()=>{
+    const b=event.target;
+    const old=b.textContent;
+    b.textContent="Copied!";
+    setTimeout(()=>b.textContent=old,1500);
+  });
 }
 async function selectPerson(id,name){
 
@@ -4630,6 +4725,8 @@ document.querySelector(`#chatList .item[data-user-id="${id}"]`)
   </div>
 `;
   $("#callName").textContent=name;
+  $("#callAvatar").textContent=initials(name);
+  $("#callStatus").textContent="Ready to call";
 
   show(
     "chats",
@@ -4721,7 +4818,7 @@ async function send(e){
 
 /* ---------- VIDEO CALL ---------- */
 
-let pc,localStream;
+let pc,localStream,callTimer,callSeconds=0;
 
 async function startCall(){
 
@@ -4729,6 +4826,9 @@ async function startCall(){
     alert("Select a person first.");
     return;
   }
+
+  $("#callAvatar").classList.add("ringing");
+  $("#callStatus").textContent="Connecting…";
 
   pc=new RTCPeerConnection({
     iceServers:[
@@ -4748,6 +4848,15 @@ async function startCall(){
 
   pc.ontrack=e=>{
     $("#remote").srcObject=e.streams[0];
+    $("#callAvatar").classList.remove("ringing");
+    callSeconds=0;
+    clearInterval(callTimer);
+    callTimer=setInterval(()=>{
+      callSeconds++;
+      const m=String(Math.floor(callSeconds/60)).padStart(2,"0");
+      const s=String(callSeconds%60).padStart(2,"0");
+      $("#callStatus").textContent=`On call · ${m}:${s}`;
+    },1000);
   };
 
   pc.onicecandidate=e=>{
@@ -4817,6 +4926,10 @@ function endCall(){
   localStream?.getTracks().forEach(t=>t.stop());
 
   pc?.close();
+
+  clearInterval(callTimer);
+  $("#callAvatar").classList.remove("ringing");
+  $("#callStatus").textContent = activeUser ? "Ready to call" : "";
 
   $("#local").srcObject=null;
   $("#remote").srcObject=null;
