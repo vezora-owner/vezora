@@ -3377,6 +3377,48 @@ body.vz-intro .landing-nav,body.vz-intro .landing-phone{opacity:0}
   background-position:calc(50% + var(--px,0) * 45%) 0;
 }
 </style>
+  <style>
+/* ===== VEZORA CHATS UPGRADE ===== */
+.vzc-list{display:flex;flex-direction:column;padding:0;overflow:hidden}
+.vzc-search{padding:12px;border-bottom:1px solid #1a1a1a}
+.vzc-search input{
+  width:100%;padding:10px 14px;border-radius:12px;
+  background:#0d0d0d;border:1px solid #232323;color:#fff;outline:none;font-size:13px;
+}
+.vzc-search input:focus{border-color:#555}
+.vzc-list-scroll{flex:1;overflow-y:auto;padding:8px}
+
+#chatList .item{align-items:flex-start}
+#chatList .item.unread{background:rgba(255,255,255,.04)}
+#chatList .item .avatar{position:relative;flex:none}
+#chatList .item .avatar .online-dot{
+  position:absolute;right:-2px;bottom:-2px;margin:0;
+  border:2px solid #0a0a0a;box-shadow:none;
+}
+.item-body{flex:1;min-width:0}
+.item-top{display:flex;align-items:baseline;justify-content:space-between;gap:8px}
+.item-top b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item-time{font-size:11px;color:#6b6b6b;flex:none}
+.item-bottom{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:3px}
+.item-preview{color:#8a8a8a;font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.item.unread .item-preview{color:#e5e5e5;font-weight:600}
+.item.unread .item-top b{color:#fff}
+.item-dot{width:8px;height:8px;border-radius:50%;background:#fff;flex:none}
+
+.chat-empty{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;height:100%;padding:40px 20px;color:#8a8a8a;
+}
+.chat-empty-icon{font-size:34px;margin-bottom:12px;opacity:.6}
+.chat-empty b{color:#fff;font-size:15px;margin-bottom:6px}
+.chat-empty p{font-size:13px;max-width:220px;line-height:1.5}
+
+.msg{display:flex;flex-direction:column;gap:2px}
+.msg.grouped{margin-top:-4px;border-radius:16px}
+.msg .msg-text{white-space:pre-wrap;word-break:break-word}
+.msg .msg-time{font-size:10px;color:rgba(255,255,255,.35);align-self:flex-end}
+.msg.me .msg-time{color:rgba(0,0,0,.4)}
+</style>
 </head>
 
 <body>
@@ -4184,10 +4226,14 @@ async function renderApp(){
   </button>
 </div>
 
-        <div class="chat">
+       <div class="chat">
 
-          <div id="chatList" class="list"></div>
-
+  <div class="list vzc-list">
+    <div class="vzc-search">
+      <input id="chatSearch" placeholder="Search chats" oninput="filterChats(this.value)">
+    </div>
+    <div id="chatList" class="vzc-list-scroll"></div>
+  </div>
           <div class="window">
 
             <div id="chatHead" class="head">
@@ -4385,7 +4431,7 @@ loadChats();
 
   const {data,error}=await sb
     .from("messages")
-    .select("sender_id,receiver_id,created_at")
+    .select("sender_id,receiver_id,body,created_at")
     .or(`sender_id.eq.${me.id},receiver_id.eq.${me.id}`)
     .order("created_at",{ascending:false});
 
@@ -4394,17 +4440,24 @@ loadChats();
     return;
   }
 
+  const last={};
   const ids=[];
-   
 
- (data||[]).forEach(m=>{
-  const id=m.sender_id===me.id ? m.receiver_id : m.sender_id;
+  (data||[]).forEach(m=>{
+    const id=m.sender_id===me.id ? m.receiver_id : m.sender_id;
+    if(!ids.includes(id)){
+      ids.push(id);
+      last[id]={body:m.body,time:m.created_at,mine:m.sender_id===me.id};
+    }
+  });
 
-  if(!ids.includes(id)) ids.push(id);
-});
   if(!ids.length){
-    $("#chatList").innerHTML=
-      `<p class="muted" style="padding:15px">No chats yet</p>`;
+    $("#chatList").innerHTML=`
+      <div class="chat-empty">
+        <div class="chat-empty-icon">💬</div>
+        <b>No chats yet</b>
+        <p>Say hi to someone from People to start a conversation.</p>
+      </div>`;
     return;
   }
 
@@ -4418,13 +4471,22 @@ loadChats();
     return;
   }
 
+  people.sort((a,b)=>new Date(last[b.id].time)-new Date(last[a.id].time));
+
+  let seen={};
+  try{ seen=JSON.parse(localStorage.getItem("vzSeen")||"{}"); }catch(e){}
+
   $("#chatList").innerHTML="";
 
-  (people||[]).forEach(p=>{
+  people.forEach(p=>{
+
+    const L=last[p.id];
+    const unread = !L.mine && new Date(L.time) > new Date(seen[p.id]||0);
 
     const item=document.createElement("div");
-    item.className="item";
+    item.className="item"+(unread?" unread":"");
     item.dataset.userId=p.id;
+    item.dataset.name=(p.full_name||p.username||"").toLowerCase();
 
     item.innerHTML=`
       <div class="avatar">
@@ -4432,24 +4494,39 @@ loadChats();
           ? `<img src="${esc(p.avatar_url)}"
              style="width:100%;height:100%;border-radius:50%;object-fit:cover">`
           : ""}
+        <span class="online-dot"></span>
       </div>
 
-      <div>
-        <b>${esc(p.full_name||p.username||"Vezora User")}</b>
-        <span class="online-dot"></span>
-       <small class="muted">
-  @${esc(p.username||"user")}
-</small>
-        
+      <div class="item-body">
+        <div class="item-top">
+          <b>${esc(p.full_name||p.username||"Vezora User")}</b>
+          <span class="item-time">${fmtTime(L.time)}</span>
+        </div>
+        <div class="item-bottom">
+          <small class="item-preview">${L.mine?"You: ":""}${esc(L.body||"")}</small>
+          ${unread?'<span class="item-dot"></span>':""}
+        </div>
       </div>
     `;
 
-    item.onclick=()=>selectPerson(
-      p.id,
-      p.full_name||p.username||"Vezora User"
-    );
+    item.onclick=()=>selectPerson(p.id, p.full_name||p.username||"Vezora User");
 
     $("#chatList").appendChild(item);
+  });
+}
+
+function fmtTime(iso){
+  if(!iso) return "";
+  const d=new Date(iso), now=new Date();
+  return d.toDateString()===now.toDateString()
+    ? d.toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"})
+    : d.toLocaleDateString([], {day:"2-digit",month:"short"});
+}
+
+function filterChats(q){
+  q=q.trim().toLowerCase();
+  document.querySelectorAll("#chatList .item").forEach(el=>{
+    el.style.display = el.dataset.name.includes(q) ? "" : "none";
   });
 }
 async function loadPeople(){
@@ -4542,12 +4619,19 @@ document.querySelector(`#chatList .item[data-user-id="${id}"]`)
 
   channel=sb
     .channel("chat:"+[me.id,id].sort().join("_"))
-    .on(
+        .on(
       "broadcast",
       {event:"message"},
       p=>{
-        if(p.payload.sender_id!==me.id)
+        if(p.payload.sender_id!==me.id){
           addMsg(p.payload.text,false);
+          try{
+            const seen=JSON.parse(localStorage.getItem("vzSeen")||"{}");
+            seen[activeUser.id]=new Date().toISOString();
+            localStorage.setItem("vzSeen",JSON.stringify(seen));
+          }catch(e){}
+          loadChats();
+        }
       }
     )
     .subscribe();
@@ -4564,26 +4648,18 @@ async function loadMessages(){
     .order("created_at");
 
   $("#msgs").innerHTML="";
+  lastMsgSender=null;
 
   (data||[]).forEach(m=>
-    addMsg(
-      m.body,
-      m.sender_id===me.id
-    )
+    addMsg(m.body, m.sender_id===me.id, m.created_at)
   );
-}
 
-function addMsg(t,own){
-
-  let d=document.createElement("div");
-
-  d.className="msg "+(own?"me":"");
-
-  d.textContent=t;
-
-  $("#msgs").appendChild(d);
-
-  $("#msgs").scrollTop=$("#msgs").scrollHeight;
+  try{
+    const seen=JSON.parse(localStorage.getItem("vzSeen")||"{}");
+    seen[activeUser.id]=new Date().toISOString();
+    localStorage.setItem("vzSeen",JSON.stringify(seen));
+  }catch(e){}
+  document.querySelector(`#chatList .item[data-user-id="${activeUser.id}"]`)?.classList.remove("unread");
 }
 
 async function send(e){
@@ -4605,7 +4681,8 @@ async function send(e){
       body:text
     });
 
-  addMsg(text,true);
+   addMsg(text,true);
+  loadChats();
 
   channel?.send({
     type:"broadcast",
