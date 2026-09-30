@@ -4529,6 +4529,30 @@ function filterChats(q){
     el.style.display = el.dataset.name.includes(q) ? "" : "none";
   });
 }
+  let lastMsgSender=null;
+
+function addMsg(t,own,time){
+
+  const grouped = lastMsgSender===own;
+  lastMsgSender=own;
+
+  const d=document.createElement("div");
+  d.className="msg "+(own?"me":"")+(grouped?" grouped":"");
+
+  const body=document.createElement("span");
+  body.className="msg-text";
+  body.textContent=t;
+  d.appendChild(body);
+
+  const meta=document.createElement("span");
+  meta.className="msg-time";
+  meta.textContent=new Date(time||Date.now()).toLocaleTimeString([], {hour:"2-digit",minute:"2-digit"});
+  if(own) meta.textContent+=" ✓";
+  d.appendChild(meta);
+
+  $("#msgs").appendChild(d);
+  $("#msgs").scrollTo({top:$("#msgs").scrollHeight,behavior:"smooth"});
+}
 async function loadPeople(){
 
   const {data,error}=await sb
