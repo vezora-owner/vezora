@@ -3479,6 +3479,107 @@ body.vz-intro .landing-nav,body.vz-intro .landing-phone{opacity:0}
   font-size:12px;padding:7px 12px;border-radius:8px;cursor:pointer;
 }
 </style>
+  <style>
+/* ===== VEZORA NEW FEATURES ===== */
+
+/* Stories row */
+.stories-row{display:flex;gap:16px;overflow-x:auto;padding:4px 2px 20px;margin-bottom:6px}
+.story-circle{display:flex;flex-direction:column;align-items:center;gap:6px;flex:none;cursor:pointer;width:64px}
+.story-circle small{font-size:11px;color:#8a8a8a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:64px}
+.story-ring{
+  width:58px;height:58px;border-radius:50%;padding:2px;
+  display:grid;place-items:center;font-weight:700;color:#fff;font-size:18px;
+  background:#1a1a1a;border:2px solid #3a3a3a;overflow:hidden;position:relative;
+}
+.story-ring:not(.seen):not(.self){border-color:#fff}
+.story-ring img{width:100%;height:100%;object-fit:cover;border-radius:50%}
+.story-ring.self:after{
+  content:"+";position:absolute;right:-2px;bottom:-2px;width:20px;height:20px;
+  border-radius:50%;background:#fff;color:#000;font-weight:900;
+  display:grid;place-items:center;font-size:14px;border:2px solid #050505;
+}
+
+/* Story composer modal */
+.story-modal-box textarea{resize:none;font-family:inherit}
+
+/* Story viewer */
+.story-viewer{
+  position:fixed;inset:0;z-index:999999;background:#000;display:none;
+  flex-direction:column;color:#fff;
+}
+.story-viewer.show{display:flex}
+.story-viewer-bars{display:flex;gap:5px;padding:12px 12px 0}
+.story-viewer-bars .bar{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.25);overflow:hidden}
+.story-viewer-bars .bar.done{background:#fff}
+.story-viewer-bars .bar i{display:block;height:100%;width:0;background:#fff}
+.story-viewer-head{display:flex;align-items:center;gap:10px;padding:14px}
+.story-viewer-avatar{
+  width:32px;height:32px;border-radius:50%;overflow:hidden;flex:none;
+  display:grid;place-items:center;background:#1a1a1a;font-size:13px;font-weight:700;
+}
+.story-viewer-avatar img{width:100%;height:100%;object-fit:cover}
+.story-close{margin-left:auto;font-size:20px;cursor:pointer;padding:4px}
+.story-viewer-body{flex:1;display:flex;align-items:center;justify-content:center;padding:30px;text-align:center}
+.story-viewer-body p{font-size:clamp(22px,5vw,34px);font-weight:700;line-height:1.4;max-width:520px}
+.story-viewer-nav{position:absolute;inset:60px 0 0;display:flex}
+.story-viewer-nav div{flex:1}
+
+/* Message reactions */
+.msg{position:relative}
+.msg-react-btn{
+  position:absolute;top:-10px;opacity:0;pointer-events:none;
+  width:24px;height:24px;border-radius:50%;background:#1a1a1a;border:1px solid #2e2e2e;
+  display:grid;place-items:center;font-size:12px;cursor:pointer;transition:opacity .15s;
+}
+.msg:hover .msg-react-btn{opacity:1;pointer-events:auto}
+.msg .msg-react-btn{right:-8px}
+.msg.me .msg-react-btn{left:-8px;right:auto}
+.msg-reacts{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.msg-reacts span{
+  font-size:11px;padding:2px 7px;border-radius:10px;background:#1a1a1a;
+  border:1px solid #2a2a2a;cursor:pointer;
+}
+.msg-reacts span.mine{background:#fff;color:#000;border-color:#fff}
+
+.react-picker{
+  position:fixed;z-index:999999;display:none;gap:6px;padding:8px 10px;
+  border-radius:24px;background:#111;border:1px solid #2a2a2a;box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+.react-picker.show{display:flex}
+.react-picker span{font-size:20px;cursor:pointer;transition:transform .15s}
+.react-picker span:hover{transform:scale(1.3)}
+
+/* Voice messages */
+.voice-bubble{display:flex;align-items:center;gap:10px;min-width:170px}
+.voice-play{
+  width:34px;height:34px;border-radius:50%;border:0;flex:none;cursor:pointer;
+  background:#fff;color:#000;font-size:13px;display:grid;place-items:center;
+}
+.voice-wave{display:flex;align-items:center;gap:2px;flex:1;height:24px}
+.voice-wave i{display:block;width:3px;border-radius:2px;background:currentColor;opacity:.6}
+
+#micBtn{position:relative;transition:background .2s,color .2s}
+#micBtn.recording{background:#ef4444;border-color:#ef4444;color:#fff;animation:vzMicPulse 1.2s ease-in-out infinite}
+@keyframes vzMicPulse{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,.5)}50%{box-shadow:0 0 0 10px rgba(239,68,68,0)}}
+.rec-timer{font-size:12px;color:#ef4444;font-weight:700;margin-left:4px;align-self:center}
+
+/* Chat menu */
+.chat-menu-btn{
+  margin-left:auto;padding:6px 10px;cursor:pointer;font-size:18px;color:#8a8a8a;border-radius:8px;
+}
+.chat-menu-btn:hover{background:rgba(255,255,255,.06);color:#fff}
+.chat-menu{
+  position:fixed;z-index:999999;display:none;flex-direction:column;min-width:180px;
+  background:#111;border:1px solid #2a2a2a;border-radius:14px;overflow:hidden;
+  box-shadow:0 10px 30px rgba(0,0,0,.5);
+}
+.chat-menu.show{display:flex}
+.chat-menu button{
+  border:0;background:none;color:#fff;text-align:left;padding:12px 16px;
+  font-size:13px;cursor:pointer;
+}
+.chat-menu button:hover{background:rgba(255,255,255,.06)}
+</style>
 </head>
 
 <body>
@@ -4237,12 +4338,14 @@ async function renderApp(){
 <section id="home" class="view active">
 
   <div class="home-head">
-    <div>
+        <div>
       <h2>Welcome back, <span id="homeName">there</span> 👋</h2>
       <p class="muted">Here's what's happening on Vezora.</p>
     </div>
     <div class="home-avatar" id="homeAvatar">👤</div>
   </div>
+
+  <div class="stories-row" id="storiesRow"></div>
 
   <div class="cards">
 
@@ -4305,7 +4408,11 @@ async function renderApp(){
 
             <div id="msgs" class="msgs"></div>
 
-            <form class="compose" onsubmit="send(event)">
+                   <form class="compose" onsubmit="send(event)">
+
+              <button type="button" class="btn alt" id="micBtn" onclick="toggleRecording()">
+                🎙️
+              </button>
 
               <input
                 id="msg"
@@ -4318,7 +4425,6 @@ async function renderApp(){
               </button>
 
             </form>
-
           </div>
 
         </div>
@@ -4493,6 +4599,7 @@ async function renderApp(){
 loadPeople();
 loadProfile();
 loadChats();
+loadStories();
 
 
 }
@@ -4599,19 +4706,26 @@ function filterChats(q){
   });
 }
   let lastMsgSender=null;
+const REACTS=["❤️","😂","👍","😮","😢"];
 
-function addMsg(t,own,time){
+function addMsg(t,own,time,id,reactions,type,mediaUrl){
 
   const grouped = lastMsgSender===own;
   lastMsgSender=own;
 
   const d=document.createElement("div");
   d.className="msg "+(own?"me":"")+(grouped?" grouped":"");
+  d.dataset.id=id||"";
+  d.dataset.reactions=JSON.stringify(reactions||{});
 
-  const body=document.createElement("span");
-  body.className="msg-text";
-  body.textContent=t;
-  d.appendChild(body);
+  if(type==="voice" && mediaUrl){
+    d.appendChild(voiceBubble(mediaUrl));
+  }else{
+    const body=document.createElement("span");
+    body.className="msg-text";
+    body.textContent=t;
+    d.appendChild(body);
+  }
 
   const meta=document.createElement("span");
   meta.className="msg-time";
@@ -4619,8 +4733,81 @@ function addMsg(t,own,time){
   if(own) meta.textContent+=" ✓";
   d.appendChild(meta);
 
+  if(id){
+    const rb=document.createElement("span");
+    rb.className="msg-react-btn";
+    rb.textContent="🙂";
+    rb.onclick=(e)=>{ e.stopPropagation(); openReactPicker(id, rb); };
+    d.appendChild(rb);
+  }
+
   $("#msgs").appendChild(d);
+  if(reactions && Object.keys(reactions).length) renderReactions(d, reactions);
   $("#msgs").scrollTo({top:$("#msgs").scrollHeight,behavior:"smooth"});
+}
+
+function voiceBubble(url){
+  const wrap=document.createElement("div");
+  wrap.className="voice-bubble";
+  const bars=Array.from({length:18}).map(()=>`<i style="height:${6+Math.random()*16}px"></i>`).join("");
+  wrap.innerHTML=`
+    <button type="button" class="voice-play" onclick="toggleVoice(this)">▶</button>
+    <div class="voice-wave">${bars}</div>
+    <audio preload="metadata" src="${esc(url)}"></audio>
+  `;
+  return wrap;
+}
+
+function toggleVoice(btn){
+  const audio=btn.parentElement.querySelector("audio");
+  document.querySelectorAll(".voice-bubble audio").forEach(a=>{ if(a!==audio){ a.pause(); a.currentTime=0; }});
+  document.querySelectorAll(".voice-play").forEach(b=>{ if(b!==btn) b.textContent="▶"; });
+  if(audio.paused){ audio.play(); btn.textContent="❚❚"; }
+  else{ audio.pause(); btn.textContent="▶"; }
+  audio.onended=()=>{ btn.textContent="▶"; };
+}
+
+function openReactPicker(id, el){
+  const rp=$("#reactPicker");
+  const r=el.getBoundingClientRect();
+  rp.innerHTML=REACTS.map(e=>`<span onclick="toggleReaction('${id}','${e}')">${e}</span>`).join("");
+  rp.style.left=Math.max(8, Math.min(r.left, window.innerWidth-220))+"px";
+  rp.style.top=Math.max(8, r.top-52)+"px";
+  rp.classList.add("show");
+  setTimeout(()=>document.addEventListener("click",()=>rp.classList.remove("show"),{once:true}),0);
+}
+
+async function toggleReaction(id, emoji){
+  $("#reactPicker").classList.remove("show");
+  const el=document.querySelector(`.msg[data-id="${id}"]`);
+  if(!el) return;
+
+  let reactions={};
+  try{ reactions=JSON.parse(el.dataset.reactions||"{}"); }catch(e){}
+  const list=reactions[emoji]||[];
+  const idx=list.indexOf(me.id);
+  if(idx>-1) list.splice(idx,1); else list.push(me.id);
+  if(list.length) reactions[emoji]=list; else delete reactions[emoji];
+
+  el.dataset.reactions=JSON.stringify(reactions);
+  renderReactions(el, reactions);
+
+  await sb.from("messages").update({reactions}).eq("id", id);
+  channel?.send({type:"broadcast", event:"reaction", payload:{id, reactions}});
+}
+
+function renderReactions(el, reactions){
+  let bar=el.querySelector(".msg-reacts");
+  const entries=Object.entries(reactions||{}).filter(([,u])=>u && u.length);
+  if(!entries.length){ bar?.remove(); return; }
+  if(!bar){
+    bar=document.createElement("div");
+    bar.className="msg-reacts";
+    el.appendChild(bar);
+  }
+  bar.innerHTML=entries.map(([e,u])=>
+    `<span class="${u.includes(me.id)?'mine':''}" onclick="toggleReaction('${el.dataset.id}','${e}')">${e} ${u.length}</span>`
+  ).join("");
 }
 function initials(name){
   return (name||"?").trim().split(/\s+/).slice(0,2).map(w=>w[0]).join("").toUpperCase();
@@ -4638,7 +4825,9 @@ async function loadPeople(){
     return;
   }
 
-  const html=(data||[]).map(p=>{
+  const blocked=await getBlockedIds();
+
+  const html=(data||[]).filter(p=>!blocked.includes(p.id)).map(p=>{
     const name=p.full_name||p.username||"Vezora User";
     return `
     <div class="card person" data-name="${esc(name.toLowerCase())}">
@@ -4715,7 +4904,7 @@ document.querySelectorAll("#chatList .item")
 
 document.querySelector(`#chatList .item[data-user-id="${id}"]`)
   ?.classList.add("active");
-  $("#chatHead").innerHTML = `
+    $("#chatHead").innerHTML = `
   <div class="chat-head-user">
     <div class="chat-head-avatar">👤</div>
     <div>
@@ -4723,6 +4912,7 @@ document.querySelector(`#chatList .item[data-user-id="${id}"]`)
       <small><span class="online-dot"></span> Online</small>
     </div>
   </div>
+  <span class="chat-menu-btn" onclick="toggleChatMenu(event)">⋮</span>
 `;
   $("#callName").textContent=name;
   $("#callAvatar").textContent=initials(name);
@@ -4740,18 +4930,29 @@ document.querySelector(`#chatList .item[data-user-id="${id}"]`)
 
   channel=sb
     .channel("chat:"+[me.id,id].sort().join("_"))
-        .on(
+            .on(
       "broadcast",
       {event:"message"},
       p=>{
         if(p.payload.sender_id!==me.id){
-          addMsg(p.payload.text,false);
+          addMsg(p.payload.text||"",false,new Date().toISOString(),p.payload.id,{},p.payload.type,p.payload.media_url);
           try{
             const seen=JSON.parse(localStorage.getItem("vzSeen")||"{}");
             seen[activeUser.id]=new Date().toISOString();
             localStorage.setItem("vzSeen",JSON.stringify(seen));
           }catch(e){}
           loadChats();
+        }
+      }
+    )
+    .on(
+      "broadcast",
+      {event:"reaction"},
+      p=>{
+        const el=document.querySelector(`.msg[data-id="${p.payload.id}"]`);
+        if(el){
+          el.dataset.reactions=JSON.stringify(p.payload.reactions);
+          renderReactions(el,p.payload.reactions);
         }
       }
     )
@@ -4771,8 +4972,8 @@ async function loadMessages(){
   $("#msgs").innerHTML="";
   lastMsgSender=null;
 
-  (data||[]).forEach(m=>
-    addMsg(m.body, m.sender_id===me.id, m.created_at)
+   (data||[]).forEach(m=>
+    addMsg(m.body, m.sender_id===me.id, m.created_at, m.id, m.reactions, m.type, m.media_url)
   );
 
   try{
@@ -4794,15 +4995,18 @@ async function send(e){
 
   $("#msg").value="";
 
-  await sb
+  const {data}=await sb
     .from("messages")
     .insert({
       sender_id:me.id,
       receiver_id:activeUser.id,
-      body:text
-    });
+      body:text,
+      type:"text"
+    })
+    .select()
+    .single();
 
-   addMsg(text,true);
+  addMsg(text,true,data?.created_at,data?.id,{});
   loadChats();
 
   channel?.send({
@@ -4810,8 +5014,100 @@ async function send(e){
     event:"message",
     payload:{
       sender_id:me.id,
-      text
+      text,
+      id:data?.id
     }
+  });
+}
+
+/* ---------- VOICE MESSAGES ---------- */
+let mediaRecorder, recChunks=[], recTimer, recSeconds=0, recStream;
+
+async function toggleRecording(){
+  const btn=$("#micBtn");
+
+  if(mediaRecorder && mediaRecorder.state==="recording"){
+    mediaRecorder.stop();
+    return;
+  }
+  if(!activeUser){
+    alert("Select a person first.");
+    return;
+  }
+
+  try{
+    recStream=await navigator.mediaDevices.getUserMedia({audio:true});
+  }catch(e){
+    alert("Microphone access denied.");
+    return;
+  }
+
+  recChunks=[];
+  mediaRecorder=new MediaRecorder(recStream);
+  mediaRecorder.ondataavailable=e=>recChunks.push(e.data);
+
+  mediaRecorder.onstop=async()=>{
+    clearInterval(recTimer);
+    btn.classList.remove("recording");
+    btn.textContent="🎙️";
+    document.getElementById("recTimer")?.remove();
+    recStream.getTracks().forEach(t=>t.stop());
+
+    if(recSeconds<1){ recSeconds=0; return; }
+
+    const blob=new Blob(recChunks,{type:"audio/webm"});
+    await sendVoiceMessage(blob);
+    recSeconds=0;
+  };
+
+  mediaRecorder.start();
+  btn.classList.add("recording");
+  btn.textContent="⏹️";
+  recSeconds=0;
+
+  const t=document.createElement("span");
+  t.id="recTimer";
+  t.className="rec-timer";
+  t.textContent="0:00";
+  btn.after(t);
+
+  recTimer=setInterval(()=>{
+    recSeconds++;
+    const m=String(Math.floor(recSeconds/60));
+    const s=String(recSeconds%60).padStart(2,"0");
+    if(t.isConnected) t.textContent=`${m}:${s}`;
+  },1000);
+}
+
+async function sendVoiceMessage(blob){
+  if(!activeUser) return;
+
+  const path=`${me.id}/${Date.now()}.webm`;
+  const {error}=await sb.storage.from("voice-notes").upload(path, blob, {contentType:"audio/webm"});
+
+  if(error){
+    alert("Voice upload failed: "+error.message);
+    return;
+  }
+
+  const {data:pub}=sb.storage.from("voice-notes").getPublicUrl(path);
+  const url=pub.publicUrl;
+
+  const {data}=await sb.from("messages").insert({
+    sender_id:me.id,
+    receiver_id:activeUser.id,
+    body:"",
+    type:"voice",
+    media_url:url
+  }).select().single();
+
+  addMsg("",true,data?.created_at,data?.id,{},"voice",url);
+  loadChats();
+
+  channel?.send({
+    type:"broadcast",
+    event:"message",
+    payload:{sender_id:me.id,text:"",id:data?.id,type:"voice",media_url:url}
   });
 }
 
@@ -4969,6 +5265,180 @@ async function uploadAvatar(file){
 
   $("#profileAvatar").innerHTML='<img src="'+url+'">';
   alert("Profile photo updated ✅");
+}
+  /* ---------- STORIES ---------- */
+let storyGroups=[], storyGroupIdx=0, storyIdx=0, storyTimer=null;
+
+async function loadStories(){
+  const cutoff=new Date(Date.now()-24*3600*1000).toISOString();
+  const {data,error}=await sb
+    .from("stories")
+    .select("id,user_id,text,created_at")
+    .gt("created_at",cutoff)
+    .order("created_at",{ascending:true});
+
+  if(error){ console.error("Stories load error:",error); return; }
+
+  const ids=[...new Set((data||[]).map(s=>s.user_id))];
+  let people={};
+  if(ids.length){
+    const {data:profs}=await sb.from("profiles").select("id,username,full_name,avatar_url").in("id",ids);
+    (profs||[]).forEach(p=>people[p.id]=p);
+  }
+
+  const groups={};
+  (data||[]).forEach(s=>{ (groups[s.user_id]=groups[s.user_id]||[]).push(s); });
+
+  storyGroups=Object.entries(groups).map(([uid,items])=>({
+    userId:uid, person:people[uid]||{full_name:"Vezora User"}, items
+  }));
+
+  renderStoriesRow();
+}
+
+function renderStoriesRow(){
+  const row=$("#storiesRow");
+  if(!row) return;
+
+  let html=`
+    <div class="story-circle add" onclick="openStoryModal()">
+      <div class="story-ring self">${myInitialsOrAvatar()}</div>
+      <small>Your story</small>
+    </div>`;
+
+  html+=storyGroups.filter(g=>g.userId!==me.id).map((g,i)=>{
+    const name=g.person.full_name||g.person.username||"User";
+    const seen=hasSeenAllStories(g);
+    return `
+      <div class="story-circle" onclick="openStoryViewer(${i})">
+        <div class="story-ring ${seen?'seen':''}">
+          ${g.person.avatar_url?`<img src="${esc(g.person.avatar_url)}">`:initials(name)}
+        </div>
+        <small>${esc(name.split(" ")[0])}</small>
+      </div>`;
+  }).join("");
+
+  row.innerHTML=html;
+}
+
+function myInitialsOrAvatar(){
+  const img=$("#profileAvatar")?.querySelector("img");
+  return img ? `<img src="${img.src}">` : initials($("#profileName")?.textContent||"You");
+}
+
+function getSeenMap(){ try{ return JSON.parse(localStorage.getItem("vzStorySeen")||"{}"); }catch(e){ return {}; } }
+function hasSeenAllStories(g){ const seen=getSeenMap(); return g.items.every(s=>seen[s.id]); }
+function markSeen(id){ const seen=getSeenMap(); seen[id]=true; localStorage.setItem("vzStorySeen",JSON.stringify(seen)); }
+
+function openStoryModal(){ $("#storyModal").classList.add("show"); }
+function closeStoryModal(){ $("#storyModal").classList.remove("show"); $("#storyText").value=""; }
+
+async function postStory(){
+  const text=$("#storyText").value.trim();
+  if(!text){ alert("Write something for your story."); return; }
+  const {error}=await sb.from("stories").insert({user_id:me.id, text});
+  if(error){ alert("Couldn't post story: "+error.message); return; }
+  closeStoryModal();
+  loadStories();
+}
+
+function openStoryViewer(indexAmongOthers){
+  const others=storyGroups.filter(g=>g.userId!==me.id);
+  storyGroupIdx=storyGroups.indexOf(others[indexAmongOthers]);
+  storyIdx=0;
+  showCurrentStory();
+  $("#storyViewer").classList.add("show");
+}
+
+function showCurrentStory(){
+  const g=storyGroups[storyGroupIdx];
+  if(!g) return closeStoryViewer();
+  const s=g.items[storyIdx];
+  if(!s) return closeStoryViewer();
+
+  markSeen(s.id);
+
+  const name=g.person.full_name||g.person.username||"User";
+  $("#storyViewerName").textContent=name;
+  $("#storyViewerAvatar").innerHTML=g.person.avatar_url?`<img src="${esc(g.person.avatar_url)}">`:initials(name);
+  $("#storyViewerTime").textContent=fmtTime(s.created_at);
+  $("#storyViewerBody").innerHTML=`<p>${esc(s.text||"")}</p>`;
+
+  $("#storyBars").innerHTML=g.items.map((_,i)=>
+    `<div class="bar ${i<storyIdx?'done':''}"><i ${i===storyIdx?'id="activeBar"':''}></i></div>`
+  ).join("");
+
+  clearInterval(storyTimer);
+  const bar=$("#activeBar");
+  if(bar){
+    bar.style.transition="none"; bar.style.width="0%";
+    requestAnimationFrame(()=>{ bar.style.transition="width 5s linear"; bar.style.width="100%"; });
+  }
+  storyTimer=setTimeout(nextStory,5000);
+}
+
+function nextStory(){
+  const g=storyGroups[storyGroupIdx];
+  if(storyIdx<g.items.length-1){ storyIdx++; showCurrentStory(); return; }
+
+  const others=storyGroups.filter(gr=>gr.userId!==me.id);
+  const curPos=others.indexOf(g);
+  if(curPos<others.length-1){
+    storyGroupIdx=storyGroups.indexOf(others[curPos+1]);
+    storyIdx=0;
+    showCurrentStory();
+  }else{
+    closeStoryViewer();
+  }
+}
+
+function prevStory(){ if(storyIdx>0){ storyIdx--; showCurrentStory(); } }
+
+function closeStoryViewer(){
+  clearInterval(storyTimer);
+  $("#storyViewer").classList.remove("show");
+  renderStoriesRow();
+}
+
+/* ---------- BLOCK / REPORT ---------- */
+async function getBlockedIds(){
+  const {data}=await sb.from("blocks").select("blocked_id").eq("blocker_id",me.id);
+  return (data||[]).map(b=>b.blocked_id);
+}
+
+function toggleChatMenu(e){
+  e.stopPropagation();
+  const m=$("#chatMenu");
+  const r=e.target.getBoundingClientRect();
+  m.style.right=(window.innerWidth-r.right)+"px";
+  m.style.top=(r.bottom+6)+"px";
+  m.classList.toggle("show");
+  document.addEventListener("click",()=>m.classList.remove("show"),{once:true});
+}
+
+async function blockActiveUser(){
+  if(!activeUser) return;
+  if(!confirm(`Block ${activeUser.name}? They won't appear in your lists anymore.`)) return;
+
+  const {error}=await sb.from("blocks").insert({blocker_id:me.id, blocked_id:activeUser.id});
+  if(error){ alert("Couldn't block: "+error.message); return; }
+
+  alert(`${activeUser.name} has been blocked.`);
+  activeUser=null;
+  $("#msgs").innerHTML="";
+  $("#chatHead").textContent="Select someone to chat";
+  loadChats();
+  loadPeople();
+}
+
+async function reportActiveUser(){
+  if(!activeUser) return;
+  const reason=prompt(`Why are you reporting ${activeUser.name}?`);
+  if(!reason) return;
+
+  const {error}=await sb.from("reports").insert({reporter_id:me.id, reported_id:activeUser.id, reason});
+  if(error){ alert("Couldn't submit report: "+error.message); return; }
+  alert("Report submitted. Thank you.");
 }
 auth();
 </script>
@@ -5615,5 +6085,38 @@ auth();
   }
 })();
 </script>
+
+<div id="reactPicker" class="react-picker"></div>
+<div id="chatMenu" class="chat-menu">
+  <button onclick="blockActiveUser()">🚫 Block user</button>
+  <button onclick="reportActiveUser()">⚠️ Report user</button>
+</div>
+
+<div id="storyModal" class="profile-modal">
+  <div class="profile-modal-box story-modal-box">
+    <h2>✨ Add to Story</h2>
+    <textarea id="storyText" class="profile-input" rows="4" placeholder="What's on your mind?" maxlength="180"></textarea>
+    <div class="profile-modal-actions">
+      <button class="btn" onclick="postStory()">Post</button>
+      <button class="btn alt" onclick="closeStoryModal()">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="storyViewer" class="story-viewer">
+  <div class="story-viewer-bars" id="storyBars"></div>
+  <div class="story-viewer-head">
+    <div class="story-viewer-avatar" id="storyViewerAvatar"></div>
+    <b id="storyViewerName"></b>
+    <span id="storyViewerTime" class="muted"></span>
+    <span class="story-close" onclick="closeStoryViewer()">✕</span>
+  </div>
+  <div class="story-viewer-body" id="storyViewerBody"></div>
+  <div class="story-viewer-nav">
+    <div onclick="prevStory()"></div>
+    <div onclick="nextStory()"></div>
+  </div>
+</div>
+
 </body>
 </html>
