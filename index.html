@@ -3579,6 +3579,34 @@ body.vz-intro .landing-nav,body.vz-intro .landing-phone{opacity:0}
   font-size:13px;cursor:pointer;
 }
 .chat-menu button:hover{background:rgba(255,255,255,.06)}
+    /* Story music */
+.story-music-row{display:flex;align-items:center;gap:10px;margin:14px 0 4px}
+.story-music-btn{
+  display:flex;align-items:center;gap:8px;padding:9px 14px;border-radius:12px;
+  background:#0d0d0d;border:1px solid #262626;color:#fff;font-size:13px;cursor:pointer;
+}
+.story-music-picked{
+  display:none;align-items:center;gap:8px;padding:8px 12px;border-radius:12px;
+  background:#0d0d0d;border:1px solid #262626;font-size:12.5px;color:#ddd;flex:1;min-width:0;
+}
+.story-music-picked.show{display:flex}
+.story-music-picked span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.story-music-picked b{cursor:pointer;color:#8a8a8a;font-weight:400}
+
+.story-music-badge{
+  position:absolute;left:50%;bottom:26px;transform:translateX(-50%);
+  display:flex;align-items:center;gap:8px;padding:8px 14px 8px 8px;border-radius:30px;
+  background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);
+  font-size:12.5px;max-width:80%;
+}
+.story-music-badge .vinyl{
+  width:26px;height:26px;border-radius:50%;flex:none;
+  background:repeating-radial-gradient(circle,#222 0 2px,#444 2px 4px);
+  display:grid;place-items:center;animation:vzVinyl 3s linear infinite;
+}
+.story-music-badge .vinyl:after{content:"";width:6px;height:6px;border-radius:50%;background:#000}
+.story-music-badge span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+@keyframes vzVinyl{to{transform:rotate(360deg)}}
 </style>
 </head>
 
@@ -5266,14 +5294,15 @@ async function uploadAvatar(file){
   $("#profileAvatar").innerHTML='<img src="'+url+'">';
   alert("Profile photo updated ✅");
 }
-  /* ---------- STORIES ---------- */
+    /* ---------- STORIES ---------- */
 let storyGroups=[], storyGroupIdx=0, storyIdx=0, storyTimer=null;
+let storyMusicFile=null;
 
 async function loadStories(){
   const cutoff=new Date(Date.now()-24*3600*1000).toISOString();
   const {data,error}=await sb
     .from("stories")
-    .select("id,user_id,text,created_at")
+    .select("id,user_id,text,created_at,music_url,music_name")
     .gt("created_at",cutoff)
     .order("created_at",{ascending:true});
 
@@ -5330,14 +5359,49 @@ function getSeenMap(){ try{ return JSON.parse(localStorage.getItem("vzStorySeen"
 function hasSeenAllStories(g){ const seen=getSeenMap(); return g.items.every(s=>seen[s.id]); }
 function markSeen(id){ const seen=getSeenMap(); seen[id]=true; localStorage.setItem("vzStorySeen",JSON.stringify(seen)); }
 
+function pickStoryMusic(file){
+  if(!file) return;
+  storyMusicFile=file;
+  $("#storyMusicName").textContent="🎵 "+file.name;
+  $("#storyMusicPicked").classList.add("show");
+}
+
+function clearStoryMusic(){
+  storyMusicFile=null;
+  $("#storyMusicFile").value="";
+  $("#storyMusicPicked").classList.remove("show");
+}
+
 function openStoryModal(){ $("#storyModal").classList.add("show"); }
-function closeStoryModal(){ $("#storyModal").classList.remove("show"); $("#storyText").value=""; }
+
+function closeStoryModal(){
+  $("#storyModal").classList.remove("show");
+  $("#storyText").value="";
+  clearStoryMusic();
+}
 
 async function postStory(){
   const text=$("#storyText").value.trim();
   if(!text){ alert("Write something for your story."); return; }
-  const {error}=await sb.from("stories").insert({user_id:me.id, text});
+
+  let music_url=null, music_name=null;
+
+  if(storyMusicFile){
+    const ext=storyMusicFile.name.split(".").pop();
+    const path=`${me.id}/${Date.now()}.${ext}`;
+    const {error:upErr}=await sb.storage.from("story-music").upload(path, storyMusicFile);
+    if(upErr){
+      alert("Music upload failed: "+upErr.message);
+      return;
+    }
+    const {data:pub}=sb.storage.from("story-music").getPublicUrl(path);
+    music_url=pub.publicUrl;
+    music_name=storyMusicFile.name.replace(/\.[^.]+$/,"");
+  }
+
+  const {error}=await sb.from("stories").insert({user_id:me.id, text, music_url, music_name});
   if(error){ alert("Couldn't post story: "+error.message); return; }
+
   closeStoryModal();
   loadStories();
 }
@@ -5362,7 +5426,22 @@ function showCurrentStory(){
   $("#storyViewerName").textContent=name;
   $("#storyViewerAvatar").innerHTML=g.person.avatar_url?`<img src="${esc(g.person.avatar_url)}">`:initials(name);
   $("#storyViewerTime").textContent=fmtTime(s.created_at);
-  $("#storyViewerBody").innerHTML=`<p>${esc(s.text||"")}</p>`;
+
+  let bodyHtml=`<p>${esc(s.text||"")}</p>`;
+  if(s.music_name){
+    bodyHtml+=`<div class="story-music-badge"><div class="vinyl"></div><span>🎵 ${esc(s.music_name)}</span></div>`;
+  }
+  $("#storyViewerBody").innerHTML=bodyHtml;
+
+  const audio=$("#storyAudio");
+  audio.pause();
+  if(s.music_url){
+    audio.src=s.music_url;
+    audio.currentTime=0;
+    audio.play().catch(()=>{});
+  }else{
+    audio.removeAttribute("src");
+  }
 
   $("#storyBars").innerHTML=g.items.map((_,i)=>
     `<div class="bar ${i<storyIdx?'done':''}"><i ${i===storyIdx?'id="activeBar"':''}></i></div>`
@@ -5396,6 +5475,7 @@ function prevStory(){ if(storyIdx>0){ storyIdx--; showCurrentStory(); } }
 
 function closeStoryViewer(){
   clearInterval(storyTimer);
+  $("#storyAudio").pause();
   $("#storyViewer").classList.remove("show");
   renderStoriesRow();
 }
@@ -6096,6 +6176,18 @@ auth();
   <div class="profile-modal-box story-modal-box">
     <h2>✨ Add to Story</h2>
     <textarea id="storyText" class="profile-input" rows="4" placeholder="What's on your mind?" maxlength="180"></textarea>
+
+    <div class="story-music-row">
+      <div class="story-music-btn" onclick="document.getElementById('storyMusicFile').click()">
+        🎵 Add music
+      </div>
+      <div class="story-music-picked" id="storyMusicPicked">
+        <span id="storyMusicName"></span>
+        <b onclick="clearStoryMusic()">✕</b>
+      </div>
+      <input id="storyMusicFile" type="file" accept="audio/*" hidden onchange="pickStoryMusic(this.files[0])">
+    </div>
+
     <div class="profile-modal-actions">
       <button class="btn" onclick="postStory()">Post</button>
       <button class="btn alt" onclick="closeStoryModal()">Cancel</button>
@@ -6111,7 +6203,8 @@ auth();
     <span id="storyViewerTime" class="muted"></span>
     <span class="story-close" onclick="closeStoryViewer()">✕</span>
   </div>
-  <div class="story-viewer-body" id="storyViewerBody"></div>
+    <div class="story-viewer-body" id="storyViewerBody"></div>
+  <audio id="storyAudio" style="display:none"></audio>
   <div class="story-viewer-nav">
     <div onclick="prevStory()"></div>
     <div onclick="nextStory()"></div>
