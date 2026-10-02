@@ -6210,6 +6210,377 @@ auth();
     <div onclick="nextStory()"></div>
   </div>
 </div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600..800&display=swap" rel="stylesheet">
 
+<style>
+/* ===== VEZORA FRONT PAGE UPGRADE ===== */
+
+.landing-text h1,
+.vz3-panel h3,
+.vzl-statement,
+.vzl-tile h3,
+.vzl-cta h2,
+.vzi-word,
+.vz-footer-logo{
+  font-family:"Bricolage Grotesque",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+.landing-text h1{font-weight:800;letter-spacing:-2px;line-height:1}
+
+/* nav */
+.landing-nav-r{display:flex;align-items:center;gap:10px}
+.landing-login,.landing-signup{padding:10px 20px;border-radius:12px;font-weight:600}
+.landing-signup{
+  border:1px solid #fff;background:#fff;color:#000;cursor:pointer;
+  transition:background .2s;
+}
+.landing-signup:hover{background:#e6e6e6}
+
+.landing-text .landing-note{margin-top:18px;font-size:13px;color:#8a8a8a}
+
+/* phone: float without breaking rotate/scale on mobile */
+.landing-phone{animation:phoneFloat 5s ease-in-out infinite}
+@keyframes phoneFloat{
+  0%,100%{translate:0 0}
+  50%{translate:0 -10px}
+}
+
+/* shorter 3D scroll */
+.vz3{height:380vh}
+
+/* footer signature (was only applying on phones) */
+.vezora-brand{display:inline-flex;flex-direction:column;align-items:flex-end;position:relative}
+.ansh-signature-img{
+  width:105px;height:auto;display:block;margin-right:-12px;margin-bottom:-13px;
+  transform:rotate(-6deg);filter:brightness(0) invert(1);opacity:.92;
+}
+.vz-footer-logo{position:relative;z-index:2}
+.chat-title-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+
+/* lower section */
+.vzl-statement{padding:18vh 0 14vh;max-width:15em}
+
+.t-chat{
+  display:flex;align-items:center;justify-content:space-between;
+  gap:30px;flex-wrap:wrap;
+}
+
+.vzl-story{
+  width:200px;height:300px;padding:18px;border-radius:22px;
+  display:flex;flex-direction:column;justify-content:space-between;
+  background:#111;border:1px solid #262626;
+}
+.vzl-story .bars{display:flex;gap:4px}
+.vzl-story .bars i{flex:1;height:3px;border-radius:3px;background:#333}
+.vzl-story .bars i:first-child{background:#fff}
+.vzl-story .quote{font-size:22px;font-weight:700;line-height:1.25;color:#fff}
+.vzl-story .song{
+  display:flex;align-items:center;gap:8px;width:max-content;
+  padding:6px 12px 6px 6px;border-radius:30px;font-size:12px;color:#fff;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.18);
+}
+.vzl-story .vinyl{
+  width:22px;height:22px;border-radius:50%;
+  background:repeating-radial-gradient(circle,#222 0 2px,#444 2px 4px);
+  animation:vzVinyl 3s linear infinite;
+}
+
+.vzl-wave{display:flex;align-items:center;gap:3px;height:48px;margin-top:26px}
+.vzl-wave i{display:block;width:4px;border-radius:3px;background:#fff;opacity:.75}
+
+.vzl-reacts{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.vzl-reacts span{
+  width:44px;height:44px;border-radius:50%;display:grid;place-items:center;
+  font-size:20px;background:#141414;border:1px solid #262626;
+}
+.vzl-reacts span.on{background:#fff;border-color:#fff}
+
+.vzl-menu{
+  display:flex;flex-direction:column;min-width:190px;overflow:hidden;
+  background:#111;border:1px solid #2a2a2a;border-radius:14px;
+}
+.vzl-menu span{padding:12px 16px;font-size:13px;color:#fff}
+.vzl-menu span + span{border-top:1px solid #1f1f1f}
+
+.vzl-alt{margin:22px 0 0;color:#8a8a8a;font-size:14px}
+.vzl-alt button{
+  background:none;border:0;padding:0;color:#fff;font:inherit;
+  text-decoration:underline;cursor:pointer;
+}
+
+@media(max-width:700px){
+  .landing-signup{padding:9px 16px;font-size:13px}
+  .landing-nav-r{gap:8px}
+  .vzl-story{width:100%;max-width:240px}
+}
+</style>
+
+<script>
+/* ===== VEZORA FRONT PAGE UPGRADE: new landing + login/signup fixes ===== */
+
+document.title = "Vezora – chat, call and share stories";
+(function(){
+  const add = (tag, attrs) => {
+    const el = document.createElement(tag);
+    Object.keys(attrs).forEach(k => el.setAttribute(k, attrs[k]));
+    document.head.appendChild(el);
+  };
+  add("meta", { name:"description", content:"Vezora is a chat app for messaging friends, sending voice notes, making video calls and posting stories that last 24 hours." });
+  add("meta", { name:"theme-color", content:"#000000" });
+  add("link", { rel:"icon", href:"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23fff'/%3E%3Ctext x='32' y='46' font-size='40' font-weight='800' text-anchor='middle' font-family='system-ui,sans-serif' fill='%23000'%3EV%3C/text%3E%3C/svg%3E" });
+})();
+
+function renderLanding(){
+
+  const wave=[14,28,40,22,34,46,26,38,18,30,44,24,36,16,32,42,20,28,38,22]
+    .map(h=>`<i style="height:${h}px"></i>`).join("");
+
+  app.innerHTML=`
+  <section class="landing">
+
+    <nav class="landing-nav">
+      <div class="logo"><b>V</b>Vezora</div>
+      <div class="landing-nav-r">
+        <button class="landing-login" onclick="renderAuth()">Log in</button>
+        <button class="landing-signup" onclick="renderSignup()">Sign up</button>
+      </div>
+    </nav>
+
+    <div class="landing-content">
+
+      <div class="landing-text">
+        <h1>Chat, call, and<br>share stories.</h1>
+
+        <p>
+          Vezora is where you message friends, send voice notes,
+          start video calls and post stories that last 24 hours.
+        </p>
+
+        <div class="landing-buttons">
+          <button class="landing-primary" onclick="renderSignup()">Create your account</button>
+          <button class="landing-secondary" onclick="renderAuth()">Log in</button>
+        </div>
+
+        <p class="landing-note">No phone number needed.</p>
+      </div>
+
+      <div class="landing-phone" aria-hidden="true">
+        <div class="vzph" id="vzph">
+          <span class="vzph-btn b1"></span>
+          <span class="vzph-btn b2"></span>
+          <span class="vzph-btn b3"></span>
+          <span class="vzph-btn pw"></span>
+
+          <div class="vzph-body">
+            <div class="vzph-screen">
+
+              <div class="vzph-island"></div>
+
+              <div class="vzph-status">
+                <span class="vzph-time">9:41</span>
+                <span class="vzph-sys">
+                  <svg width="16" height="10" viewBox="0 0 16 10"><rect x="0" y="6" width="3" height="4" rx="1" fill="#fff"/><rect x="4.3" y="4" width="3" height="6" rx="1" fill="#fff"/><rect x="8.6" y="2" width="3" height="8" rx="1" fill="#fff"/><rect x="13" y="0" width="3" height="10" rx="1" fill="#fff"/></svg>
+                  <svg width="24" height="11" viewBox="0 0 24 11"><rect x=".5" y=".5" width="20" height="10" rx="3" fill="none" stroke="#777"/><rect x="2" y="2" width="14" height="7" rx="1.6" fill="#fff"/><rect x="22" y="3.5" width="1.6" height="4" rx=".8" fill="#777"/></svg>
+                </span>
+              </div>
+
+              <div class="vzph-head">
+                <div class="vzph-av">R<i></i></div>
+                <div class="vzph-who"><b>Riya</b><small id="vzphSt">Online</small></div>
+                <div class="vzph-acts">
+                  <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="13" height="12" rx="3"/><path d="M15 10l6-3v10l-6-3z"/></svg></span>
+                  <span><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>
+                </div>
+              </div>
+
+              <div class="vzph-msgs" id="vzphMsgs"></div>
+
+              <div class="vzph-input">
+                <span class="vzph-ph" id="vzphInput">Message</span>
+                <span class="vzph-send"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg></span>
+              </div>
+              <div class="vzph-home"></div>
+
+              <div class="vzph-call">
+                <div class="vzph-cav">R</div>
+                <div class="vzph-ctx"><b>Riya</b><small>Incoming video call</small></div>
+                <span class="vzph-cb no">✕</span>
+                <span class="vzph-cb yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span>
+              </div>
+
+            </div>
+          </div>
+
+          <div class="vzph-shine"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="landing-scroll">
+      <span></span>
+      SCROLL TO EXPLORE
+    </div>
+
+  </section>
+
+  <section class="vz3" id="vz3">
+    <div class="vz3-stage">
+
+      <div class="vz3-floor"><div class="vz3-grid"></div></div>
+      <div class="vz3-ring r1"></div>
+      <div class="vz3-ring r2"></div>
+      <div class="vz3-ring r3"></div>
+
+      <div class="vz3-word">Chat</div>
+      <div class="vz3-word">Calls</div>
+      <div class="vz3-word">People</div>
+      <div class="vz3-word">Profile</div>
+
+      <article class="vz3-panel">
+        <h3>Say it now.</h3>
+        <p>Real-time messages between you and anyone on Vezora.</p>
+        <div class="art-chat"><i></i><i class="me"></i><i></i></div>
+      </article>
+
+      <article class="vz3-panel">
+        <h3>Or just call.</h3>
+        <p>Start a video call straight from any conversation.</p>
+        <div class="art-call"><span class="pulse"></span><span class="pill"></span><span class="pill end"></span></div>
+      </article>
+
+      <article class="vz3-panel">
+        <h3>Find your people.</h3>
+        <p>Search Vezora and start a chat in one tap.</p>
+        <div class="art-people"><i></i><i></i><i></i><i></i></div>
+      </article>
+
+      <article class="vz3-panel">
+        <h3>Look like you.</h3>
+        <p>Your photo, your bio, your own username.</p>
+        <div class="art-prof"><b></b><div><i></i><i class="s"></i></div></div>
+      </article>
+
+      <div class="vz3-bar"><i></i></div>
+    </div>
+  </section>
+
+  <section class="vzl" id="vzl">
+
+    <p class="vzl-statement">Send a voice note. Post a story with a song. React with a heart. It's all here.</p>
+
+    <div class="vzl-bento">
+
+      <div class="vzl-tile t-chat">
+        <div>
+          <h3>Stories with a soundtrack.</h3>
+          <p>Post a thought for 24 hours and attach a song from your device.</p>
+        </div>
+        <div class="vzl-story">
+          <div class="bars"><i></i><i></i><i></i></div>
+          <div class="quote">Weekend, finally.</div>
+          <div class="song"><span class="vinyl"></span><span>Golden hour</span></div>
+        </div>
+      </div>
+
+      <div class="vzl-tile t-call">
+        <h3>Voice notes.</h3>
+        <p>Tap the mic, say it, tap again to send.</p>
+        <div class="vzl-wave">${wave}</div>
+      </div>
+
+      <div class="vzl-tile t-people">
+        <h3>Reactions.</h3>
+        <p>Answer a message with a heart, a laugh or a thumbs up.</p>
+        <div class="vzl-reacts"><span class="on">❤️</span><span>😂</span><span>👍</span><span>😮</span><span>😢</span></div>
+      </div>
+
+      <div class="vzl-tile t-prof">
+        <div>
+          <h3>Your space, your rules.</h3>
+          <p>See who's online, and block or report anyone from the chat menu.</p>
+        </div>
+        <div class="vzl-menu"><span>🚫 Block user</span><span>⚠️ Report user</span></div>
+      </div>
+
+    </div>
+
+    <div class="vzl-cta">
+      <h2>Your people.<br><span>Your Vezora.</span></h2>
+      <button class="vzl-magnet" onclick="renderSignup()">Create your account</button>
+      <p class="vzl-alt">Already on Vezora? <button onclick="renderAuth()">Log in</button></p>
+    </div>
+
+  </section>
+
+  <footer class="vz-footer">
+    <div class="vezora-brand">
+      <img src="./ansh-signature.png" class="ansh-signature-img" alt="" onerror="this.remove()">
+      <div class="vz-footer-logo">Vezora</div>
+    </div>
+    <p>Connect. Chat. Call. Repeat.</p>
+    <span>© 2026 Vezora. All rights reserved.</span>
+  </footer>`;
+}
+
+/* Login / signup: errors now actually show up */
+async function signup(){
+  const username=$("#username").value.trim().replace(/^@/,"").toLowerCase();
+  const full_name=$("#name").value.trim();
+  const email=$("#email").value.trim();
+  const password=$("#pass").value;
+  const msg=$("#authmsg");
+
+  msg.style.color="";
+
+  if(!username||!full_name||!email||!password){
+    msg.textContent="Fill in every field to create your account.";
+    return;
+  }
+  if(password.length<6){
+    msg.textContent="Use at least 6 characters for your password.";
+    return;
+  }
+
+  const {error}=await sb.auth.signUp({
+    email,
+    password,
+    options:{data:{full_name,username}}
+  });
+
+  if(error){ msg.textContent=error.message; return; }
+
+  msg.style.color="#22c55e";
+  msg.textContent="Account created. Check your email to confirm it, then log in.";
+}
+
+async function login(){
+  const email=$("#email").value.trim();
+  const password=$("#pass").value;
+  const msg=$("#authmsg");
+
+  if(!email||!password){
+    msg.textContent="Enter your email and password.";
+    return;
+  }
+
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if(error) msg.textContent=error.message;
+}
+
+/* Login form says "Username or Email" but only email works: fix the label */
+const _renderAuthOld = renderAuth;
+renderAuth = function(){
+  _renderAuthOld();
+  const lab = document.querySelector(".auth-field label");
+  const inp = document.getElementById("email");
+  if (lab && lab.textContent.includes("Username")) lab.textContent = "Email";
+  if (inp){ inp.type = "email"; inp.placeholder = "you@example.com"; }
+};
+
+/* If the old landing already drew before this script ran, redraw with the new one */
+if (document.querySelector(".landing")) renderLanding();
+</script>
 </body>
 </html>
