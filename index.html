@@ -6582,5 +6582,194 @@ renderAuth = function(){
 /* If the old landing already drew before this script ran, redraw with the new one */
 if (document.querySelector(".landing")) renderLanding();
 </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+<style>
+#vzBg{
+  position:fixed;inset:0;width:100%;height:100%;
+  z-index:0;pointer-events:none;display:none;
+}
+/* lift the landing content above the background and let it show through */
+#app > .landing,
+#app > .vz3,
+#app > .vzl,
+#app > .vz-footer{position:relative;z-index:1}
+.landing,.vzl{background:transparent !important}
+</style>
+
+<script>
+/* ===== VEZORA 3D NETWORK BACKGROUND ===== */
+(function(){
+  if (!window.THREE) return;
+
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const small  = innerWidth < 800;
+
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({ antialias:true, alpha:true }); }
+  catch(e){ return; }                       // no WebGL: page just stays plain
+
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  renderer.setClearColor(0x000000, 0);
+  const cv = renderer.domElement;
+  cv.id = "vzBg";
+  document.body.prepend(cv);
+
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x000000, 7, 16);          // far nodes fade out = depth
+  const camera = new THREE.PerspectiveCamera(55, 1, 0.1, 50);
+  camera.position.z = 9;
+  const group = new THREE.Group();
+  scene.add(group);
+
+  /* soft round dot texture */
+  function dotTexture(){
+    const c = document.createElement("canvas");
+    c.width = c.height = 64;
+    const g = c.getContext("2d");
+    const gr = g.createRadialGradient(32,32,0,32,32,32);
+    gr.addColorStop(0,   "rgba(255,255,255,1)");
+    gr.addColorStop(.35, "rgba(255,255,255,.9)");
+    gr.addColorStop(1,   "rgba(255,255,255,0)");
+    g.fillStyle = gr;
+    g.fillRect(0,0,64,64);
+    return new THREE.CanvasTexture(c);
+  }
+  const sprite = dotTexture();
+
+  /* nodes: points spread through a sphere, denser near the surface */
+  const N = small ? 90 : 170;
+  const R = 4.2;
+  const pos = [];
+  for (let i = 0; i < N; i++){
+    const th = Math.random() * Math.PI * 2;
+    const ph = Math.acos(2 * Math.random() - 1);
+    const r  = R * (0.55 + 0.45 * Math.cbrt(Math.random()));
+    pos.push(new THREE.Vector3(
+      r * Math.sin(ph) * Math.cos(th),
+      r * Math.sin(ph) * Math.sin(th),
+      r * Math.cos(ph)
+    ));
+  }
+
+  group.add(new THREE.Points(
+    new THREE.BufferGeometry().setFromPoints(pos),
+    new THREE.PointsMaterial({
+      size:.16, map:sprite, transparent:true, opacity:.9,
+      depthWrite:false, sizeAttenuation:true
+    })
+  ));
+
+  /* links between nearby nodes */
+  const edges = [], linePts = [];
+  const LINK = 1.5;
+  for (let i = 0; i < N; i++){
+    let c = 0;
+    for (let j = i + 1; j < N && c < 4; j++){
+      if (pos[i].distanceTo(pos[j]) < LINK){
+        edges.push([i, j]);
+        linePts.push(pos[i], pos[j]);
+        c++;
+      }
+    }
+  }
+  group.add(new THREE.LineSegments(
+    new THREE.BufferGeometry().setFromPoints(linePts),
+    new THREE.LineBasicMaterial({
+      color:0xffffff, transparent:true, opacity:.14, depthWrite:false
+    })
+  ));
+
+  /* "messages": bright dots travelling along random links */
+  const P = Math.min(12, edges.length);
+  const pulses = [];
+  const pp = new Float32Array(P * 3);
+  for (let i = 0; i < P; i++){
+    pulses.push({
+      e: edges[(Math.random() * edges.length) | 0],
+      t: Math.random(),
+      s: .25 + Math.random() * .35
+    });
+  }
+  const pGeo = new THREE.BufferGeometry();
+  pGeo.setAttribute("position", new THREE.BufferAttribute(pp, 3));
+  group.add(new THREE.Points(
+    pGeo,
+    new THREE.PointsMaterial({
+      size:.34, map:sprite, transparent:true, opacity:1,
+      depthWrite:false, sizeAttenuation:true
+    })
+  ));
+
+  function stepPulses(dt){
+    pulses.forEach((p, i) => {
+      p.t += dt * p.s;
+      if (p.t >= 1){
+        p.t = 0;
+        p.e = edges[(Math.random() * edges.length) | 0];
+      }
+      const a = pos[p.e[0]], b = pos[p.e[1]];
+      pp[i*3]     = a.x + (b.x - a.x) * p.t;
+      pp[i*3 + 1] = a.y + (b.y - a.y) * p.t;
+      pp[i*3 + 2] = a.z + (b.z - a.z) * p.t;
+    });
+    pGeo.attributes.position.needsUpdate = true;
+  }
+  if (P) stepPulses(0);
+
+  /* size + position: network sits behind the phone on desktop */
+  function resize(){
+    const W = innerWidth, H = innerHeight;
+    renderer.setSize(W, H, false);
+    camera.aspect = W / H;
+    camera.updateProjectionMatrix();
+    group.position.x = W > 900 ? 2.6 : 0;
+    group.scale.setScalar(W > 900 ? 1 : .85);
+  }
+  resize();
+  addEventListener("resize", resize);
+
+  /* mouse parallax */
+  let mx = 0, my = 0, sx = 0, sy = 0;
+  if (!reduce){
+    addEventListener("pointermove", e => {
+      mx = (e.clientX / innerWidth  - .5) * 2;
+      my = (e.clientY / innerHeight - .5) * 2;
+    }, { passive:true });
+  }
+
+  /* only draw while the landing page is on screen */
+  let on = false;
+  function check(){
+    on = !!document.querySelector(".landing");
+    cv.style.display = on ? "block" : "none";
+  }
+  check();
+  setInterval(check, 300);
+
+  let last = performance.now(), spin = 0;
+  function frame(now){
+    requestAnimationFrame(frame);
+    if (!on || document.hidden){ last = now; return; }
+
+    const dt = Math.min((now - last) / 1000, .05);
+    last = now;
+
+    sx += (mx - sx) * (1 - Math.exp(-dt * 4));
+    sy += (my - sy) * (1 - Math.exp(-dt * 4));
+    if (!reduce) spin += dt * .06;
+
+    const sc = Math.min(scrollY / innerHeight, 3);      // how far you have scrolled
+    group.rotation.y = spin + sx * .35 + sc * .5;
+    group.rotation.x = sy * .2 + sc * .15;
+    camera.position.z = 9 + sc * 1.2;
+    cv.style.opacity = Math.max(.15, 1 - sc * .55).toFixed(3);
+
+    if (!reduce && P) stepPulses(dt);
+    renderer.render(scene, camera);
+  }
+  requestAnimationFrame(frame);
+})();
+</script>
 </body>
 </html>
